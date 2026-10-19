@@ -11,8 +11,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
   const [activeServiceId, setActiveServiceId] = useState<string>(SERVICES[0].id);
 
   return (
-    <section id="services" className="relative py-28 px-4 sm:px-6 lg:px-8 bg-[#f3ebdd] text-[#0a0a0c] transition-colors duration-500">
-      <div className="max-w-7xl mx-auto space-y-16">
+    <section id="services" className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#f3ebdd] text-[#0a0a0c] transition-colors duration-500">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-[#0a0a0c]/15">
           <div className="space-y-4">
@@ -20,7 +20,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
               <Terminal className="w-4 h-4 text-[#b80024]" />
               <span>INDEX // 02 — CAPABILITIES MATRIX</span>
             </div>
-            <h2 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-[#0a0a0c] uppercase leading-[0.95]">
+            <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight text-[#0a0a0c] uppercase leading-[0.95] break-words">
               FROM FIRST IMPRESSION <br />
               <span className="italic font-normal">TO INTELLIGENT OPERATION.</span>
             </h2>
@@ -51,7 +51,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                     sound.playClick(isActive ? 400 : 700);
                     setActiveServiceId(isActive ? '' : service.id);
                   }}
-                  className="cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 group"
+                  className="cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 group min-h-[48px] py-1"
                   data-cursor="hover"
                 >
                   <div className="flex items-baseline gap-4 sm:gap-8">
@@ -138,7 +138,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                               sound.playChime();
                               onOpenContact();
                             }}
-                            className="w-full flex items-center justify-center gap-2 py-3 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
+                            className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
                           >
                             <span>INQUIRE ABOUT {service.title.toUpperCase()}</span>
                             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -164,7 +164,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
               sound.playClick(600);
               onOpenContact();
             }}
-            className="flex items-center gap-1.5 text-[#0a0a0c] font-bold hover:text-[#b80024] underline underline-offset-4"
+            className="inline-flex items-center gap-1.5 min-h-[44px] text-[#0a0a0c] font-bold hover:text-[#b80024] underline underline-offset-4"
           >
             <span>REQUEST TAILORED ARCHITECTURE PROPOSAL</span>
             <ArrowUpRight className="w-3.5 h-3.5" />

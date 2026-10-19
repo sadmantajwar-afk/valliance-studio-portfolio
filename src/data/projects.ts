@@ -11,8 +11,10 @@ export interface Project {
   accentColor: string;
   bgTone: string;
   image: string;
+  image640?: string;
   imagePosition?: string;
   secondaryImage: string;
+  secondaryImage640?: string;
   secondaryImagePosition?: string;
   overview: string;
   challenge: string;
@@ -36,9 +38,11 @@ export const PROJECTS: Project[] = [
     isStudioConcept: false,
     accentColor: '#e8002d',
     bgTone: '#050505',
-    image: '/products/greenvel_landscape.jpg',
+    image: '/products/drev_primary.webp',
+    image640: '/products/drev_primary_640.webp',
     imagePosition: 'center center',
-    secondaryImage: '/products/corduroy_utility_jacket_01.jpg',
+    secondaryImage: '/products/drev_secondary.webp',
+    secondaryImage640: '/products/drev_secondary_640.webp',
     secondaryImagePosition: 'center top',
     overview: 'A monumental digital flagship and cinematic runway experience for DREV, an architectural streetwear and minimalist luxury tailoring label crafted in Bangladesh. Built with full-bleed runway film transitions, tactile fabric macro-inspections, ambient soundscapes, and an interactive catalogue raisonné.',
     challenge: 'Luxury runway storytelling is traditionally trapped in static lookbook PDFs or conventional multi-page grids. DREV needed an experience that commands absolute authority—conveying deconstructed silhouettes, emerald suede velvets, and bespoke horn craftsmanship with cinematic pacing.',
@@ -70,8 +74,10 @@ export const PROJECTS: Project[] = [
     isStudioConcept: false,
     accentColor: '#e8002d',
     bgTone: '#08080c',
-    image: 'https://images.pexels.com/photos/17706044/pexels-photo-17706044.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800',
-    secondaryImage: 'https://images.pexels.com/photos/19025671/pexels-photo-19025671.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800',
+    image: '/products/apex_primary.webp',
+    image640: '/products/apex_primary_640.webp',
+    secondaryImage: '/products/apex_secondary.webp',
+    secondaryImage640: '/products/apex_secondary_640.webp',
     overview: 'A bold, adrenaline-charged web experience for APEX Fitness, a luxury athletic training facility serving 5,000+ members. Designed with punchy Bebas Neue display typography, high-contrast monochrome aesthetic, interactive program selectors, and a frictionless VIP trial conversion funnel.',
     challenge: 'Most gym websites feel generic, clunky, and overloaded with cluttered schedule widgets that drive away high-tier athletes and fitness enthusiasts looking for top-tier coaching.',
     solution: 'Architected a high-velocity visual journey blending kinetic typography, video hero layering, interactive tier calculators, and custom schedule filters that allow prospective members to book trial sessions in under 30 seconds.',
@@ -81,7 +87,7 @@ export const PROJECTS: Project[] = [
       { label: 'Display Type', value: 'Bebas Neue' },
       { label: 'Booking Matrix', value: 'Interactive' }
     ],
-    technologies: ['React 19', 'TypeScript', 'Tailwind CSS', 'Vite', 'Framer Motion', 'Lucide Icons'],
+    technologies: ['React 19', 'TypeScript', 'Tailwind CSS', 'Vite', 'Lucide Icons'],
     livePreviewUrl: 'https://premium-gym-website-design.vercel.app',
     features: [
       'High-contrast typography pairing Bebas Neue with precision Inter body',
@@ -102,8 +108,10 @@ export const PROJECTS: Project[] = [
     isStudioConcept: false,
     accentColor: '#e8002d',
     bgTone: '#14110f',
-    image: 'https://images.pexels.com/photos/15113035/pexels-photo-15113035.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=2000&h=1200',
-    secondaryImage: 'https://images.pexels.com/photos/18889257/pexels-photo-18889257.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1800',
+    image: '/products/faro_primary.webp',
+    image640: '/products/faro_primary_640.webp',
+    secondaryImage: '/products/faro_secondary.webp',
+    secondaryImage640: '/products/faro_secondary_640.webp',
     overview: '“Carry Less. Carry Better.” FARO is an artisanal leather goods digital experience showcasing handcrafted full-grain leather clutch bags, cardholders, and pouches made in Bangladesh. Combining warm earthy tones, editorial Playfair Display typography, and seamless commerce.',
     challenge: 'Artisanal brands often struggle to convey the physical touch, aroma, and edge-finishing quality of handcrafted leather through a digital screen without high-latency 3D bloat.',
     solution: 'Developed a warm, tactile editorial canvas with rich macro-detail photography, artisanal workshop narratives, and an ultra-fast headless cart that preserves the intimate feeling of a boutique atelier.',
@@ -134,8 +142,10 @@ export const PROJECTS: Project[] = [
     isStudioConcept: false,
     accentColor: '#e8002d',
     bgTone: '#0c0c10',
-    image: 'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&q=80&w=1800',
-    secondaryImage: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=1800',
+    image: '/products/aesthete_primary.webp',
+    image640: '/products/aesthete_primary_640.webp',
+    secondaryImage: '/products/aesthete_secondary.webp',
+    secondaryImage640: '/products/aesthete_secondary_640.webp',
     overview: 'A purist minimalist luxury e-commerce and checkout platform. Eliminating all visual noise to highlight bespoke objects, architectural home goods, and curated luxury essentials with hyper-refined typography and effortless checkout ergonomics.',
     challenge: 'Traditional checkout funnels are plagued by cluttered form fields, high abandonment rates, and jarring layout shifts that compromise brand prestige.',
     solution: 'Engineered a single-surface checkout experience that guides customers with seamless micro-animations, real-time input validation, and instant payment tokenization.',

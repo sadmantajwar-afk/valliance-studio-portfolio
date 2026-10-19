@@ -39,7 +39,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
       {/* Background glow and subtle grid */}
       <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-[#e8002d]/4 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-20">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16 sm:space-y-20">
         {/* Section Header */}
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
@@ -47,7 +47,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
             <span>INDEX // 03 — STUDIO MANIFESTO</span>
           </div>
 
-          <h2 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]">
+          <h2 className="font-display font-extrabold text-[clamp(2.35rem,8vw,5.5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.92] break-words">
             LESS REPETITION. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
               MORE POSSIBILITY.
@@ -109,7 +109,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
         </div>
 
         {/* Action Ticker */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-2xl bg-white/5 border border-white/10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 p-6 rounded-2xl bg-white/5 border border-white/10">
           <div className="font-mono text-xs text-[#cfc8ba]">
             HAVE A VISION THAT DEMANDS CATEGORY LEADERSHIP?
           </div>
@@ -118,7 +118,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
               sound.playChime();
               onOpenContact();
             }}
-            className="flex items-center gap-2 text-xs font-mono font-bold text-[#e8002d] hover:text-[#f7f3eb] transition-colors"
+            className="inline-flex items-center gap-2 min-h-[44px] text-xs font-mono font-bold text-[#e8002d] hover:text-[#f7f3eb] transition-colors"
           >
             <span>JOIN FORCES WITH OUR STUDIO</span>
             <ArrowUpRight className="w-4 h-4" />

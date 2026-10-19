@@ -210,10 +210,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
       <div
         ref={heroContentRef}
-        className="relative z-10 max-w-7xl mx-auto w-full my-auto py-8 will-change-transform"
+        className="relative z-10 max-w-7xl 2xl:max-w-[1536px] mx-auto w-full my-auto py-6 sm:py-8 will-change-transform"
       >
         {/* Studio Status Bar */}
-        <div className="flex flex-wrap items-center gap-3 mb-8">
+        <div className="flex flex-wrap items-center gap-3 mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8002d]"></span>
@@ -225,9 +225,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         </div>
 
         {/* Monumental Hero Typography & CTAs */}
-        <div className="max-w-4xl space-y-8">
+        <div className="max-w-4xl space-y-6 sm:space-y-8">
           <div>
-            <h1 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-[5.8rem] xl:text-[6.8rem] tracking-tight leading-[0.92] text-[#f7f3eb] uppercase">
+            <h1 className="font-display font-extrabold text-[clamp(2.35rem,8.5vw,6.5rem)] tracking-tight leading-[0.92] text-[#f7f3eb] uppercase break-words">
               WE BUILD <br />
               <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
                 WHAT’S NEXT.
@@ -236,8 +236,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
           </div>
 
           {/* Supporting Headline */}
-          <div className="space-y-4 max-w-2xl">
-            <p className="font-space text-xl sm:text-2xl text-[#f7f3eb] font-medium leading-relaxed tracking-tight">
+          <div className="space-y-3 sm:space-y-4 max-w-2xl">
+            <p className="font-space text-lg sm:text-2xl text-[#f7f3eb] font-medium leading-relaxed tracking-tight">
               “Exceptional digital experiences. Intelligent AI. Business without the busywork.”
             </p>
             <p className="text-sm sm:text-base text-[#cfc8ba] font-sans font-light leading-relaxed max-w-xl">
@@ -246,13 +246,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
           </div>
 
           {/* Interactive CTAs */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
             <button
               onClick={() => {
                 sound.playChime();
                 onOpenContact();
               }}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] hover:scale-[1.02]"
+              className="group relative inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] hover:scale-[1.02] w-full sm:w-auto"
               data-cursor="hover"
             >
               <span>LET’S BUILD SOMETHING</span>
@@ -264,7 +264,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
                 sound.playClick(600);
                 onExploreWork();
               }}
-              className="inline-flex items-center gap-2 px-6 py-4 glass-panel hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] font-mono text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all duration-300 border border-white/15"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 glass-panel hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] font-mono text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all duration-300 border border-white/15 w-full sm:w-auto"
               data-cursor="hover"
             >
               <span>EXPLORE OUR WORK</span>
@@ -274,7 +274,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         </div>
 
         {/* Micro Stats Matrix on Bottom Hero */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 mt-8 border-t border-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 sm:pt-12 mt-8 border-t border-white/10">
           <div className="space-y-1">
             <span className="font-display text-2xl sm:text-3xl font-bold text-[#e8002d]">04</span>
             <p className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">Live Web Flagships</p>
@@ -295,7 +295,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
       </div>
 
       {/* Scroll Down Indicator */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex items-center justify-between text-xs font-mono text-[#8a8172] pt-4">
+      <div className="relative z-10 max-w-7xl 2xl:max-w-[1536px] mx-auto w-full flex items-center justify-between text-xs font-mono text-[#8a8172] pt-4">
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d]" />
           <span>SCROLL TO DISCOVER</span>

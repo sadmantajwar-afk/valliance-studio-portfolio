@@ -58,18 +58,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
     >
       {/* Centering wrapper allowing natural, unrestricted vertical scrolling on mobile & desktop */}
       <div
-        className="min-h-screen w-full flex justify-center p-3 sm:p-6 lg:p-8 py-8 sm:py-16"
+        className="min-h-screen w-full flex justify-center p-2.5 sm:p-6 lg:p-8 py-6 sm:py-16"
         onClick={() => {
           sound.playClick(400);
           onClose();
         }}
       >
         <div
-          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 text-[#f7f3eb] h-fit cursor-default"
+          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 lg:p-10 text-[#f7f3eb] h-fit cursor-default"
           onClick={(e) => e.stopPropagation()}
         >
-              {/* Top Bar */}
-              <div className="flex items-center justify-between pb-6 border-b border-white/10">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between pb-6 border-b border-white/10">
             <div className="flex items-center gap-3">
               <span className="font-mono text-xs px-2.5 py-1 rounded bg-[#e8002d] text-[#fff6ec] font-bold">
                 {project.isStudioConcept ? 'CONCEPT' : 'PROJECT'} {project.number}
@@ -97,7 +97,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-[#f7f3eb] transition-colors border border-white/10"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 text-[#f7f3eb] transition-colors border border-white/10"
                 aria-label="Close Case Study"
               >
                 <X className="w-5 h-5" />
@@ -106,9 +106,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           </div>
 
           {/* Hero Banner inside modal */}
-          <div className="py-8 space-y-4">
+          <div className="py-6 sm:py-8 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-[#f7f3eb] uppercase">
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#f7f3eb] uppercase break-words">
                 {project.title}
               </h2>
               {project.livePreviewUrl && (
@@ -124,10 +124,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                 </a>
               )}
             </div>
-            <p className="font-space text-xl sm:text-2xl text-[#e8002d] font-medium leading-relaxed">
+            <p className="font-space text-lg sm:text-2xl text-[#e8002d] font-medium leading-relaxed">
               {project.tagline}
             </p>
-            <p className="text-base text-[#cfc8ba] leading-relaxed max-w-3xl font-light">
+            <p className="text-sm sm:text-base text-[#cfc8ba] leading-relaxed max-w-3xl font-light">
               {project.overview}
             </p>
           </div>
@@ -137,6 +137,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="md:col-span-8 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] bg-[#14141a]">
               <img
                 src={project.image}
+                srcSet={project.image640 ? `${project.image640} 640w, ${project.image} 1200w` : undefined}
+                sizes="(max-width: 768px) 100vw, 800px"
+                width={1200}
+                height={750}
                 alt={project.title}
                 decoding="async"
                 className="w-full h-full object-cover"
@@ -146,6 +150,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="md:col-span-4 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] md:aspect-auto bg-[#14141a]">
               <img
                 src={project.secondaryImage}
+                srcSet={project.secondaryImage640 ? `${project.secondaryImage640} 640w, ${project.secondaryImage} 1200w` : undefined}
+                sizes="(max-width: 768px) 100vw, 400px"
+                width={1200}
+                height={750}
                 alt={`${project.title} Detail`}
                 decoding="async"
                 className="w-full h-full object-cover"
@@ -235,14 +243,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
               </span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               {project.livePreviewUrl && (
                 <a
                   href={project.livePreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all group/livebtn"
+                  className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all group/livebtn w-full sm:w-auto"
                 >
                   <span>LAUNCH LIVE SITE</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/livebtn:translate-x-0.5 group-hover/livebtn:-translate-y-0.5" />
@@ -253,7 +261,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider"
+                className="min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider flex items-center justify-center w-full sm:w-auto"
               >
                 CLOSE
               </button>
@@ -263,7 +271,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   onClose();
                   onOpenContact();
                 }}
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all w-full sm:w-auto"
               >
                 <span>BUILD SIMILAR EXPERIENCE</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />

@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="relative bg-[#060505] text-[#f7f3eb] border-t border-white/10 pt-20 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-16">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16">
         {/* Top Split */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start pb-12 border-b border-white/10">
           <div className="md:col-span-6 space-y-5">
@@ -28,10 +28,10 @@ export const Footer: React.FC = () => {
                 INDEX
               </span>
               <ul className="space-y-2 text-[#cfc8ba]">
-                <li><a href="#work" className="hover:text-[#f7f3eb] transition-colors">01 Work</a></li>
-                <li><a href="#services" className="hover:text-[#f7f3eb] transition-colors">02 Capabilities</a></li>
-                <li><a href="#philosophy" className="hover:text-[#f7f3eb] transition-colors">03 Manifesto</a></li>
-                <li><a href="#process" className="hover:text-[#f7f3eb] transition-colors">04 Process</a></li>
+                <li><a href="#work" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">01 Work</a></li>
+                <li><a href="#services" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">02 Capabilities</a></li>
+                <li><a href="#philosophy" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">03 Manifesto</a></li>
+                <li><a href="#process" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">04 Process</a></li>
               </ul>
             </div>
 
@@ -41,11 +41,11 @@ export const Footer: React.FC = () => {
                 CHANNELS
               </span>
               <ul className="space-y-2 text-[#cfc8ba]">
-                <li><a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors">X / Twitter ↗</a></li>
-                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors">GitHub Labs ↗</a></li>
-                <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors">LinkedIn ↗</a></li>
-                <li><a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors">Dribbble ↗</a></li>
-                <li><a href="https://read.cv" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors">Read.cv ↗</a></li>
+                <li><a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">X / Twitter ↗</a></li>
+                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">GitHub Labs ↗</a></li>
+                <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">LinkedIn ↗</a></li>
+                <li><a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Dribbble ↗</a></li>
+                <li><a href="https://read.cv" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Read.cv ↗</a></li>
               </ul>
             </div>
 
@@ -66,15 +66,15 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-white/10 text-xs font-mono text-[#8a8172]">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-center sm:text-left">
             <span>© 2026 VALLIANCE STUDIO LTD. ALL RIGHTS RESERVED.</span>
-            <span>·</span>
+            <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">BUILT WITH INTENT &amp; CODE</span>
           </div>
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] border border-white/10 transition-all"
+            className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] border border-white/10 transition-all"
             data-cursor="hover"
           >
             <span>BACK TO TOP</span>

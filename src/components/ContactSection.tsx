@@ -96,7 +96,7 @@ export const ContactSection: React.FC = () => {
       {/* Background glowing sphere */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-t from-[#e8002d]/8 to-transparent rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-20 relative z-10">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16 sm:space-y-20 relative z-10">
         {/* Section Header */}
         <div className="space-y-6">
           <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
@@ -104,7 +104,7 @@ export const ContactSection: React.FC = () => {
             <span>INDEX // 07 — INITIATE COLLABORATION</span>
           </div>
 
-          <h2 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]">
+          <h2 className="font-display font-extrabold text-[clamp(2.35rem,8.5vw,5.5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.92] break-words">
             LET’S MAKE <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
               SOMETHING MATTER.
@@ -171,7 +171,7 @@ export const ContactSection: React.FC = () => {
                             key={srv}
                             type="button"
                             onClick={() => toggleService(srv)}
-                            className={`px-3.5 py-2 rounded-xl text-xs font-mono uppercase tracking-wider transition-all ${
+                            className={`min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all flex items-center justify-center ${
                               isSelected
                                 ? 'bg-[#e8002d] text-[#fff6ec] font-bold shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                                 : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -200,7 +200,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(500);
                             setSelectedBudget(b);
                           }}
-                          className={`py-2.5 px-3 rounded-xl text-xs font-mono font-bold tracking-wider transition-all text-center ${
+                          className={`min-h-[44px] py-2.5 px-3 rounded-xl text-xs font-mono font-bold tracking-wider transition-all text-center flex items-center justify-center ${
                             selectedBudget === b
                               ? 'bg-[#e8002d] text-[#fff6ec] shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                               : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -226,7 +226,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(500);
                             setSelectedTimeline(t);
                           }}
-                          className={`py-2.5 px-2 rounded-xl text-[11px] font-mono tracking-wider transition-all text-center ${
+                          className={`min-h-[44px] py-2.5 px-2 rounded-xl text-[11px] font-mono tracking-wider transition-all text-center flex items-center justify-center ${
                             selectedTimeline === t
                               ? 'bg-[#e8002d] text-[#fff6ec] font-bold shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                               : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -249,7 +249,7 @@ export const ContactSection: React.FC = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Elena Rostova"
-                        className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-xs sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
+                        className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-base sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
                           formErrors.name ? 'border-red-500' : 'border-white/15'
                         }`}
                       />
@@ -267,7 +267,7 @@ export const ContactSection: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="elena@company.com"
-                        className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-xs sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
+                        className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-base sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
                           formErrors.email ? 'border-red-500' : 'border-white/15'
                         }`}
                       />
@@ -286,7 +286,7 @@ export const ContactSection: React.FC = () => {
                       value={organization}
                       onChange={(e) => setOrganization(e.target.value)}
                       placeholder="Maison Global Group"
-                      className="w-full px-4 py-3 rounded-xl bg-[#0b0908] border border-white/15 text-xs sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d]"
+                      className="w-full px-4 py-3 rounded-xl bg-[#0b0908] border border-white/15 text-base sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d]"
                     />
                   </div>
 
@@ -299,7 +299,7 @@ export const ContactSection: React.FC = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Describe what you want to build, existing bottlenecks, and desired timeline..."
-                      className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-xs sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
+                      className={`w-full px-4 py-3 rounded-xl bg-[#0b0908] border text-base sm:text-sm text-[#f7f3eb] focus:outline-none focus:border-[#e8002d] ${
                         formErrors.message ? 'border-red-500' : 'border-white/15'
                       }`}
                     />
@@ -313,7 +313,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-sm uppercase tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] flex items-center justify-center gap-3 disabled:opacity-50"
+                      className="w-full min-h-[52px] py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-sm uppercase tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] flex items-center justify-center gap-3 disabled:opacity-50"
                       data-cursor="hover"
                     >
                       {isSubmitting ? (

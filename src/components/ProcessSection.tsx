@@ -12,8 +12,8 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
   const activeStep = PROCESS_STEPS[activeStepIndex];
 
   return (
-    <section id="process" className="relative py-28 px-4 sm:px-6 lg:px-8 bg-[#0b0908] border-b border-white/10">
-      <div className="max-w-7xl mx-auto space-y-16">
+    <section id="process" className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0b0908] border-b border-white/10">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-white/10">
           <div className="space-y-4">
@@ -21,7 +21,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
               <Terminal className="w-4 h-4" />
               <span>INDEX // 04 — SYSTEMATIC EXECUTION</span>
             </div>
-            <h2 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-[#f7f3eb] uppercase">
+            <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.95] break-words">
               DESIGNED, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] to-[#f7f3eb]">
                 NOT JUST LISTED.
@@ -148,14 +148,14 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 PHASE {activeStep.step} OF 04 COMPLETE
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 {activeStepIndex < PROCESS_STEPS.length - 1 ? (
                   <button
                     onClick={() => {
                       sound.playClick(700);
                       setActiveStepIndex((idx) => idx + 1);
                     }}
-                    className="px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider transition-all"
+                    className="min-h-[44px] px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider transition-all flex items-center justify-center w-full sm:w-auto"
                   >
                     NEXT PHASE ({PROCESS_STEPS[activeStepIndex + 1].name.toUpperCase()}) →
                   </button>
@@ -165,7 +165,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                       sound.playChime();
                       onOpenContact();
                     }}
-                    className="px-6 py-2.5 rounded-full bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all flex items-center gap-2"
+                    className="min-h-[44px] px-6 py-2.5 rounded-full bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
                   >
                     <span>INITIATE SPRINT 01</span>
                     <ArrowUpRight className="w-4 h-4" />

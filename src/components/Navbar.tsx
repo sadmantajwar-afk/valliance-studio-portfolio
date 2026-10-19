@@ -24,6 +24,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
     };
   }, []);
 
+  // Lock body scroll & listen to Escape key when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setMobileMenuOpen(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
+
   const navigateTo = (e: React.MouseEvent, href: string) => {
     sound.playClick(600);
     if (href.startsWith('#')) {
@@ -64,13 +81,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             : 'py-6 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Official Logo Lockup — crimson V on cream disc + brand wordmark */}
             <a
               href="#"
               onClick={scrollToTop}
-              className="group flex items-center gap-3 focus:outline-none"
+              className="group flex items-center gap-3 focus:outline-none min-h-[44px]"
               data-cursor="hover"
               aria-label="Valliance Studio — home"
             >
@@ -113,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   sound.playClick(800);
                   onOpenContact();
                 }}
-                className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,0,45,0.4)] hover:scale-[1.02]"
+                className="hidden sm:inline-flex items-center gap-2 min-h-[40px] px-4 py-2 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,0,45,0.4)] hover:scale-[1.02]"
                 data-cursor="hover"
               >
                 <span>LET’S TALK</span>
@@ -126,8 +143,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   sound.playClick(500);
                   setMobileMenuOpen(!mobileMenuOpen);
                 }}
-                className="lg:hidden p-2 rounded-full bg-white/5 border border-white/10 text-[#f7f3eb]"
-                aria-label="Open Mobile Menu"
+                className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#f7f3eb] transition-colors"
+                aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+                aria-expanded={mobileMenuOpen}
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -139,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
       {/* Mobile Fullscreen Navigation Drawer */}
       <div
         aria-hidden={!mobileMenuOpen}
-        className={`fixed inset-0 z-40 bg-[#0b0908]/95 backdrop-blur-2xl flex flex-col justify-between p-6 pt-24 lg:hidden transition-all duration-300 ease-out ${
+        className={`fixed inset-0 z-40 bg-[#0b0908]/98 backdrop-blur-2xl flex flex-col justify-between p-6 pt-24 pb-[calc(1.5rem+env(safe-area-inset-bottom))] lg:hidden transition-all duration-300 ease-out overflow-y-auto ${
           mobileMenuOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
@@ -151,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             <span>NAVIGATION MATRIX // VALLIANCE STUDIO</span>
           </div>
 
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-2">
             {navLinks.map((link, idx) => (
               <a
                 key={link.label}
@@ -160,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   setMobileMenuOpen(false);
                   navigateTo(e, link.href);
                 }}
-                className="flex items-baseline justify-between py-2 border-b border-white/5 text-[#f7f3eb] hover:text-[#e8002d] transition-colors"
+                className="flex items-center justify-between min-h-[48px] py-2.5 border-b border-white/5 text-[#f7f3eb] hover:text-[#e8002d] transition-colors"
               >
                 <span className="font-display text-2xl font-bold tracking-tight">
                   {link.label}
@@ -186,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               setMobileMenuOpen(false);
               onOpenContact();
             }}
-            className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-sm tracking-wider uppercase rounded-xl"
+            className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-[#ff2a44] transition-colors"
           >
             <span>START A PROJECT</span>
             <ArrowUpRight className="w-4 h-4" />
