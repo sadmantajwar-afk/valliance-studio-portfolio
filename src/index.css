@@ -250,3 +250,14 @@
   }
 }
 
+/* Mobile performance: optimize offscreen lower sections below the first screen */
+@media (max-width: 1024px) {
+  #services,
+  #philosophy,
+  #process,
+  #contact {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 750px;
+  }
+}
+

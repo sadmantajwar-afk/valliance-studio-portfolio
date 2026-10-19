@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { ArrowUpRight, Sparkles, Terminal, Eye } from 'lucide-react';
 import { Project, PROJECTS } from '../data/projects';
-import { CaseStudyModal } from './CaseStudyModal';
 import { sound } from '../utils/audio';
+
+const CaseStudyModal = lazy(() =>
+  import('./CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
+);
 
 interface SelectedWorkProps {
   onOpenContact: () => void;
@@ -103,8 +106,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                   >
                     <img
                       src={project.image}
-                      srcSet={project.image640 ? `${project.image640} 640w, ${project.image} 1200w` : undefined}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 58vw, 750px"
+                      srcSet={
+                        project.image400
+                          ? `${project.image400} 400w, ${project.image800 || project.image640 || project.image} 800w, ${project.image} 1200w`
+                          : project.image800
+                          ? `${project.image800} 800w, ${project.image} 1200w`
+                          : undefined
+                      }
+                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 90vw, 750px"
                       width={1200}
                       height={750}
                       alt={project.title}
@@ -250,12 +259,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
         </div>
       </div>
 
-      {/* Case Study Full Deep Dive Modal */}
-      <CaseStudyModal
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-        onOpenContact={onOpenContact}
-      />
+      {/* Case Study Full Deep Dive Modal — Code split & lazy loaded on demand */}
+      {activeProject && (
+        <Suspense fallback={null}>
+          <CaseStudyModal
+            project={activeProject}
+            onClose={() => setActiveProject(null)}
+            onOpenContact={onOpenContact}
+          />
+        </Suspense>
+      )}
     </section>
   );
 };

@@ -11,10 +11,14 @@ export interface Project {
   accentColor: string;
   bgTone: string;
   image: string;
+  image400?: string;
   image640?: string;
+  image800?: string;
   imagePosition?: string;
   secondaryImage: string;
+  secondaryImage400?: string;
   secondaryImage640?: string;
+  secondaryImage800?: string;
   secondaryImagePosition?: string;
   overview: string;
   challenge: string;
@@ -39,10 +43,14 @@ export const PROJECTS: Project[] = [
     accentColor: '#e8002d',
     bgTone: '#050505',
     image: '/products/drev_primary.webp',
+    image400: '/products/drev_primary_400.webp',
     image640: '/products/drev_primary_640.webp',
+    image800: '/products/drev_primary_800.webp',
     imagePosition: 'center center',
     secondaryImage: '/products/drev_secondary.webp',
+    secondaryImage400: '/products/drev_secondary_400.webp',
     secondaryImage640: '/products/drev_secondary_640.webp',
+    secondaryImage800: '/products/drev_secondary_800.webp',
     secondaryImagePosition: 'center top',
     overview: 'A monumental digital flagship and cinematic runway experience for DREV, an architectural streetwear and minimalist luxury tailoring label crafted in Bangladesh. Built with full-bleed runway film transitions, tactile fabric macro-inspections, ambient soundscapes, and an interactive catalogue raisonné.',
     challenge: 'Luxury runway storytelling is traditionally trapped in static lookbook PDFs or conventional multi-page grids. DREV needed an experience that commands absolute authority—conveying deconstructed silhouettes, emerald suede velvets, and bespoke horn craftsmanship with cinematic pacing.',
@@ -75,9 +83,13 @@ export const PROJECTS: Project[] = [
     accentColor: '#e8002d',
     bgTone: '#08080c',
     image: '/products/apex_primary.webp',
+    image400: '/products/apex_primary_400.webp',
     image640: '/products/apex_primary_640.webp',
+    image800: '/products/apex_primary_800.webp',
     secondaryImage: '/products/apex_secondary.webp',
+    secondaryImage400: '/products/apex_secondary_400.webp',
     secondaryImage640: '/products/apex_secondary_640.webp',
+    secondaryImage800: '/products/apex_secondary_800.webp',
     overview: 'A bold, adrenaline-charged web experience for APEX Fitness, a luxury athletic training facility serving 5,000+ members. Designed with punchy Bebas Neue display typography, high-contrast monochrome aesthetic, interactive program selectors, and a frictionless VIP trial conversion funnel.',
     challenge: 'Most gym websites feel generic, clunky, and overloaded with cluttered schedule widgets that drive away high-tier athletes and fitness enthusiasts looking for top-tier coaching.',
     solution: 'Architected a high-velocity visual journey blending kinetic typography, video hero layering, interactive tier calculators, and custom schedule filters that allow prospective members to book trial sessions in under 30 seconds.',
@@ -109,9 +121,13 @@ export const PROJECTS: Project[] = [
     accentColor: '#e8002d',
     bgTone: '#14110f',
     image: '/products/faro_primary.webp',
+    image400: '/products/faro_primary_400.webp',
     image640: '/products/faro_primary_640.webp',
+    image800: '/products/faro_primary_800.webp',
     secondaryImage: '/products/faro_secondary.webp',
+    secondaryImage400: '/products/faro_secondary_400.webp',
     secondaryImage640: '/products/faro_secondary_640.webp',
+    secondaryImage800: '/products/faro_secondary_800.webp',
     overview: '“Carry Less. Carry Better.” FARO is an artisanal leather goods digital experience showcasing handcrafted full-grain leather clutch bags, cardholders, and pouches made in Bangladesh. Combining warm earthy tones, editorial Playfair Display typography, and seamless commerce.',
     challenge: 'Artisanal brands often struggle to convey the physical touch, aroma, and edge-finishing quality of handcrafted leather through a digital screen without high-latency 3D bloat.',
     solution: 'Developed a warm, tactile editorial canvas with rich macro-detail photography, artisanal workshop narratives, and an ultra-fast headless cart that preserves the intimate feeling of a boutique atelier.',
@@ -143,9 +159,13 @@ export const PROJECTS: Project[] = [
     accentColor: '#e8002d',
     bgTone: '#0c0c10',
     image: '/products/aesthete_primary.webp',
+    image400: '/products/aesthete_primary_400.webp',
     image640: '/products/aesthete_primary_640.webp',
+    image800: '/products/aesthete_primary_800.webp',
     secondaryImage: '/products/aesthete_secondary.webp',
+    secondaryImage400: '/products/aesthete_secondary_400.webp',
     secondaryImage640: '/products/aesthete_secondary_640.webp',
+    secondaryImage800: '/products/aesthete_secondary_800.webp',
     overview: 'A purist minimalist luxury e-commerce and checkout platform. Eliminating all visual noise to highlight bespoke objects, architectural home goods, and curated luxury essentials with hyper-refined typography and effortless checkout ergonomics.',
     challenge: 'Traditional checkout funnels are plagued by cluttered form fields, high abandonment rates, and jarring layout shifts that compromise brand prestige.',
     solution: 'Engineered a single-surface checkout experience that guides customers with seamless micro-animations, real-time input validation, and instant payment tokenization.',

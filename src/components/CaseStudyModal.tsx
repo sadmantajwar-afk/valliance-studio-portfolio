@@ -137,11 +137,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="md:col-span-8 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] bg-[#14141a]">
               <img
                 src={project.image}
-                srcSet={project.image640 ? `${project.image640} 640w, ${project.image} 1200w` : undefined}
-                sizes="(max-width: 768px) 100vw, 800px"
+                srcSet={
+                  project.image400
+                    ? `${project.image400} 400w, ${project.image800 || project.image640 || project.image} 800w, ${project.image} 1200w`
+                    : project.image800
+                    ? `${project.image800} 800w, ${project.image} 1200w`
+                    : undefined
+                }
+                sizes="(max-width: 640px) calc(100vw - 32px), 800px"
                 width={1200}
                 height={750}
                 alt={project.title}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover"
                 style={{ objectPosition: project.imagePosition || 'center' }}
@@ -150,11 +157,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             <div className="md:col-span-4 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] md:aspect-auto bg-[#14141a]">
               <img
                 src={project.secondaryImage}
-                srcSet={project.secondaryImage640 ? `${project.secondaryImage640} 640w, ${project.secondaryImage} 1200w` : undefined}
-                sizes="(max-width: 768px) 100vw, 400px"
+                srcSet={
+                  project.secondaryImage400
+                    ? `${project.secondaryImage400} 400w, ${project.secondaryImage800 || project.secondaryImage640 || project.secondaryImage} 800w, ${project.secondaryImage} 1200w`
+                    : project.secondaryImage800
+                    ? `${project.secondaryImage800} 800w, ${project.secondaryImage} 1200w`
+                    : undefined
+                }
+                sizes="(max-width: 640px) calc(100vw - 32px), 400px"
                 width={1200}
                 height={750}
                 alt={`${project.title} Detail`}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover"
                 style={{ objectPosition: project.secondaryImagePosition || 'center' }}
