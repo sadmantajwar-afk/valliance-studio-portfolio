@@ -1,0 +1,16 @@
+{
+  "name": "Valliance Studio",
+  "short_name": "Valliance",
+  "description": "AI-Powered Digital Agency & Product Laboratory",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0908",
+  "theme_color": "#0b0908",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
