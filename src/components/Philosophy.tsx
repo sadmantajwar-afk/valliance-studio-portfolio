@@ -118,7 +118,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
               sound.playChime();
               onOpenContact();
             }}
-            className="inline-flex items-center gap-2 min-h-[44px] text-xs font-mono font-bold text-[#e8002d] hover:text-[#f7f3eb] transition-colors"
+            className="btn-tactile inline-flex items-center gap-2 min-h-[44px] text-xs font-mono font-bold text-[#e8002d] hover:text-[#f7f3eb] transition-colors active:scale-[0.97]"
           >
             <span>JOIN FORCES WITH OUR STUDIO</span>
             <ArrowUpRight className="w-4 h-4" />

@@ -48,7 +48,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                   sound.playClick(600 + idx * 100);
                   setActiveStepIndex(idx);
                 }}
-                className={`p-5 sm:p-6 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden ${
+                className={`btn-tactile p-5 sm:p-6 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden active:scale-[0.98] ${
                   isSelected
                     ? 'bg-[#e8002d]/10 border-[#e8002d] shadow-[0_0_25px_rgba(232,0,45,0.25)]'
                     : 'bg-white/5 border-white/10 hover:border-white/20'
@@ -155,7 +155,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                       sound.playClick(700);
                       setActiveStepIndex((idx) => idx + 1);
                     }}
-                    className="min-h-[44px] px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider transition-all flex items-center justify-center w-full sm:w-auto"
+                    className="btn-tactile min-h-[44px] px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider transition-all flex items-center justify-center active:scale-[0.97] w-full sm:w-auto"
                   >
                     NEXT PHASE ({PROCESS_STEPS[activeStepIndex + 1].name.toUpperCase()}) →
                   </button>
@@ -165,7 +165,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                       sound.playChime();
                       onOpenContact();
                     }}
-                    className="min-h-[44px] px-6 py-2.5 rounded-full bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
+                    className="btn-tactile min-h-[44px] px-6 py-2.5 rounded-full bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all flex items-center justify-center gap-2 active:scale-[0.97] w-full sm:w-auto"
                   >
                     <span>INITIATE SPRINT 01</span>
                     <ArrowUpRight className="w-4 h-4" />

@@ -51,7 +51,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                     sound.playClick(isActive ? 400 : 700);
                     setActiveServiceId(isActive ? '' : service.id);
                   }}
-                  className="cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 group min-h-[48px] py-1"
+                  className="btn-tactile cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 group min-h-[48px] py-1 active:scale-[0.99]"
                   data-cursor="hover"
                 >
                   <div className="flex items-baseline gap-4 sm:gap-8">
@@ -138,7 +138,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                               sound.playChime();
                               onOpenContact();
                             }}
-                            className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all"
+                            className="btn-tactile w-full min-h-[48px] flex items-center justify-center gap-2 py-3 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all active:scale-[0.97]"
                           >
                             <span>INQUIRE ABOUT {service.title.toUpperCase()}</span>
                             <ArrowUpRight className="w-3.5 h-3.5" />

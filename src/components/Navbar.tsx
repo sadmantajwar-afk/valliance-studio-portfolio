@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal, Volume2, VolumeX } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoBadge } from './Logo';
 
@@ -11,6 +11,12 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(sound.isEnabled());
+
+  const toggleSound = () => {
+    const nextState = sound.toggle();
+    setSoundEnabled(nextState);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -122,7 +128,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             </nav>
 
             {/* Right Action Bar */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Sound Synthesizer Audio Toggle */}
+              <button
+                type="button"
+                onClick={toggleSound}
+                className="btn-tactile min-w-[38px] min-h-[38px] sm:min-w-[40px] sm:min-h-[40px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#f7f3eb] transition-all active:scale-[0.97]"
+                aria-label={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
+                title={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
+              >
+                {soundEnabled ? (
+                  <Volume2 className="w-4 h-4 text-[#e8002d]" />
+                ) : (
+                  <VolumeX className="w-4 h-4 text-[#8a8172]" />
+                )}
+              </button>
 
               {/* Primary Inquire CTA */}
               <button
@@ -130,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   sound.playClick(800);
                   onOpenContact();
                 }}
-                className="hidden sm:inline-flex items-center gap-2 min-h-[40px] px-4 py-2 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,0,45,0.4)] hover:scale-[1.02]"
+                className="btn-tactile hidden sm:inline-flex items-center gap-2 min-h-[40px] px-4 py-2 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,0,45,0.4)] active:scale-[0.97]"
                 data-cursor="hover"
               >
                 <span>LET’S TALK</span>
@@ -143,7 +163,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   sound.playClick(500);
                   setMobileMenuOpen(!mobileMenuOpen);
                 }}
-                className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#f7f3eb] transition-colors"
+                className="btn-tactile lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#f7f3eb] transition-colors active:scale-[0.97]"
                 aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
                 aria-expanded={mobileMenuOpen}
               >
@@ -204,7 +224,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               setMobileMenuOpen(false);
               onOpenContact();
             }}
-            className="w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-[#ff2a44] transition-colors"
+            className="btn-tactile w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-[#ff2a44] transition-colors active:scale-[0.97]"
           >
             <span>START A PROJECT</span>
             <ArrowUpRight className="w-4 h-4" />

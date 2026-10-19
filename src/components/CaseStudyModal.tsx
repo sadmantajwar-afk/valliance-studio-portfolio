@@ -65,7 +65,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
         }}
       >
         <div
-          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 lg:p-10 text-[#f7f3eb] h-fit cursor-default"
+          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 lg:p-10 text-[#f7f3eb] h-fit cursor-default animate-modal-enter"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Bar */}
@@ -86,7 +86,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 transition-all group/toplink"
+                  className="btn-tactile hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 transition-all group/toplink active:scale-[0.97]"
                 >
                   <span>LAUNCH LIVE SITE</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/toplink:translate-x-0.5 group-hover/toplink:-translate-y-0.5" />
@@ -97,7 +97,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 text-[#f7f3eb] transition-colors border border-white/10"
+                className="btn-tactile min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 text-[#f7f3eb] transition-colors border border-white/10 active:scale-[0.97]"
                 aria-label="Close Case Study"
               >
                 <X className="w-5 h-5" />
@@ -250,7 +250,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all group/livebtn w-full sm:w-auto"
+                  className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all group/livebtn active:scale-[0.97] w-full sm:w-auto"
                 >
                   <span>LAUNCH LIVE SITE</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/livebtn:translate-x-0.5 group-hover/livebtn:-translate-y-0.5" />
@@ -261,7 +261,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider flex items-center justify-center w-full sm:w-auto"
+                className="btn-tactile min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider flex items-center justify-center active:scale-[0.97] w-full sm:w-auto"
               >
                 CLOSE
               </button>
@@ -271,7 +271,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   onClose();
                   onOpenContact();
                 }}
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all w-full sm:w-auto"
+                className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all active:scale-[0.97] w-full sm:w-auto"
               >
                 <span>BUILD SIMILAR EXPERIENCE</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />

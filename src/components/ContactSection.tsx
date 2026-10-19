@@ -148,7 +148,7 @@ export const ContactSection: React.FC = () => {
                       setOrganization('');
                       setMessage('');
                     }}
-                    className="px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider"
+                    className="btn-tactile px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider active:scale-[0.97]"
                   >
                     SUBMIT ANOTHER INQUIRY
                   </button>
@@ -171,7 +171,7 @@ export const ContactSection: React.FC = () => {
                             key={srv}
                             type="button"
                             onClick={() => toggleService(srv)}
-                            className={`min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all flex items-center justify-center ${
+                            className={`btn-tactile min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all flex items-center justify-center active:scale-[0.97] ${
                               isSelected
                                 ? 'bg-[#e8002d] text-[#fff6ec] font-bold shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                                 : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -200,7 +200,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(500);
                             setSelectedBudget(b);
                           }}
-                          className={`min-h-[44px] py-2.5 px-3 rounded-xl text-xs font-mono font-bold tracking-wider transition-all text-center flex items-center justify-center ${
+                          className={`btn-tactile min-h-[44px] py-2.5 px-3 rounded-xl text-xs font-mono font-bold tracking-wider transition-all text-center flex items-center justify-center active:scale-[0.97] ${
                             selectedBudget === b
                               ? 'bg-[#e8002d] text-[#fff6ec] shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                               : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -226,7 +226,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(500);
                             setSelectedTimeline(t);
                           }}
-                          className={`min-h-[44px] py-2.5 px-2 rounded-xl text-[11px] font-mono tracking-wider transition-all text-center flex items-center justify-center ${
+                          className={`btn-tactile min-h-[44px] py-2.5 px-2 rounded-xl text-[11px] font-mono tracking-wider transition-all text-center flex items-center justify-center active:scale-[0.97] ${
                             selectedTimeline === t
                               ? 'bg-[#e8002d] text-[#fff6ec] font-bold shadow-[0_0_15px_rgba(232,0,45,0.3)]'
                               : 'bg-white/5 text-[#cfc8ba] hover:bg-white/10 border border-white/10'
@@ -313,7 +313,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full min-h-[52px] py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-sm uppercase tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] flex items-center justify-center gap-3 disabled:opacity-50"
+                      className="btn-tactile w-full min-h-[52px] py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-sm uppercase tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] flex items-center justify-center gap-3 disabled:opacity-50 active:scale-[0.97]"
                       data-cursor="hover"
                     >
                       {isSubmitting ? (

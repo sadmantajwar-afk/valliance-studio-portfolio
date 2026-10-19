@@ -252,7 +252,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
                 sound.playChime();
                 onOpenContact();
               }}
-              className="group relative inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] hover:scale-[1.02] w-full sm:w-auto"
+              className="btn-tactile group relative inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(232,0,45,0.5)] active:scale-[0.97] w-full sm:w-auto"
               data-cursor="hover"
             >
               <span>LET’S BUILD SOMETHING</span>
@@ -264,7 +264,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
                 sound.playClick(600);
                 onExploreWork();
               }}
-              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 glass-panel hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] font-mono text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all duration-300 border border-white/15 w-full sm:w-auto"
+              className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 glass-panel hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] font-mono text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all duration-300 border border-white/15 active:scale-[0.97] w-full sm:w-auto"
               data-cursor="hover"
             >
               <span>EXPLORE OUR WORK</span>
@@ -303,7 +303,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         <a
           href="#work"
           onClick={() => sound.playClick(400)}
-          className="flex items-center gap-2 hover:text-[#e8002d] transition-colors"
+          className="btn-tactile flex items-center gap-2 hover:text-[#e8002d] transition-colors active:scale-[0.97]"
         >
           <span>INDEX 01 / 04</span>
           <ArrowDown className="w-3.5 h-3.5" />

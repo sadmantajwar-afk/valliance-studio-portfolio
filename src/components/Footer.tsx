@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
 
           <button
             onClick={scrollToTop}
-            className="inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] border border-white/10 transition-all"
+            className="btn-tactile inline-flex items-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] border border-white/10 transition-all active:scale-[0.97]"
             data-cursor="hover"
           >
             <span>BACK TO TOP</span>
