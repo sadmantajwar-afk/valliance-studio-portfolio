@@ -4,6 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -28,7 +30,7 @@ function inlineCssPlugin() {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), inlineCssPlugin()],
+  plugins: [react(), tailwindcss(), inlineCssPlugin(), cloudflare()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
