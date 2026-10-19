@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Terminal, ArrowUpRight, Flame, Layers, Zap, Eye } from 'lucide-react';
 import { sound } from '../utils/audio';
 
@@ -48,28 +47,16 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
             <span>INDEX // 03 — STUDIO MANIFESTO</span>
           </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]"
-          >
+          <h2 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]">
             LESS REPETITION. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
               MORE POSSIBILITY.
             </span>
-          </motion.h2>
+          </h2>
         </div>
 
         {/* Dramatic Editorial Manifesto Statement */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start pb-12 border-b border-white/10"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start pb-12 border-b border-white/10">
           <div className="lg:col-span-8">
             <p className="font-space text-2xl sm:text-4xl text-[#f7f3eb] font-light leading-snug tracking-tight">
               “We combine thoughtful design, modern development, and practical AI to help businesses create better customer experiences and work more intelligently.”
@@ -86,20 +73,16 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
               </span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* 4 Pillars Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pillars.map((pillar, idx) => {
+          {pillars.map((pillar) => {
             const Icon = pillar.icon;
 
             return (
-              <motion.div
+              <div
                 key={pillar.number}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
                 className="p-8 rounded-3xl glass-panel border border-white/10 hover:border-[#e8002d]/40 transition-all duration-300 space-y-6 group"
                 data-cursor="hover"
               >
@@ -120,7 +103,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
                     {pillar.desc}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

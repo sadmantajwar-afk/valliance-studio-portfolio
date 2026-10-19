@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { ArrowUpRight, Sparkles, Terminal, Eye } from 'lucide-react';
 import { Project, PROJECTS } from '../data/projects';
 import { CaseStudyModal } from './CaseStudyModal';
@@ -74,12 +73,8 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
             const isEven = idx % 2 === 0;
 
             return (
-              <motion.article
+              <article
                 key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.8 }}
                 className={`relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center group`}
               >
                 {/* Background Large Monospace Number Watermark */}
@@ -109,7 +104,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                     <img
                       src={project.image}
                       alt={project.title}
-                      loading={idx === 0 ? "eager" : "lazy"}
+                      loading="lazy"
                       decoding="async"
                       className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 filter brightness-100 contrast-105 will-change-transform"
                       style={{ objectPosition: project.imagePosition || 'center' }}
@@ -125,7 +120,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                         {project.category}
                       </span>
                       <span className="px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-[#e8002d]/40 text-[#e8002d] font-bold flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d] animate-pulse" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d]" />
                         {project.isStudioConcept ? 'STUDIO CONCEPT' : 'LIVE PROJECT'}
                       </span>
                     </div>
@@ -224,7 +219,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                     )}
                   </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>

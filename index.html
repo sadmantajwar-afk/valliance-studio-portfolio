@@ -12,11 +12,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Valliance Studio" />
     
-    <!-- Deferred Non-blocking Google Fonts: Loaded in background without stalling mobile cellular connections -->
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Archivo+Black&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Archivo+Black&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
-    </noscript>
+    <!-- Asynchronous Non-blocking Fonts: Deferred until after initial paint to prevent mobile progress bar stall -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Archivo+Black&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap';
+          document.head.appendChild(link);
+        }, 300);
+      });
+    </script>
 
     <!-- Critical Inlined CSS: Guarantees 0ms Instant First Paint on Mobile & Desktop -->
     <style>

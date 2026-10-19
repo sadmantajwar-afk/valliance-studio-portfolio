@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Terminal,
   Send,
@@ -105,18 +104,12 @@ export const ContactSection: React.FC = () => {
             <span>INDEX // 07 — INITIATE COLLABORATION</span>
           </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]"
-          >
+          <h2 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#f7f3eb] uppercase leading-[0.92]">
             LET’S MAKE <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
               SOMETHING MATTER.
             </span>
-          </motion.h2>
+          </h2>
 
           <p className="font-space text-xl sm:text-2xl text-[#cfc8ba] font-light max-w-2xl leading-relaxed">
             “Have a business to grow, a system to improve, or an idea worth building? Let’s talk.”
@@ -127,17 +120,11 @@ export const ContactSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left Column: Interactive Project Estimator & Form */}
           <div className="lg:col-span-8">
-            <AnimatePresence mode="wait">
-              {isSubmitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="p-8 sm:p-12 rounded-3xl glass-panel border border-[#e8002d]/40 text-center space-y-6"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-[#e8002d] text-[#fff6ec] flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(232,0,45,0.4)]">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
+            {isSubmitted ? (
+              <div className="p-8 sm:p-12 rounded-3xl glass-panel border border-[#e8002d]/40 text-center space-y-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#e8002d] text-[#fff6ec] flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(232,0,45,0.4)]">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
 
                   <div className="space-y-2">
                     <h3 className="font-display text-3xl font-bold text-[#f7f3eb] uppercase">
@@ -165,7 +152,7 @@ export const ContactSection: React.FC = () => {
                   >
                     SUBMIT ANOTHER INQUIRY
                   </button>
-                </motion.div>
+                </div>
               ) : (
                 <form
                   onSubmit={handleSubmit}
@@ -349,7 +336,6 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </form>
               )}
-            </AnimatePresence>
           </div>
 
           {/* Right Column: Studio Locations, Direct Email & Calendar */}

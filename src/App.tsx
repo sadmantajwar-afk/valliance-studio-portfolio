@@ -1,15 +1,13 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Marquee } from './components/Marquee';
-
-// Lazy-load all below-the-fold sections to make mobile first paint instantaneous (<50ms)
-const SelectedWork = lazy(() => import('./components/SelectedWork').then(m => ({ default: m.SelectedWork })));
-const ServicesSection = lazy(() => import('./components/ServicesSection').then(m => ({ default: m.ServicesSection })));
-const Philosophy = lazy(() => import('./components/Philosophy').then(m => ({ default: m.Philosophy })));
-const ProcessSection = lazy(() => import('./components/ProcessSection').then(m => ({ default: m.ProcessSection })));
-const ContactSection = lazy(() => import('./components/ContactSection').then(m => ({ default: m.ContactSection })));
-const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
+import { SelectedWork } from './components/SelectedWork';
+import { ServicesSection } from './components/ServicesSection';
+import { Philosophy } from './components/Philosophy';
+import { ProcessSection } from './components/ProcessSection';
+import { ContactSection } from './components/ContactSection';
+import { Footer } from './components/Footer';
 
 export function App() {
   useEffect(() => {
@@ -122,26 +120,23 @@ export function App() {
         {/* 02. Kinetic Typography Marquee */}
         <Marquee />
 
-        {/* 03-09. Below-the-fold sections loaded on demand */}
-        <Suspense fallback={<div className="min-h-[40vh] bg-[#0b0908]" />}>
-          {/* 03. Selected Work Editorial Showcase */}
-          <SelectedWork onOpenContact={scrollToContact} />
+        {/* 03. Selected Work Editorial Showcase */}
+        <SelectedWork onOpenContact={scrollToContact} />
 
-          {/* 04. High-Contrast Editorial Services Section */}
-          <ServicesSection onOpenContact={scrollToContact} />
+        {/* 04. High-Contrast Editorial Services Section */}
+        <ServicesSection onOpenContact={scrollToContact} />
 
-          {/* 06. Agency Philosophy & Manifesto */}
-          <Philosophy onOpenContact={scrollToContact} />
+        {/* 06. Agency Philosophy & Manifesto */}
+        <Philosophy onOpenContact={scrollToContact} />
 
-          {/* 08. Systematic Process Timeline */}
-          <ProcessSection onOpenContact={scrollToContact} />
+        {/* 08. Systematic Process Timeline */}
+        <ProcessSection onOpenContact={scrollToContact} />
 
-          {/* 09. Contact & Project Estimator */}
-          <ContactSection />
+        {/* 09. Contact & Project Estimator */}
+        <ContactSection />
 
-          {/* Global Footer */}
-          <Footer />
-        </Suspense>
+        {/* Global Footer */}
+        <Footer />
       </main>
     </div>
   );

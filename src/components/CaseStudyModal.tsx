@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, CheckCircle2, Cpu, Sparkles, ShieldCheck } from 'lucide-react';
 import { Project } from '../data/projects';
 import { sound } from '../utils/audio';
@@ -44,39 +43,31 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
     };
   }, [project]);
 
+  if (!project) return null;
+
   return (
-    <AnimatePresence>
-      {project && (
-        <motion.div
-          ref={scrollContainerRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden bg-black/90 backdrop-blur-2xl modal-scroll-container overscroll-contain"
-          style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
-          data-lenis-prevent
-          data-lenis-prevent-wheel
-          data-lenis-prevent-touch
-          onWheel={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
+    <div
+      ref={scrollContainerRef}
+      className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden bg-black/90 backdrop-blur-2xl modal-scroll-container overscroll-contain"
+      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
+      data-lenis-prevent
+      data-lenis-prevent-wheel
+      data-lenis-prevent-touch
+      onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+    >
+      {/* Centering wrapper allowing natural, unrestricted vertical scrolling on mobile & desktop */}
+      <div
+        className="min-h-screen w-full flex justify-center p-3 sm:p-6 lg:p-8 py-8 sm:py-16"
+        onClick={() => {
+          sound.playClick(400);
+          onClose();
+        }}
+      >
+        <div
+          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 text-[#f7f3eb] h-fit cursor-default"
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Centering wrapper allowing natural, unrestricted vertical scrolling on mobile & desktop */}
-          <div
-            className="min-h-screen w-full flex justify-center p-3 sm:p-6 lg:p-8 py-8 sm:py-16"
-            onClick={() => {
-              sound.playClick(400);
-              onClose();
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 text-[#f7f3eb] h-fit cursor-default"
-              onClick={(e) => e.stopPropagation()}
-            >
               {/* Top Bar */}
               <div className="flex items-center justify-between pb-6 border-b border-white/10">
             <div className="flex items-center gap-3">
@@ -279,10 +270,8 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+    </div>
   );
 };

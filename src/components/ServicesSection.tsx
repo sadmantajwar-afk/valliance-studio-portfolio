@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Terminal, Plus, Minus, Check, Code, Clock } from 'lucide-react';
 import { SERVICES } from '../data/projects';
 import { sound } from '../utils/audio';
@@ -86,15 +85,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                 </div>
 
                 {/* Expanded Details Drawer */}
-                <AnimatePresence>
-                  {isActive && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
+                {isActive && (
+                  <div className="overflow-hidden">
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 mt-4 border-t border-[#0a0a0c]/10">
                         {/* Description & Deliverables */}
                         <div className="md:col-span-7 space-y-6">
@@ -153,9 +145,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenContact 
                           </button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
               </div>
             );
           })}

@@ -212,11 +212,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         ref={heroContentRef}
         className="relative z-10 max-w-7xl mx-auto w-full my-auto py-8 will-change-transform"
       >
-        {/* Animated Studio Status Bar */}
-        <div className="animate-hero-1 flex flex-wrap items-center gap-3 mb-8">
+        {/* Studio Status Bar */}
+        <div className="flex flex-wrap items-center gap-3 mb-8">
           <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8002d] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8002d]"></span>
             </span>
             <span className="font-mono text-xs font-semibold tracking-wider text-[#e8002d] uppercase">
@@ -227,7 +226,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
         {/* Monumental Hero Typography & CTAs */}
         <div className="max-w-4xl space-y-8">
-          <div className="animate-hero-2">
+          <div>
             <h1 className="font-display font-extrabold text-5xl sm:text-7xl lg:text-[5.8rem] xl:text-[6.8rem] tracking-tight leading-[0.92] text-[#f7f3eb] uppercase">
               WE BUILD <br />
               <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] via-[#f7f3eb] to-[#e8e2d6]">
@@ -237,7 +236,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
           </div>
 
           {/* Supporting Headline */}
-          <div className="animate-hero-3 space-y-4 max-w-2xl">
+          <div className="space-y-4 max-w-2xl">
             <p className="font-space text-xl sm:text-2xl text-[#f7f3eb] font-medium leading-relaxed tracking-tight">
               “Exceptional digital experiences. Intelligent AI. Business without the busywork.”
             </p>
@@ -247,7 +246,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
           </div>
 
           {/* Interactive CTAs */}
-          <div className="animate-hero-4 flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={() => {
                 sound.playChime();
@@ -275,7 +274,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         </div>
 
         {/* Micro Stats Matrix on Bottom Hero */}
-        <div className="animate-hero-5 grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 mt-8 border-t border-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 mt-8 border-t border-white/10">
           <div className="space-y-1">
             <span className="font-display text-2xl sm:text-3xl font-bold text-[#e8002d]">04</span>
             <p className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">Live Web Flagships</p>
@@ -298,7 +297,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
       {/* Scroll Down Indicator */}
       <div className="relative z-10 max-w-7xl mx-auto w-full flex items-center justify-between text-xs font-mono text-[#8a8172] pt-4">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d] animate-ping" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d]" />
           <span>SCROLL TO DISCOVER</span>
         </div>
         <a
@@ -307,7 +306,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
           className="flex items-center gap-2 hover:text-[#e8002d] transition-colors"
         >
           <span>INDEX 01 / 04</span>
-          <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+          <ArrowDown className="w-3.5 h-3.5" />
         </a>
       </div>
     </section>

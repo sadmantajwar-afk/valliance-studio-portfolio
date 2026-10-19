@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, CheckCircle2, Clock, Layers, ArrowUpRight } from 'lucide-react';
 import { PROCESS_STEPS } from '../data/projects';
 import { sound } from '../utils/audio';
@@ -58,10 +57,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
               >
                 {/* Active Top Line Indicator */}
                 {isSelected && (
-                  <motion.div
-                    layoutId="active-indicator"
-                    className="absolute top-0 left-0 right-0 h-1 bg-[#e8002d]"
-                  />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-[#e8002d]" />
                 )}
 
                 <div className="flex items-center justify-between mb-3">
@@ -85,15 +81,10 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
         </div>
 
         {/* Active Stage Deep-Dive Showcase Box */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeStep.step}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="p-8 sm:p-12 rounded-3xl glass-panel border border-white/15 shadow-2xl space-y-8"
-          >
+        <div
+          key={activeStep.step}
+          className="p-8 sm:p-12 rounded-3xl glass-panel border border-white/15 shadow-2xl space-y-8"
+        >
             {/* Top Stage Overview */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/10">
               <div className="space-y-2">
@@ -182,8 +173,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 )}
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
       </div>
     </section>
   );
