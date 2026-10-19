@@ -40,6 +40,11 @@
     scroll-behavior: auto; /* Managed by Lenis for ultra-smooth momentum scrolling */
   }
   
+  /* Fallback native smooth scroll when Lenis is bypassed */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+  
   body {
     font-family: var(--font-sans);
     background-color: #0b0908;

@@ -25,11 +25,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const y = window.scrollY;
-          if (y < 450 && heroContent) {
-            const op = Math.max(0.2, 1 - y / 400);
-            const sc = Math.max(0.95, 1 - (y / 400) * 0.05);
-            heroContent.style.opacity = String(op);
-            heroContent.style.transform = `scale(${sc})`;
+          if (heroContent) {
+            if (y < 450) {
+              const op = Math.max(0.2, 1 - y / 400);
+              const sc = Math.max(0.95, 1 - (y / 400) * 0.05);
+              heroContent.style.opacity = String(op);
+              heroContent.style.transform = `scale(${sc})`;
+            } else {
+              heroContent.style.opacity = '0.2';
+              heroContent.style.transform = 'scale(0.95)';
+            }
           }
           ticking = false;
         });

@@ -11,37 +11,38 @@ import { Footer } from './components/Footer';
 
 export function App() {
   useEffect(() => {
-    // On mobile / touch devices, bypass Lenis and its RAF loop.
-    // iOS and Android provide native 120Hz ProMotion inertial scrolling out of the box.
-    const isMobileOrTouch =
+    // Only bypass Lenis on actual small-screen mobile phones (< 768px with coarse touch pointer).
+    // On all PCs, laptops (including touchscreen laptops and Surface devices), and desktops,
+    // Lenis provides continuous, ultra-smooth momentum scrolling.
+    const isMobilePhone =
       typeof window !== 'undefined' &&
-      (window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.innerWidth < 1024);
+      window.innerWidth < 768 &&
+      (/Android|iPhone|iPod/i.test(navigator.userAgent) ||
+        window.matchMedia('(hover: none) and (pointer: coarse)').matches);
 
-    if (isMobileOrTouch) {
+    if (isMobilePhone) {
       (window as unknown as { __lenis: unknown }).__lenis = null;
       return;
     }
 
-    let lenisInstance: { raf: (time: number) => void; destroy: () => void } | null = null;
-    let rafId: number;
+    let lenisInstance: { destroy: () => void } | null = null;
 
-    // Dynamically load Lenis only for desktop users with a mouse pointer
+    // Dynamically load Lenis for desktop and laptop PC users
     Promise.all([
       import('lenis'),
       import('lenis/dist/lenis.css'),
     ]).then(([{ default: Lenis }]) => {
       const lenis = new Lenis({
-        duration: 1.15,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
+        autoRaf: true,
+        lerp: 0.09, // Silky smooth physics damping for continuous fluid glide on PC mice and trackpads
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.2,
         smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 0,
         syncTouch: false,
+        autoResize: true,
+        anchors: {
+          offset: -60,
+        },
         prevent: (node: unknown) => {
           return Boolean(
             node instanceof HTMLElement &&
@@ -53,16 +54,9 @@ export function App() {
 
       lenisInstance = lenis;
       (window as unknown as { __lenis: unknown }).__lenis = lenis;
-
-      function raf(time: number) {
-        lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
-      }
-      rafId = requestAnimationFrame(raf);
     });
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
       if (lenisInstance) lenisInstance.destroy();
       (window as unknown as { __lenis: unknown }).__lenis = null;
     };
@@ -70,9 +64,9 @@ export function App() {
 
   const scrollToContact = () => {
     const performScroll = () => {
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration: number }) => void } }).__lenis;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
-        lenis.scrollTo('#contact', { offset: -40, duration: 1.2 });
+        lenis.scrollTo('#contact', { offset: -40 });
       } else {
         const el = document.getElementById('contact');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -88,9 +82,9 @@ export function App() {
 
   const scrollToWork = () => {
     const performScroll = () => {
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration: number }) => void } }).__lenis;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
-        lenis.scrollTo('#work', { offset: -40, duration: 1.2 });
+        lenis.scrollTo('#work', { offset: -40 });
       } else {
         const el = document.getElementById('work');
         if (el) el.scrollIntoView({ behavior: 'smooth' });

@@ -30,7 +30,10 @@
       *, *::before, *::after {
         box-sizing: border-box;
       }
-      html, body {
+      html {
+        overflow-x: clip;
+      }
+      body {
         background-color: #0b0908 !important;
         color: #f7f3eb;
         margin: 0;
@@ -39,7 +42,7 @@
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Tight", sans-serif;
-        overflow-x: hidden;
+        overflow-x: clip;
         min-height: 100vh;
       }
       #root {
