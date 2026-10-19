@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Terminal, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoBadge } from './Logo';
 
@@ -11,12 +11,6 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(sound.isEnabled());
-
-  const toggleSound = () => {
-    const nextState = sound.toggle();
-    setSoundEnabled(nextState);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,21 +123,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
 
             {/* Right Action Bar */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Sound Synthesizer Audio Toggle */}
-              <button
-                type="button"
-                onClick={toggleSound}
-                className="btn-tactile min-w-[38px] min-h-[38px] sm:min-w-[40px] sm:min-h-[40px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#f7f3eb] transition-all active:scale-[0.97]"
-                aria-label={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
-                title={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
-              >
-                {soundEnabled ? (
-                  <Volume2 className="w-4 h-4 text-[#e8002d]" />
-                ) : (
-                  <VolumeX className="w-4 h-4 text-[#8a8172]" />
-                )}
-              </button>
-
               {/* Primary Inquire CTA */}
               <button
                 onClick={() => {
