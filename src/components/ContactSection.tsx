@@ -649,10 +649,10 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(600);
                             handleSelectService(service.id);
                           }}
-                          className={`btn-tactile p-5 rounded-2xl cursor-pointer border text-left transition-all flex flex-col justify-between space-y-4 group ${
+                          className={`p-5 rounded-2xl cursor-pointer border text-left flex flex-col justify-between space-y-4 group pricing-card-interactive ${
                             isSelected
-                              ? 'border-2 border-[#F3264B] shadow-[0_0_25px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
-                              : 'hover:border-[#F3264B]/50'
+                              ? 'is-selected border-2 border-[#F3264B] shadow-[0_0_25px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
+                              : 'hover:border-[#F3264B]'
                           }`}
                           style={{
                             backgroundColor: isSelected
@@ -853,7 +853,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(600);
                             handleSelectService(e.target.value);
                           }}
-                          className="px-3 py-2 rounded-xl border text-xs font-mono focus:border-[#F3264B] focus:outline-none cursor-pointer"
+                          className="select-tool-dropdown px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:border-[#F3264B] focus:outline-none cursor-pointer"
                           style={{
                             backgroundColor: 'var(--theme-surface)',
                             borderColor: 'var(--theme-border)',
@@ -921,10 +921,10 @@ export const ContactSection: React.FC = () => {
                               sound.playClick(600);
                               handleSelectService(service.id);
                             }}
-                            className={`btn-tactile p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                            className={`tier-switcher-btn btn-tactile p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
                               isSelected
-                                ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)]'
-                                : 'hover:border-[#F3264B]/60'
+                                ? 'is-active bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)]'
+                                : 'hover:border-[#F3264B]'
                             }`}
                             style={{
                               backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',

@@ -257,12 +257,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                   <div
                     key={pkg.id}
                     onClick={() => handleSelectPackage(pkg.id, pkg.name, displayPrice)}
-                    className={`relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl transition-all duration-300 space-y-6 cursor-pointer group ${
+                    className={`relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl space-y-6 cursor-pointer group pricing-card-interactive ${
                       isSelected
-                        ? 'border-2 border-[#F3264B] shadow-[0_0_35px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30 lg:-translate-y-2'
+                        ? 'is-selected border-2 border-[#F3264B] shadow-[0_0_35px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30 lg:-translate-y-2'
                         : isRecommended
                         ? 'border-2 border-[#F3264B]/80 shadow-[0_0_25px_rgba(243,38,75,0.12)] hover:border-[#F3264B]'
-                        : 'border hover:border-[#F3264B]/60 hover:shadow-lg'
+                        : 'border hover:border-[#F3264B]'
                     }`}
                     style={{
                       backgroundColor: isSelected
@@ -287,7 +287,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                         <Sparkles className="w-3 h-3" />
                         <span>RECOMMENDED CHOICE</span>
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#F3264B]/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
+                        <ArrowUpRight className="w-3 h-3" />
+                        <span>CLICK TO SELECT</span>
+                      </div>
+                    )}
 
                     <div className="space-y-5">
                       <div className="space-y-2">
@@ -448,10 +453,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                   <div
                     key={service.id}
                     onClick={() => handleSelectPackage(service.id, service.name, displayPrice)}
-                    className={`relative p-7 rounded-3xl border flex flex-col justify-between space-y-6 transition-all cursor-pointer group hover:shadow-lg ${
+                    className={`relative p-7 rounded-3xl border flex flex-col justify-between space-y-6 cursor-pointer group pricing-card-interactive ${
                       isSelected
-                        ? 'border-2 border-[#F3264B] shadow-[0_0_30px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
-                        : 'hover:border-[#F3264B]/50'
+                        ? 'is-selected border-2 border-[#F3264B] shadow-[0_0_30px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
+                        : 'hover:border-[#F3264B]'
                     }`}
                     style={{
                       backgroundColor: isSelected
@@ -460,10 +465,15 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                       borderColor: isSelected ? '#F3264B' : 'var(--theme-border-card)',
                     }}
                   >
-                    {isSelected && (
+                    {isSelected ? (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#F3264B] text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1 whitespace-nowrap">
                         <CheckCircle2 className="w-2.5 h-2.5" />
                         <span>ACTIVE SELECTION</span>
+                      </div>
+                    ) : (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#F3264B]/90 text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
+                        <ArrowUpRight className="w-2.5 h-2.5" />
+                        <span>SELECT TIER</span>
                       </div>
                     )}
 

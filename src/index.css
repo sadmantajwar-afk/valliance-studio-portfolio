@@ -234,3 +234,37 @@
     animation: none !important;
   }
 }
+
+/* ========================================================================= */
+/* TIER SELECTION TOOL HOVER & TACTILE INTERACTIONS                         */
+/* ========================================================================= */
+
+.tier-switcher-btn {
+  transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  will-change: transform;
+}
+.tier-switcher-btn:hover:not(.is-active) {
+  border-color: #F3264B !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(243, 38, 75, 0.18);
+  background-color: var(--theme-surface-card-hover) !important;
+}
+
+.pricing-card-interactive {
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), border-color 220ms ease, box-shadow 220ms ease;
+  will-change: transform;
+}
+.pricing-card-interactive:hover:not(.is-selected) {
+  transform: translateY(-4px);
+  border-color: #F3264B !important;
+  box-shadow: 0 16px 36px rgba(243, 38, 75, 0.18);
+}
+
+.select-tool-dropdown {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.select-tool-dropdown:hover,
+.select-tool-dropdown:focus {
+  border-color: #F3264B !important;
+  box-shadow: 0 0 15px rgba(243, 38, 75, 0.25);
+}
