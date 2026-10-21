@@ -208,6 +208,10 @@ export const ContactSection: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (currentStep !== 4) {
+      handleNextStep();
+      return;
+    }
     sound.playClick(900);
 
     if (!acknowledgedAccountNotice) {
@@ -221,6 +225,7 @@ export const ContactSection: React.FC = () => {
     // 1. Trigger Meta Lead Pixel Conversion
     trackMetaLead({
       value: finalBudgetText,
+      currency: currencyCode,
       services: [activeService.name],
       organization: organization.trim(),
     });

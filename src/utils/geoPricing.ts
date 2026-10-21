@@ -310,33 +310,40 @@ export function setSavedMarket(market: Market): void {
   }
 }
 
+let detectPromise: Promise<Market> | null = null;
+
 export async function detectVisitorMarket(): Promise<Market> {
   const saved = getSavedMarket();
   if (saved) return saved;
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2500);
+  if (detectPromise) return detectPromise;
 
-    const res = await fetch('https://ipapi.co/json/', {
-      signal: controller.signal,
-      headers: { Accept: 'application/json' },
-    });
-    clearTimeout(timeout);
+  detectPromise = (async () => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 2500);
 
-    if (res.ok) {
-      const data = await res.json();
-      const country = (data.country_code || data.country || '').toUpperCase();
-      if (country === 'GB' || country === 'UK') {
-        return 'UK';
+      const res = await fetch('https://ipapi.co/json/', {
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+      });
+      clearTimeout(timeout);
+
+      if (res.ok) {
+        const data = await res.json();
+        const country = (data.country_code || data.country || '').toUpperCase();
+        if (country === 'GB' || country === 'UK') {
+          return 'UK';
+        }
+        return 'US';
       }
-      return 'US';
+    } catch {
+      // Graceful fallback
     }
-  } catch {
-    // Graceful fallback
-  }
+    return 'US';
+  })();
 
-  return 'US';
+  return detectPromise;
 }
 
 export function useMarket() {

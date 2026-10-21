@@ -48,9 +48,29 @@ export function initMetaPixel(pixelId: string = DEFAULT_PIXEL_ID) {
   /* eslint-enable */
 
   if (window.fbq) {
+    // UK GDPR & PECR Privacy Compliance: Revoke consent by default until user interaction/consent
+    window.fbq('consent', 'revoke');
     window.fbq('init', effectiveId);
-    window.fbq('track', 'PageView');
     window.__metaPixelInitialized = true;
+  }
+}
+
+/**
+ * Grant Meta Pixel tracking consent (e.g., when visitor opts in or engages with lead inquiry)
+ */
+export function grantMetaConsent() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('consent', 'grant');
+    window.fbq('track', 'PageView');
+  }
+}
+
+/**
+ * Revoke Meta Pixel tracking consent
+ */
+export function revokeMetaConsent() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('consent', 'revoke');
   }
 }
 
@@ -93,6 +113,7 @@ export function trackMetaLead(details: {
     }
   }
 
+  grantMetaConsent();
   trackMetaEvent('Lead', {
     content_name: 'Valliance Studio Client Inquiry',
     content_category: details.services?.join(', ') || 'General Studio Inquiry',

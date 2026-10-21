@@ -3,11 +3,7 @@ import { ArrowUp, Terminal } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoLockup } from './Logo';
 
-interface FooterProps {
-  onOpenAdmin?: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+export const Footer: React.FC = () => {
   const scrollToTop = () => {
     sound.playClick(600);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -52,8 +48,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 CHANNELS
               </span>
               <ul className="space-y-2" style={{ color: 'var(--theme-text-secondary)' }}>
-                <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Facebook Page ↗</a></li>
-                <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Instagram ↗</a></li>
+                <li><a href="https://www.facebook.com/share/1Kbs7Etq2y/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Facebook Page ↗</a></li>
+                <li><a href="https://www.instagram.com/valliance.studio?mdxt=aDBvaTdtMGNuYzcx" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Instagram ↗</a></li>
               </ul>
             </div>
 
@@ -77,17 +73,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             <span>© 2026 VALLIANCE STUDIO LTD. ALL RIGHTS RESERVED.</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">BUILT WITH INTENT &amp; CODE</span>
-            <span className="hidden sm:inline">·</span>
-            {onOpenAdmin && (
-              <button
-                onClick={onOpenAdmin}
-                className="hover:text-[#F3264B] transition-colors inline-flex items-center gap-1 cursor-pointer"
-                title="Studio Lead Operations Terminal (Passcode Protected)"
-              >
-                <Terminal className="w-3 h-3 text-[#F3264B]" />
-                <span>STUDIO TERMINAL</span>
-              </button>
-            )}
           </div>
 
           <button

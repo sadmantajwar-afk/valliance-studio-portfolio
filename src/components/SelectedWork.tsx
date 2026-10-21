@@ -208,7 +208,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                       “{project.tagline}”
                     </p>
                     <p className="text-sm font-sans font-light leading-relaxed pt-1" style={{ color: 'var(--theme-text-secondary)' }}>
-                      {project.description}
+                      {project.overview}
                     </p>
                   </div>
 
@@ -253,9 +253,9 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                       <span>INSPECT ARCHITECTURE</span>
                     </button>
 
-                    {project.liveUrl && (
+                    {project.livePreviewUrl && (
                       <a
-                        href={project.liveUrl}
+                        href={project.livePreviewUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => sound.playClick(800)}

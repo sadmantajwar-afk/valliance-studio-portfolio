@@ -43,70 +43,6 @@ export interface SubmitResult {
   mailtoFallback?: string;
 }
 
-const LEADS_STORAGE_KEY = 'valliance_leads_v2';
-const ADMIN_PASSCODE = 'valliance2026';
-
-function persistLeadToLocal(lead: LeadSubmission): void {
-  if (typeof window === 'undefined') return;
-  try {
-    const raw = localStorage.getItem(LEADS_STORAGE_KEY);
-    const existing: LeadSubmission[] = raw ? JSON.parse(raw) : [];
-    const isDuplicate = existing.some(
-      (item) =>
-        item.email.toLowerCase() === lead.email.toLowerCase() &&
-        Date.now() - new Date(item.timestamp).getTime() < 60000
-    );
-    if (!isDuplicate) {
-      existing.unshift(lead);
-      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(existing));
-    }
-  } catch (err) {
-    console.warn('Could not persist lead locally:', err);
-  }
-}
-
-export function getStoredLeads(): LeadSubmission[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(LEADS_STORAGE_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-export function updateLeadStatus(id: string, status: LeadSubmission['status']): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const leads = getStoredLeads();
-    const target = leads.find((l) => l.id === id);
-    if (target) {
-      target.status = status;
-      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
-      return true;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  return false;
-}
-
-export function deleteLead(id: string): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const leads = getStoredLeads().filter((l) => l.id !== id);
-    localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export function verifyAdminPasscode(passcode: string): boolean {
-  return passcode.trim() === ADMIN_PASSCODE;
-}
-
 export async function submitLead(input: SubmitLeadInput): Promise<SubmitResult> {
   const market = input.market === 'UK' ? 'UK' : 'US';
   const includeMaintenance = Boolean(input.includeMaintenance);
@@ -135,8 +71,6 @@ export async function submitLead(input: SubmitLeadInput): Promise<SubmitResult> 
     preferredContact: input.preferredContact || 'email',
     status: 'New',
   };
-
-  persistLeadToLocal(submission);
 
   const primaryEndpoint =
     import.meta.env.VITE_CONTACT_FORM_ENDPOINT ||
