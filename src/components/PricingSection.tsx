@@ -39,9 +39,23 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
 
   const [activeTab, setActiveTab] = useState<'all' | 'websites' | 'automation' | 'care'>('all');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>('signature');
+
+  // Synchronize selection when contact section changes service
+  React.useEffect(() => {
+    const handleServiceChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ serviceId: string }>;
+      if (customEvent.detail?.serviceId) {
+        setSelectedServiceId(customEvent.detail.serviceId);
+      }
+    };
+    window.addEventListener('inquiryServiceChanged', handleServiceChange);
+    return () => window.removeEventListener('inquiryServiceChanged', handleServiceChange);
+  }, []);
 
   const handleSelectPackage = (serviceId: string, serviceName: string, startingPrice: string) => {
     sound.playClick(800);
+    setSelectedServiceId(serviceId);
     const budgetEstimate = startingPrice.includes('quote')
       ? 'Custom Quote'
       : `${startingPrice} – ${currencySymbol}${(
@@ -237,28 +251,43 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                 const rawPrice = pkg.price[market];
                 const displayPrice = rawPrice ? `${currencySymbol}${rawPrice.toLocaleString()}` : 'Custom quote';
                 const isRecommended = Boolean(pkg.recommended);
+                const isSelected = selectedServiceId === pkg.id;
 
                 return (
                   <div
                     key={pkg.id}
-                    className={`relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl transition-all duration-300 space-y-6 ${
-                      isRecommended
-                        ? 'border-2 border-[#F3264B] shadow-[0_0_35px_rgba(243,38,75,0.18)] lg:-translate-y-2'
-                        : 'border hover:shadow-lg'
+                    onClick={() => handleSelectPackage(pkg.id, pkg.name, displayPrice)}
+                    className={`relative flex flex-col justify-between p-7 sm:p-8 rounded-3xl transition-all duration-300 space-y-6 cursor-pointer group ${
+                      isSelected
+                        ? 'border-2 border-[#F3264B] shadow-[0_0_35px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30 lg:-translate-y-2'
+                        : isRecommended
+                        ? 'border-2 border-[#F3264B]/80 shadow-[0_0_25px_rgba(243,38,75,0.12)] hover:border-[#F3264B]'
+                        : 'border hover:border-[#F3264B]/60 hover:shadow-lg'
                     }`}
                     style={{
-                      backgroundColor: isRecommended
+                      backgroundColor: isSelected
+                        ? (isDark ? '#191315' : '#FFF5F6')
+                        : isRecommended
                         ? (isDark ? '#161213' : '#FFF9FA')
                         : 'var(--theme-surface-card)',
-                      borderColor: isRecommended ? '#F3264B' : 'var(--theme-border-card)',
+                      borderColor: isSelected
+                        ? '#F3264B'
+                        : isRecommended
+                        ? '#F3264B'
+                        : 'var(--theme-border-card)',
                     }}
                   >
-                    {isRecommended && (
+                    {isSelected ? (
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#F3264B] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>ACTIVE SELECTION</span>
+                      </div>
+                    ) : isRecommended ? (
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#F3264B] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
                         <Sparkles className="w-3 h-3" />
                         <span>RECOMMENDED CHOICE</span>
                       </div>
-                    )}
+                    ) : null}
 
                     <div className="space-y-5">
                       <div className="space-y-2">
@@ -326,19 +355,23 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
 
                     <div className="pt-6 border-t" style={{ borderColor: 'var(--theme-border)' }}>
                       <button
-                        onClick={() => handleSelectPackage(pkg.id, pkg.name, displayPrice)}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectPackage(pkg.id, pkg.name, displayPrice);
+                        }}
                         className={`btn-tactile w-full min-h-[46px] py-3 px-5 rounded-full font-mono text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.97] ${
-                          isRecommended
+                          isSelected || isRecommended
                             ? 'bg-[#F3264B] hover:bg-[#FF2A44] text-white shadow-[0_0_20px_rgba(243,38,75,0.35)]'
-                            : 'border'
+                            : 'border hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
                         }`}
                         style={{
-                          backgroundColor: isRecommended ? '#F3264B' : 'var(--theme-surface-elevated)',
-                          color: isRecommended ? '#FFFFFF' : 'var(--theme-text-primary)',
-                          borderColor: isRecommended ? '#F3264B' : 'var(--theme-border)',
+                          backgroundColor: (isSelected || isRecommended) ? '#F3264B' : 'var(--theme-surface-elevated)',
+                          color: (isSelected || isRecommended) ? '#FFFFFF' : 'var(--theme-text-primary)',
+                          borderColor: (isSelected || isRecommended) ? '#F3264B' : 'var(--theme-border)',
                         }}
                       >
-                        <span>{pkg.ctaText}</span>
+                        <span>{isSelected ? 'Selected — Proceed to Scope' : pkg.ctaText}</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -402,6 +435,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
               {aiServices.map((service) => {
                 const rawPrice = service.price[market];
                 const displayPrice = rawPrice ? `${currencySymbol}${rawPrice.toLocaleString()}` : 'Custom quote';
+                const isSelected = selectedServiceId === service.id;
 
                 const iconMap: Record<string, React.ReactNode> = {
                   ai_chatbot: <Bot className="w-5 h-5 text-[#F3264B]" />,
@@ -413,12 +447,26 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                 return (
                   <div
                     key={service.id}
-                    className="p-7 rounded-3xl border flex flex-col justify-between space-y-6 transition-all hover:shadow-lg"
+                    onClick={() => handleSelectPackage(service.id, service.name, displayPrice)}
+                    className={`relative p-7 rounded-3xl border flex flex-col justify-between space-y-6 transition-all cursor-pointer group hover:shadow-lg ${
+                      isSelected
+                        ? 'border-2 border-[#F3264B] shadow-[0_0_30px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
+                        : 'hover:border-[#F3264B]/50'
+                    }`}
                     style={{
-                      backgroundColor: 'var(--theme-surface-card)',
-                      borderColor: 'var(--theme-border-card)',
+                      backgroundColor: isSelected
+                        ? (isDark ? '#191315' : '#FFF5F6')
+                        : 'var(--theme-surface-card)',
+                      borderColor: isSelected ? '#F3264B' : 'var(--theme-border-card)',
                     }}
                   >
+                    {isSelected && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#F3264B] text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1 whitespace-nowrap">
+                        <CheckCircle2 className="w-2.5 h-2.5" />
+                        <span>ACTIVE SELECTION</span>
+                      </div>
+                    )}
+
                     <div className="space-y-4">
                       <div className="w-10 h-10 rounded-xl bg-[#F3264B]/10 border border-[#F3264B]/30 flex items-center justify-center">
                         {iconMap[service.id]}
@@ -453,15 +501,23 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                     </div>
 
                     <button
-                      onClick={() => handleSelectPackage(service.id, service.name, displayPrice)}
-                      className="btn-tactile w-full py-3 px-4 rounded-full border font-mono text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.97]"
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectPackage(service.id, service.name, displayPrice);
+                      }}
+                      className={`btn-tactile w-full py-3 px-4 rounded-full border font-mono text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.97] ${
+                        isSelected
+                          ? 'bg-[#F3264B] text-white border-[#F3264B] shadow-[0_0_15px_rgba(243,38,75,0.3)]'
+                          : 'hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
+                      }`}
                       style={{
-                        backgroundColor: 'var(--theme-surface-elevated)',
-                        color: 'var(--theme-text-primary)',
-                        borderColor: 'var(--theme-border)',
+                        backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',
+                        color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
+                        borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
                       }}
                     >
-                      <span>{service.ctaText}</span>
+                      <span>{isSelected ? 'Selected — Configure Scope' : service.ctaText}</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

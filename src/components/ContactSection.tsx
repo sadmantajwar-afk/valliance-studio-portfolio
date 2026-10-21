@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Terminal,
   Send,
@@ -20,7 +20,11 @@ import {
   MessageSquare,
   Sparkles,
   AlertCircle,
-  Plus
+  Plus,
+  RotateCcw,
+  Bot,
+  Zap,
+  Layers
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { trackMetaLead } from '../utils/metaPixel';
@@ -43,6 +47,9 @@ export const ContactSection: React.FC = () => {
   const [selectedTimeline, setSelectedTimeline] = useState<string>('Standard / Next 30–45 Days');
   const [preferredContact, setPreferredContact] = useState<'email' | 'call' | 'whatsapp'>('email');
 
+  // Step 1 category filter
+  const [step1Category, setStep1Category] = useState<'all' | 'Website' | 'AI Automation'>('all');
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [organization, setOrganization] = useState('');
@@ -62,12 +69,12 @@ export const ContactSection: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
-  // Combine services for selection list
-  const allServices = [
+  // Combine services for selection list (memoized)
+  const allServices = useMemo(() => [
     ...websitePackages.map((p) => ({
       id: p.id,
       name: p.name,
-      category: 'Website',
+      category: 'Website' as const,
       price: p.price[market],
       tagline: p.tagline,
       recommended: p.recommended,
@@ -75,29 +82,73 @@ export const ContactSection: React.FC = () => {
     ...aiServices.map((a) => ({
       id: a.id,
       name: a.name,
-      category: 'AI Automation',
+      category: 'AI Automation' as const,
       price: a.price[market],
       tagline: a.tagline,
       recommended: false,
     })),
-  ];
+  ], [websitePackages, aiServices, market]);
 
-  // Dynamic budget options based on active market currency
-  const budgetOptions = market === 'UK'
-    ? [
+  const filteredServices = useMemo(() => {
+    if (step1Category === 'all') return allServices;
+    return allServices.filter((s) => s.category === step1Category);
+  }, [allServices, step1Category]);
+
+  // Dynamic budget options based on active market currency & selected service
+  const getBudgetOptionsForService = (serviceId: string, currentMarket: Market): string[] => {
+    const isAiLowTier = serviceId === 'ai_chatbot' || serviceId === 'workflow_automation';
+    if (currentMarket === 'UK') {
+      if (isAiLowTier) {
+        return [
+          '£300 – £600',
+          '£600 – £1,200',
+          '£1,200 – £2,500',
+          '£2,500+',
+          'Custom Budget',
+        ];
+      }
+      return [
         '£600 – £1,200',
         '£1,200 – £2,400',
         '£2,400 – £4,000',
         '£4,000+',
         'Custom Budget',
-      ]
-    : [
+      ];
+    } else {
+      if (isAiLowTier) {
+        return [
+          '$350 – $750',
+          '$750 – $1,500',
+          '$1,500 – $3,000',
+          '$3,000+',
+          'Custom Budget',
+        ];
+      }
+      return [
         '$750 – $1,500',
         '$1,500 – $3,000',
         '$3,000 – $5,000',
         '$5,000+',
         'Custom Budget',
       ];
+    }
+  };
+
+  const getDefaultBudgetForService = (serviceId: string, currentMarket: Market): string => {
+    const options = getBudgetOptionsForService(serviceId, currentMarket);
+    if (serviceId === 'ai_chatbot' || serviceId === 'workflow_automation') return options[0];
+    if (serviceId === 'essential') return options[0];
+    if (serviceId === 'signature') return options[1];
+    if (serviceId === 'ai_support') return options[1];
+    if (serviceId === 'digital_experience') return options[1];
+    if (serviceId === 'custom' || serviceId === 'custom_ai') return 'Custom Budget';
+    return options[1] || options[0];
+  };
+
+  const budgetOptions = useMemo(
+    () => getBudgetOptionsForService(selectedServiceId, market),
+    [selectedServiceId, market]
+  );
 
   const timelineOptions = [
     'Urgent / Next 2–3 Weeks',
@@ -106,10 +157,24 @@ export const ContactSection: React.FC = () => {
     'Exploratory Blueprint Stage',
   ];
 
+  // Service selection helper that ensures budget and broadcast stay in sync
+  const handleSelectService = (serviceId: string, customBudget?: string) => {
+    setSelectedServiceId(serviceId);
+    const newBudget = customBudget || getDefaultBudgetForService(serviceId, market);
+    setSelectedBudget(newBudget);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('inquiryServiceChanged', {
+          detail: { serviceId },
+        })
+      );
+    }
+  };
+
   // Adjust default budget when market flips
   useEffect(() => {
-    if (selectedBudget !== 'Custom Budget' && !selectedBudget.startsWith(currencySymbol)) {
-      setSelectedBudget(budgetOptions[1]);
+    if (selectedBudget !== 'Custom Budget') {
+      setSelectedBudget(getDefaultBudgetForService(selectedServiceId, market));
     }
   }, [market]);
 
@@ -128,17 +193,25 @@ export const ContactSection: React.FC = () => {
       const detail = customEvent.detail;
       if (!detail) return;
 
+      const targetMarket = (detail.market === 'US' || detail.market === 'UK') ? detail.market : market;
       if (detail.market && (detail.market === 'US' || detail.market === 'UK')) {
         setMarket(detail.market);
       }
+      let targetServiceId = selectedServiceId;
       if (detail.serviceId) {
+        targetServiceId = detail.serviceId;
         setSelectedServiceId(detail.serviceId);
       } else if (detail.service) {
         const found = allServices.find((s) => s.name.toLowerCase().includes(detail.service!.toLowerCase()));
-        if (found) setSelectedServiceId(found.id);
+        if (found) {
+          targetServiceId = found.id;
+          setSelectedServiceId(found.id);
+        }
       }
       if (detail.budget) {
         setSelectedBudget(detail.budget);
+      } else {
+        setSelectedBudget(getDefaultBudgetForService(targetServiceId, targetMarket));
       }
       if (detail.timeline) {
         setSelectedTimeline(detail.timeline);
@@ -155,7 +228,7 @@ export const ContactSection: React.FC = () => {
 
     window.addEventListener('setInquiryPreset', handlePreset);
     return () => window.removeEventListener('setInquiryPreset', handlePreset);
-  }, [allServices, setMarket]);
+  }, [allServices, market, selectedServiceId, setMarket]);
 
   const activeService = allServices.find((s) => s.id === selectedServiceId) || allServices[1];
   const canonicalPrice = getCanonicalPriceRecord(selectedServiceId, market, includeMaintenance);
@@ -328,7 +401,7 @@ export const ContactSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Wizard Multi-Step Progress Bar */}
+        {/* Wizard Multi-Step Interactive Progress Bar */}
         {!isSubmitted && (
           <div className="space-y-4">
             <div className="flex items-center justify-between text-xs font-mono uppercase" style={{ color: 'var(--theme-text-muted)' }}>
@@ -340,19 +413,58 @@ export const ContactSection: React.FC = () => {
                 {currentStep === 4 && '04 // Scope Review & Confirmation'}
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-              {[1, 2, 3, 4].map((step) => (
-                <div
-                  key={step}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentStep >= step
-                      ? 'bg-[#F3264B] shadow-[0_0_10px_rgba(243,38,75,0.4)]'
-                      : ''
-                  }`}
-                  style={{
-                    backgroundColor: currentStep >= step ? '#F3264B' : 'var(--theme-border)',
+            <div className="grid grid-cols-4 gap-2 sm:gap-3">
+              {[
+                { num: 1, label: '01 Service', desc: 'Select Tier' },
+                { num: 2, label: '02 Budget', desc: 'Timeline' },
+                { num: 3, label: '03 Brief', desc: 'Scope Goals' },
+                { num: 4, label: '04 Review', desc: 'Confirm' },
+              ].map(({ num, label, desc }) => (
+                <button
+                  key={num}
+                  type="button"
+                  onClick={() => {
+                    sound.playClick(600);
+                    setCurrentStep(num);
                   }}
-                />
+                  className="group flex flex-col gap-1.5 text-left p-2 rounded-xl transition-all cursor-pointer border"
+                  style={{
+                    backgroundColor: currentStep === num
+                      ? (isDark ? '#1C1517' : '#FFF5F6')
+                      : 'var(--theme-surface-elevated)',
+                    borderColor: currentStep === num
+                      ? '#F3264B'
+                      : currentStep > num
+                      ? 'var(--theme-border-strong)'
+                      : 'var(--theme-border)',
+                  }}
+                  aria-label={`Jump to Step ${num}: ${label}`}
+                >
+                  <div
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      currentStep >= num
+                        ? 'bg-[#F3264B] shadow-[0_0_10px_rgba(243,38,75,0.4)]'
+                        : ''
+                    }`}
+                    style={{
+                      backgroundColor: currentStep >= num ? '#F3264B' : 'var(--theme-border)',
+                    }}
+                  />
+                  <div className="flex items-center justify-between pt-0.5">
+                    <span
+                      className="font-mono text-[10px] sm:text-xs font-bold uppercase transition-colors"
+                      style={{
+                        color: currentStep === num ? '#F3264B' : 'var(--theme-text-primary)',
+                      }}
+                    >
+                      {label}
+                    </span>
+                    {currentStep > num && <Check className="w-3 h-3 text-[#F3264B] shrink-0" />}
+                  </div>
+                  <span className="hidden sm:block text-[10px] font-mono leading-none" style={{ color: 'var(--theme-text-muted)' }}>
+                    {desc}
+                  </span>
+                </button>
               ))}
             </div>
           </div>
@@ -493,8 +605,38 @@ export const ContactSection: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* Category Filter Tabs */}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                    {[
+                      { id: 'all', label: 'All Solutions (8)' },
+                      { id: 'Website', label: '01 Website Packages (4)' },
+                      { id: 'AI Automation', label: '02 AI Automation (4)' },
+                    ].map((tab) => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => {
+                          sound.playClick(500);
+                          setStep1Category(tab.id as typeof step1Category);
+                        }}
+                        className={`btn-tactile px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all border ${
+                          step1Category === tab.id
+                            ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.3)]'
+                            : 'hover:opacity-80'
+                        }`}
+                        style={{
+                          backgroundColor: step1Category === tab.id ? '#F3264B' : 'var(--theme-surface-elevated)',
+                          color: step1Category === tab.id ? '#FFFFFF' : 'var(--theme-text-secondary)',
+                          borderColor: step1Category === tab.id ? '#F3264B' : 'var(--theme-border)',
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {allServices.map((service) => {
+                    {filteredServices.map((service) => {
                       const isSelected = selectedServiceId === service.id;
                       const formattedPrice = service.price
                         ? `${currencySymbol}${service.price.toLocaleString()}`
@@ -505,12 +647,12 @@ export const ContactSection: React.FC = () => {
                           key={service.id}
                           onClick={() => {
                             sound.playClick(600);
-                            setSelectedServiceId(service.id);
+                            handleSelectService(service.id);
                           }}
                           className={`btn-tactile p-5 rounded-2xl cursor-pointer border text-left transition-all flex flex-col justify-between space-y-4 ${
                             isSelected
-                              ? 'border-[#F3264B] shadow-[0_0_20px_rgba(243,38,75,0.25)]'
-                              : 'hover:border-opacity-60'
+                              ? 'border-2 border-[#F3264B] shadow-[0_0_25px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
+                              : 'hover:border-[#F3264B]/50'
                           }`}
                           style={{
                             backgroundColor: isSelected
@@ -524,11 +666,16 @@ export const ContactSection: React.FC = () => {
                               <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>
                                 {service.category}
                               </span>
-                              {service.recommended && (
+                              {isSelected ? (
+                                <span className="text-[9px] font-mono font-bold text-[#F3264B] px-2 py-0.5 rounded-full bg-[#F3264B]/10 border border-[#F3264B]/30 flex items-center gap-1">
+                                  <CheckCircle2 className="w-2.5 h-2.5" />
+                                  <span>SELECTED</span>
+                                </span>
+                              ) : service.recommended ? (
                                 <span className="text-[9px] font-mono font-bold text-[#F3264B] px-2 py-0.5 rounded-full bg-[#F3264B]/10 border border-[#F3264B]/30">
                                   POPULAR
                                 </span>
-                              )}
+                              ) : null}
                             </div>
                             <h4 className="font-display font-bold text-base uppercase leading-tight" style={{ color: 'var(--theme-text-primary)' }}>
                               {service.name}
@@ -547,6 +694,36 @@ export const ContactSection: React.FC = () => {
                         </div>
                       );
                     })}
+                  </div>
+
+                  {/* Active Selection Confirmation Pill & Advance Shortcut */}
+                  <div
+                    className="p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    style={{
+                      backgroundColor: 'var(--theme-surface-card)',
+                      borderColor: 'var(--theme-border-strong)',
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#F3264B] animate-pulse shrink-0" />
+                      <div className="text-xs font-mono">
+                        <span style={{ color: 'var(--theme-text-muted)' }}>Current Selection: </span>
+                        <strong style={{ color: 'var(--theme-text-primary)' }}>{activeService.name}</strong>
+                        <span className="text-[#F3264B] font-bold ml-1.5">({canonicalPrice.startingPrice})</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sound.playClick(700);
+                        setCurrentStep(2);
+                      }}
+                      className="btn-tactile px-5 py-2.5 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)] flex items-center justify-center gap-1.5 shrink-0"
+                    >
+                      <span>Continue with {activeService.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
 
                   {/* Optional Maintenance Add-on Toggle Card (Defaulted to Unselected) */}
@@ -604,6 +781,97 @@ export const ContactSection: React.FC = () => {
               {/* STEP 2: BUDGET & TIMELINE */}
               {currentStep === 2 && (
                 <div className="space-y-8 animate-fadeIn">
+                  {/* Selected Package Banner + Instant Quick Switcher */}
+                  <div
+                    className="p-5 rounded-2xl border flex flex-col lg:flex-row lg:items-center justify-between gap-4 transition-all"
+                    style={{
+                      backgroundColor: 'var(--theme-surface-elevated)',
+                      borderColor: 'var(--theme-border)',
+                    }}
+                  >
+                    <div className="flex items-start sm:items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-[#F3264B]/10 border border-[#F3264B]/30 flex items-center justify-center shrink-0 text-[#F3264B]">
+                        <Sparkles className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-[#F3264B] font-bold">
+                            Selected Package ({activeService.category})
+                          </span>
+                          {includeMaintenance && (
+                            <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#F3264B]/10 text-[#F3264B] border border-[#F3264B]/30">
+                              + Care Plan ({canonicalPrice.optionalMaintenance})
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-baseline gap-2 mt-0.5">
+                          <h4 className="font-display font-extrabold text-lg sm:text-xl uppercase" style={{ color: 'var(--theme-text-primary)' }}>
+                            {activeService.name}
+                          </h4>
+                          <span className="font-mono text-sm font-bold text-[#F3264B]">
+                            {canonicalPrice.startingPrice}
+                          </span>
+                        </div>
+                        <p className="text-xs line-clamp-1" style={{ color: 'var(--theme-text-muted)' }}>
+                          {activeService.tagline}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Quick Package Selector & Step 1 Back shortcut */}
+                    <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0" style={{ borderColor: 'var(--theme-border)' }}>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[10px] font-mono uppercase" style={{ color: 'var(--theme-text-muted)' }}>Switch Package:</span>
+                        <select
+                          aria-label="Switch selected pricing package"
+                          value={selectedServiceId}
+                          onChange={(e) => {
+                            sound.playClick(600);
+                            handleSelectService(e.target.value);
+                          }}
+                          className="px-3 py-2 rounded-xl border text-xs font-mono focus:border-[#F3264B] focus:outline-none cursor-pointer"
+                          style={{
+                            backgroundColor: 'var(--theme-surface)',
+                            borderColor: 'var(--theme-border)',
+                            color: 'var(--theme-text-primary)',
+                          }}
+                        >
+                          <optgroup label="Website Packages">
+                            {websitePackages.map((p) => (
+                              <option key={p.id} value={p.id}>
+                                {p.name} — {p.price[market] ? `${currencySymbol}${p.price[market].toLocaleString()}` : 'Custom quote'}
+                              </option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="AI Automation Solutions">
+                            {aiServices.map((a) => (
+                              <option key={a.id} value={a.id}>
+                                {a.name} — {a.price[market] ? `${currencySymbol}${a.price[market].toLocaleString()}` : 'Custom quote'}
+                              </option>
+                            ))}
+                          </optgroup>
+                        </select>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sound.playClick(500);
+                          setCurrentStep(1);
+                        }}
+                        className="btn-tactile px-3.5 py-2 mt-4 lg:mt-0 rounded-xl border text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap hover:border-[#F3264B]"
+                        style={{
+                          backgroundColor: 'var(--theme-surface)',
+                          borderColor: 'var(--theme-border)',
+                          color: 'var(--theme-text-primary)',
+                        }}
+                      >
+                        <RotateCcw className="w-3.5 h-3.5 text-[#F3264B]" />
+                        <span>Change Tier</span>
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="pb-4 border-b" style={{ borderColor: 'var(--theme-border)' }}>
                     <h3 className="font-display font-bold text-xl sm:text-2xl uppercase" style={{ color: 'var(--theme-text-primary)' }}>
                       Investment Budget &amp; Delivery Schedule
@@ -745,13 +1013,26 @@ export const ContactSection: React.FC = () => {
               {/* STEP 3: CONTACT & BRAND DETAILS */}
               {currentStep === 3 && (
                 <div className="space-y-6 animate-fadeIn">
-                  <div className="pb-4 border-b" style={{ borderColor: 'var(--theme-border)' }}>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl uppercase" style={{ color: 'var(--theme-text-primary)' }}>
-                      Brand &amp; Contact Credentials
-                    </h3>
-                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--theme-text-muted)' }}>
-                      Where should we transmit your architectural scope and sprint timeline?
-                    </p>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b" style={{ borderColor: 'var(--theme-border)' }}>
+                    <div>
+                      <h3 className="font-display font-bold text-xl sm:text-2xl uppercase" style={{ color: 'var(--theme-text-primary)' }}>
+                        Brand &amp; Contact Credentials
+                      </h3>
+                      <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--theme-text-muted)' }}>
+                        Where should we transmit your architectural scope and sprint timeline?
+                      </p>
+                    </div>
+                    <div
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono shrink-0"
+                      style={{
+                        backgroundColor: 'var(--theme-surface-elevated)',
+                        borderColor: 'var(--theme-border)',
+                      }}
+                    >
+                      <span className="text-[#F3264B] font-bold">Tier:</span>
+                      <span style={{ color: 'var(--theme-text-primary)' }}>{activeService.name}</span>
+                      <span className="text-[#F3264B] font-bold">({canonicalPrice.startingPrice})</span>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
