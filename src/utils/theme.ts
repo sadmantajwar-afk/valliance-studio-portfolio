@@ -2,12 +2,7 @@ import { useState, useEffect } from 'react';
 
 export type Theme = 'light' | 'dark';
 
-const THEME_STORAGE_KEY = 'valliance_theme';
-
-export function getSystemTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+const THEME_STORAGE_KEY = 'valliance_theme_v2';
 
 export function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'dark';
@@ -19,10 +14,11 @@ export function getInitialTheme(): Theme {
   } catch {
     // Ignore storage errors
   }
-  return getSystemTheme();
+  // Default to Dark Mode as the foundational signature studio aesthetic
+  return 'dark';
 }
 
-export function applyTheme(theme: Theme): void {
+export function applyTheme(theme: Theme, persist: boolean = false): void {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
 
@@ -38,16 +34,17 @@ export function applyTheme(theme: Theme): void {
     root.style.colorScheme = 'light';
   }
 
-  // Update mobile status bar theme color
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
     metaThemeColor.setAttribute('content', theme === 'dark' ? '#08090B' : '#F5F3ED');
   }
 
-  try {
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-  } catch {
-    // Ignore storage errors
+  if (persist) {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      // Ignore
+    }
   }
 
   window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
@@ -57,8 +54,8 @@ export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
-    // Initial sync
-    applyTheme(theme);
+    // Apply current theme without overriding unless user manually toggles
+    applyTheme(theme, false);
 
     const handleThemeChange = (e: Event) => {
       const customEvent = e as CustomEvent<{ theme: Theme }>;
@@ -69,37 +66,20 @@ export function useTheme() {
 
     window.addEventListener('themeChanged', handleThemeChange);
 
-    // Also listen to system preference changes if user hasn't explicitly set a preference
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSystemChange = (e: MediaQueryListEvent) => {
-      try {
-        if (!localStorage.getItem(THEME_STORAGE_KEY)) {
-          const newTheme: Theme = e.matches ? 'dark' : 'light';
-          setThemeState(newTheme);
-          applyTheme(newTheme);
-        }
-      } catch {
-        // Ignore
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleSystemChange);
-
     return () => {
       window.removeEventListener('themeChanged', handleThemeChange);
-      mediaQuery.removeEventListener('change', handleSystemChange);
     };
-  }, []);
+  }, [theme]);
 
   const toggleTheme = () => {
     const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
     setThemeState(nextTheme);
-    applyTheme(nextTheme);
+    applyTheme(nextTheme, true); // Persist only on explicit manual action
   };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    applyTheme(newTheme);
+    applyTheme(newTheme, true);
   };
 
   return {

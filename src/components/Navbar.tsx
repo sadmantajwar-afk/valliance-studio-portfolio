@@ -158,7 +158,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) =>
 
             {/* Right Action Bar */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Theme Toggle Button */}
+              {/* Theme Toggle Button: Sun for light mode, Moon for dark mode */}
               <button
                 type="button"
                 onClick={handleToggleTheme}
@@ -168,13 +168,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) =>
                   borderColor: 'var(--theme-border)',
                   color: 'var(--theme-text-primary)',
                 }}
-                title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                title={isDark ? 'Dark Mode Active (Click to switch to Light Mode)' : 'Light Mode Active (Click to switch to Dark Mode)'}
+                aria-label={isDark ? 'Dark Mode (Moon icon). Click to switch to Light Mode' : 'Light Mode (Sun icon). Click to switch to Dark Mode'}
               >
                 {isDark ? (
-                  <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
-                ) : (
                   <Moon className="w-4 h-4 text-[#F3264B] hover:-rotate-12 transition-transform" />
+                ) : (
+                  <Sun className="w-4 h-4 text-amber-500 hover:rotate-45 transition-transform" />
                 )}
               </button>
 
@@ -255,14 +255,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) =>
               {/* Mobile Theme Toggle */}
               <button
                 onClick={handleToggleTheme}
-                className="p-1.5 rounded-full border"
+                className="p-1.5 rounded-full border flex items-center justify-center"
                 style={{
                   backgroundColor: 'var(--theme-surface-elevated)',
                   borderColor: 'var(--theme-border)',
                 }}
                 aria-label="Toggle Theme"
               >
-                {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-[#F3264B]" />}
+                {isDark ? (
+                  <Moon className="w-3.5 h-3.5 text-[#F3264B]" />
+                ) : (
+                  <Sun className="w-3.5 h-3.5 text-amber-500" />
+                )}
               </button>
 
               {/* Mobile Market Selector */}

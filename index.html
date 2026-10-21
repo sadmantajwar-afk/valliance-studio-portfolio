@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -12,13 +12,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Valliance Studio" />
     
-    <!-- Prevent Theme Flash -->
+    <!-- Theme Detection: Defaults to signature Dark Mode unless manually set -->
     <script>
       (function() {
         try {
-          var saved = localStorage.getItem('valliance_theme');
-          var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = saved === 'light' || saved === 'dark' ? saved : (systemDark ? 'dark' : 'light');
+          var saved = localStorage.getItem('valliance_theme_v2');
+          var theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.classList.remove('light', 'dark');
           document.documentElement.classList.add(theme);
           document.documentElement.setAttribute('data-theme', theme);
           document.documentElement.style.colorScheme = theme;
@@ -36,13 +36,13 @@
 
     <!-- Critical Theme Base Styles -->
     <style>
-      :root[data-theme="dark"], :root:not([data-theme="light"]) {
+      :root[data-theme="dark"], :root:not([data-theme="light"]), html.dark {
         color-scheme: dark;
         background-color: #08090B;
         --bg-page: #08090B;
         --text-primary: #F5F3ED;
       }
-      :root[data-theme="light"] {
+      :root[data-theme="light"], html.light {
         color-scheme: light;
         background-color: #F5F3ED;
         --bg-page: #F5F3ED;
