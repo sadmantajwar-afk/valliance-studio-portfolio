@@ -32,7 +32,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
               <Terminal className="w-4 h-4" />
-              <span>INDEX // 01 — SELECTED WORK</span>
+              <span>INDEX // 01 — DEMO PROJECTS</span>
             </div>
             <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.95]">
               GOOD WORK. <br />
@@ -134,7 +134,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                       </span>
                       <span className="px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-[#e8002d]/40 text-[#e8002d] font-bold flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d]" />
-                        {project.isStudioConcept ? 'STUDIO CONCEPT' : 'LIVE PROJECT'}
+                        {project.isStudioConcept ? 'STUDIO CONCEPT' : 'DEMO PROJECT'}
                       </span>
                     </div>
 

@@ -44,7 +44,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenContact }) => {
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
             <Terminal className="w-4 h-4" />
-            <span>INDEX // 03 — STUDIO MANIFESTO</span>
+            <span>INDEX // 02 — STUDIO MANIFESTO</span>
           </div>
 
           <h2 className="font-display font-extrabold text-[clamp(2.35rem,8vw,5.5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.92] break-words">

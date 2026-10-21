@@ -1,19 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Marquee } from './components/Marquee';
 import { SelectedWork } from './components/SelectedWork';
-import { ServicesSection } from './components/ServicesSection';
-import { Philosophy } from './components/Philosophy';
 import { ProcessSection } from './components/ProcessSection';
+import { PricingSection } from './components/PricingSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { AiChatbot } from './components/AiChatbot';
+import { AdminLeadsModal } from './components/AdminLeadsModal';
+import { initMetaPixel, trackMetaEvent } from './utils/metaPixel';
 
 export function App() {
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+
   useEffect(() => {
+    // Initialize Meta Pixel tracking safely on mount
+    initMetaPixel();
+
+    // Check URL hash for admin modal trigger
+    if (window.location.hash === '#admin') {
+      setIsAdminOpen(true);
+    }
+
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setIsAdminOpen(true);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+
+    // Keyboard shortcut for studio admin access: Ctrl+Shift+A or Cmd+Shift+A
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setIsAdminOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     // Only bypass Lenis on actual small-screen mobile phones (< 768px with coarse touch pointer).
-    // On all PCs, laptops (including touchscreen laptops and Surface devices), and desktops,
-    // Lenis provides continuous, ultra-smooth momentum scrolling.
+    // On all PCs, laptops, and desktops, Lenis provides continuous momentum scrolling.
     const isMobilePhone =
       typeof window !== 'undefined' &&
       window.innerWidth < 768 &&
@@ -22,7 +49,10 @@ export function App() {
 
     if (isMobilePhone) {
       (window as unknown as { __lenis: unknown }).__lenis = null;
-      return;
+      return () => {
+        window.removeEventListener('hashchange', handleHashChange);
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     }
 
     let lenisInstance: { destroy: () => void } | null = null;
@@ -57,12 +87,15 @@ export function App() {
     });
 
     return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('keydown', handleKeyDown);
       if (lenisInstance) lenisInstance.destroy();
       (window as unknown as { __lenis: unknown }).__lenis = null;
     };
   }, []);
 
   const scrollToContact = () => {
+    trackMetaEvent('Contact', { content_name: 'Initiate Contact CTA' });
     document.body.style.overflow = 'unset';
     const performScroll = () => {
       const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
@@ -102,8 +135,11 @@ export function App() {
 
   return (
     <div className="relative min-h-screen bg-[#0b0908] text-[#f7f3eb] overflow-x-hidden selection:bg-[#e8002d] selection:text-[#fff6ec]">
-      {/* Global Navigation Header */}
-      <Navbar onOpenContact={scrollToContact} />
+      {/* Global Navigation Header with Market Currency Switcher */}
+      <Navbar
+        onOpenContact={scrollToContact}
+        onOpenAdmin={() => setIsAdminOpen(true)}
+      />
 
       {/* Main Content Flow */}
       <main>
@@ -119,21 +155,32 @@ export function App() {
         {/* 03. Selected Work Editorial Showcase */}
         <SelectedWork onOpenContact={scrollToContact} />
 
-        {/* 04. High-Contrast Editorial Services Section */}
-        <ServicesSection onOpenContact={scrollToContact} />
-
-        {/* 06. Agency Philosophy & Manifesto */}
-        <Philosophy onOpenContact={scrollToContact} />
-
-        {/* 08. Systematic Process Timeline */}
+        {/* 04. Systematic Process Timeline */}
         <ProcessSection onOpenContact={scrollToContact} />
 
-        {/* 09. Contact & Project Estimator */}
+        {/* 05. US & UK Regional Pricing & Commercial Architecture */}
+        <PricingSection onOpenContact={scrollToContact} />
+
+        {/* 06. Smart Multi-Step Project Inquiry Form */}
         <ContactSection />
 
         {/* Global Footer */}
-        <Footer />
+        <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
       </main>
+
+      {/* Interactive AI Lead Qualification Advisor */}
+      <AiChatbot />
+
+      {/* Studio Lead Operations Terminal (Passcode Protected) */}
+      <AdminLeadsModal
+        isOpen={isAdminOpen}
+        onClose={() => {
+          setIsAdminOpen(false);
+          if (window.location.hash === '#admin') {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
     </div>
   );
 }

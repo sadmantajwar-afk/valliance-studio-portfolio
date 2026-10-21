@@ -19,7 +19,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
               <Terminal className="w-4 h-4" />
-              <span>INDEX // 04 — SYSTEMATIC EXECUTION</span>
+              <span>INDEX // 02 — SYSTEMATIC EXECUTION</span>
             </div>
             <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.95] break-words">
               DESIGNED, <br />

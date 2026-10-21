@@ -272,7 +272,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
               className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 glass-panel hover:bg-white/10 text-[#f7f3eb] hover:text-[#e8002d] font-mono text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all duration-300 border border-white/15 active:scale-[0.97] w-full sm:w-auto"
               data-cursor="hover"
             >
-              <span>EXPLORE OUR WORK</span>
+              <span>EXPLORE DEMO PROJECTS</span>
               <span className="text-lg leading-none">↘</span>
             </button>
           </div>

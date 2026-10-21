@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal, Globe2 } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoBadge } from './Logo';
+import { useMarket, Market, MARKETS } from '../utils/geoPricing';
 
 interface NavbarProps {
   onOpenContact: () => void;
   activeSection?: string;
+  onOpenAdmin?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { market, setMarket } = useMarket();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,11 +72,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
     }
   };
 
+  const toggleMarket = () => {
+    sound.playClick(700);
+    const nextMarket: Market = market === 'US' ? 'UK' : 'US';
+    setMarket(nextMarket);
+  };
+
   const navLinks = [
-    { label: 'Work', href: '#work', number: '01' },
-    { label: 'Services', href: '#services', number: '02' },
-    { label: 'Philosophy', href: '#philosophy', number: '03' },
-    { label: 'Process', href: '#process', number: '04' },
+    { label: 'Demo Projects', href: '#work', number: '01' },
+    { label: 'Process', href: '#process', number: '02' },
+    { label: 'Pricing', href: '#pricing', number: '03' },
+    { label: 'Contact', href: '#contact', number: '04' },
   ];
 
   return (
@@ -81,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'py-3 bg-[#0b0908]/80 backdrop-blur-xl border-b border-white/8 shadow-2xl shadow-black/80'
+            ? 'py-3 bg-[#0b0908]/85 backdrop-blur-xl border-b border-white/8 shadow-2xl shadow-black/80'
             : 'py-6 bg-transparent'
         }`}
       >
@@ -127,6 +136,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
 
             {/* Right Action Bar */}
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Subtle Country & Currency Selector Switcher */}
+              <button
+                type="button"
+                onClick={toggleMarket}
+                className="btn-tactile inline-flex items-center gap-1.5 min-h-[38px] px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-[#f7f3eb] transition-all hover:border-[#e8002d]/40"
+                title={`Switch pricing region (currently ${MARKETS[market].countryName})`}
+                aria-label={`Switch region from ${MARKETS[market].countryName}`}
+              >
+                <span className="text-sm">{MARKETS[market].flag}</span>
+                <span className="font-bold text-[11px]">{MARKETS[market].currencyCode}</span>
+                <span className="text-[10px] text-[#8a8172]">({MARKETS[market].currency})</span>
+              </button>
+
               {/* Primary Inquire CTA */}
               <button
                 onClick={() => {
@@ -167,9 +189,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
         }`}
       >
         <div className="space-y-6">
-          <div className="flex items-center gap-2 pb-4 border-b border-white/10 text-xs font-mono text-[#8a8172]">
-            <Terminal className="w-4 h-4 text-[#e8002d]" />
-            <span>NAVIGATION MATRIX // VALLIANCE STUDIO</span>
+          <div className="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono text-[#8a8172]">
+            <div className="flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-[#e8002d]" />
+              <span>NAVIGATION MATRIX</span>
+            </div>
+
+            {/* Mobile Market Selector */}
+            <button
+              onClick={toggleMarket}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/15 text-[#f7f3eb]"
+            >
+              <span>{MARKETS[market].flag}</span>
+              <span className="font-bold">{MARKETS[market].currencyCode}</span>
+            </button>
           </div>
 
           <div className="flex flex-col space-y-2">

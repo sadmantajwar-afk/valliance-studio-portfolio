@@ -1,9 +1,13 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Terminal } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoLockup } from './Logo';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   const scrollToTop = () => {
     sound.playClick(600);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -17,7 +21,7 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-6 space-y-5">
             <LogoLockup />
             <p className="text-sm text-[#8e8b82] max-w-sm font-light leading-relaxed">
-              Engineering category-defining digital flagships, autonomous conversational agents, and friction-free operational systems for visionary enterprises worldwide.
+              Engineering category-defining digital flagships, autonomous conversational agents, and friction-free operational systems for visionary enterprises across the US and UK.
             </p>
           </div>
 
@@ -28,10 +32,10 @@ export const Footer: React.FC = () => {
                 INDEX
               </span>
               <ul className="space-y-2 text-[#cfc8ba]">
-                <li><a href="#work" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">01 Work</a></li>
-                <li><a href="#services" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">02 Capabilities</a></li>
-                <li><a href="#philosophy" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">03 Manifesto</a></li>
-                <li><a href="#process" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">04 Process</a></li>
+                <li><a href="#work" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">01 Demo Projects</a></li>
+                <li><a href="#process" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">02 Process</a></li>
+                <li><a href="#pricing" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">03 Pricing &amp; Plans</a></li>
+                <li><a href="#contact" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">04 Collaboration</a></li>
               </ul>
             </div>
 
@@ -41,11 +45,8 @@ export const Footer: React.FC = () => {
                 CHANNELS
               </span>
               <ul className="space-y-2 text-[#cfc8ba]">
-                <li><a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">X / Twitter ↗</a></li>
-                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">GitHub Labs ↗</a></li>
-                <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">LinkedIn ↗</a></li>
-                <li><a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Dribbble ↗</a></li>
-                <li><a href="https://read.cv" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Read.cv ↗</a></li>
+                <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Facebook Page ↗</a></li>
+                <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#f7f3eb] transition-colors py-1 inline-block">Instagram ↗</a></li>
               </ul>
             </div>
 
@@ -55,14 +56,13 @@ export const Footer: React.FC = () => {
                 STATUS
               </span>
               <ul className="space-y-2 text-[#8e8b82]">
-                <li>Global &amp; Remote</li>
+                <li>US (USD) &amp; UK (GBP)</li>
                 <li className="text-[#e8002d]">Open for New Projects</li>
-                <li>Production Ready</li>
+                <li>Mandatory Care SLA</li>
               </ul>
             </div>
           </div>
         </div>
-
 
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-white/10 text-xs font-mono text-[#8a8172]">
@@ -70,6 +70,17 @@ export const Footer: React.FC = () => {
             <span>© 2026 VALLIANCE STUDIO LTD. ALL RIGHTS RESERVED.</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">BUILT WITH INTENT &amp; CODE</span>
+            <span className="hidden sm:inline">·</span>
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="hover:text-[#e8002d] transition-colors inline-flex items-center gap-1 cursor-pointer"
+                title="Studio Lead Operations Terminal (Passcode Protected)"
+              >
+                <Terminal className="w-3 h-3 text-[#e8002d]" />
+                <span>STUDIO TERMINAL</span>
+              </button>
+            )}
           </div>
 
           <button

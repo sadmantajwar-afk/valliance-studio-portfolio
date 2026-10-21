@@ -62,7 +62,7 @@ export const PROJECTS: Project[] = [
       { label: 'Frontend Stack', value: 'Next.js App' }
     ],
     technologies: ['Next.js App Router', 'Turbopack', 'Tailwind CSS', 'Web Audio API', 'Framer Motion', 'TypeScript'],
-    livePreviewUrl: 'https://cinematic-luxury-fashion-website-gg-c192.vercel.app',
+    livePreviewUrl: 'https://cinematic-luxury-fashion-website.vercel.app',
     features: [
       'Kinetic 4-phase unrolling runway film with full-screen transitions',
       'Construction study module deconstructing floating horsehair interlining',
