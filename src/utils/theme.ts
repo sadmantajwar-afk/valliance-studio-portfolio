@@ -4,25 +4,30 @@ export type Theme = 'light' | 'dark';
 
 const THEME_STORAGE_KEY = 'valliance_theme_v2';
 
-export function getInitialTheme(): Theme {
+function readStoredTheme(): Theme {
   if (typeof window === 'undefined') return 'dark';
   try {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-    if (saved === 'light' || saved === 'dark') {
-      return saved;
-    }
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
   } catch {
     // Ignore storage errors
   }
-  // Default to Dark Mode as the foundational signature studio aesthetic
-  return 'dark';
+  return 'dark'; // Always default to dark mode
 }
 
-export function applyTheme(theme: Theme, persist: boolean = false): void {
-  if (typeof document === 'undefined') return;
-  const root = document.documentElement;
+let activeTheme: Theme = readStoredTheme();
+const listeners = new Set<(theme: Theme) => void>();
 
-  if (theme === 'dark') {
+export function getTheme(): Theme {
+  return activeTheme;
+}
+
+export function applyThemeDirectly(newTheme: Theme, persist: boolean = true): void {
+  if (typeof document === 'undefined') return;
+  activeTheme = newTheme;
+
+  const root = document.documentElement;
+  if (newTheme === 'dark') {
     root.classList.add('dark');
     root.classList.remove('light');
     root.setAttribute('data-theme', 'dark');
@@ -34,58 +39,41 @@ export function applyTheme(theme: Theme, persist: boolean = false): void {
     root.style.colorScheme = 'light';
   }
 
-  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-  if (metaThemeColor) {
-    metaThemeColor.setAttribute('content', theme === 'dark' ? '#08090B' : '#F5F3ED');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.setAttribute('content', newTheme === 'dark' ? '#08090B' : '#F5F3ED');
   }
 
   if (persist) {
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
     } catch {
       // Ignore
     }
   }
 
-  window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+  // Notify subscribers cleanly
+  listeners.forEach((fn) => fn(newTheme));
+}
+
+export function toggleTheme(): void {
+  applyThemeDirectly(activeTheme === 'dark' ? 'light' : 'dark', true);
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [theme, setLocalTheme] = useState<Theme>(activeTheme);
 
   useEffect(() => {
-    // Apply current theme without overriding unless user manually toggles
-    applyTheme(theme, false);
-
-    const handleThemeChange = (e: Event) => {
-      const customEvent = e as CustomEvent<{ theme: Theme }>;
-      if (customEvent.detail?.theme) {
-        setThemeState(customEvent.detail.theme);
-      }
-    };
-
-    window.addEventListener('themeChanged', handleThemeChange);
-
+    listeners.add(setLocalTheme);
     return () => {
-      window.removeEventListener('themeChanged', handleThemeChange);
+      listeners.delete(setLocalTheme);
     };
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
-    setThemeState(nextTheme);
-    applyTheme(nextTheme, true); // Persist only on explicit manual action
-  };
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    applyTheme(newTheme, true);
-  };
+  }, []);
 
   return {
     theme,
     isDark: theme === 'dark',
     toggleTheme,
-    setTheme,
+    setTheme: (t: Theme) => applyThemeDirectly(t, true),
   };
 }
