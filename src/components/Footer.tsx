@@ -32,36 +32,36 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8 text-xs font-mono">
             {/* Quick Links */}
             <div className="space-y-3">
-              <span className="text-[#F3264B] uppercase tracking-wider block font-bold">
+              <span className="text-[#E01A40] uppercase tracking-wider block font-bold">
                 INDEX
               </span>
               <ul className="space-y-2" style={{ color: 'var(--theme-text-secondary)' }}>
-                <li><a href="#work" className="hover:text-[#F3264B] transition-colors py-1 inline-block">01 Demo Projects</a></li>
-                <li><a href="#process" className="hover:text-[#F3264B] transition-colors py-1 inline-block">02 Process</a></li>
-                <li><a href="#pricing" className="hover:text-[#F3264B] transition-colors py-1 inline-block">03 Pricing &amp; Plans</a></li>
-                <li><a href="#contact" className="hover:text-[#F3264B] transition-colors py-1 inline-block">04 Collaboration</a></li>
+                <li><a href="#work" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">01 Demo Projects →</a></li>
+                <li><a href="#process" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">02 Process →</a></li>
+                <li><a href="#pricing" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">03 Pricing &amp; Plans →</a></li>
+                <li><a href="#contact" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">04 Collaboration →</a></li>
               </ul>
             </div>
 
             {/* Social Channels */}
             <div className="space-y-3">
-              <span className="text-[#F3264B] uppercase tracking-wider block font-bold">
+              <span className="text-[#E01A40] uppercase tracking-wider block font-bold">
                 CHANNELS
               </span>
               <ul className="space-y-2" style={{ color: 'var(--theme-text-secondary)' }}>
-                <li><a href="https://www.facebook.com/share/1Kbs7Etq2y/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Facebook Page ↗</a></li>
-                <li><a href="https://www.instagram.com/valliance.studio?mdxt=aDBvaTdtMGNuYzcx" target="_blank" rel="noopener noreferrer" className="hover:text-[#F3264B] transition-colors py-1 inline-block">Instagram ↗</a></li>
+                <li><a href="https://www.facebook.com/share/1Kbs7Etq2y/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">Facebook Page ↗</a></li>
+                <li><a href="https://www.instagram.com/valliance.studio?mdxt=aDBvaTdtMGNuYzcx" target="_blank" rel="noopener noreferrer" className="hover:text-[#E01A40] hover:translate-x-1 transition-all py-1.5 px-1 inline-flex items-center gap-1 rounded hover:bg-[#E01A40]/5">Instagram ↗</a></li>
               </ul>
             </div>
 
             {/* Status & Availability */}
             <div className="space-y-3">
-              <span className="text-[#F3264B] uppercase tracking-wider block font-bold">
+              <span className="text-[#E01A40] uppercase tracking-wider block font-bold">
                 STATUS
               </span>
               <ul className="space-y-2" style={{ color: 'var(--theme-text-muted)' }}>
                 <li>US (USD) &amp; UK (GBP)</li>
-                <li className="text-[#F3264B] font-semibold">Open for New Projects</li>
+                <li className="text-[#E01A40] font-semibold">Open for New Projects</li>
                 <li>Optional Care SLA</li>
               </ul>
             </div>
@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
                 sound.playClick(600);
                 openCookiePreferences();
               }}
-              className="hover:text-[#F3264B] transition-colors underline underline-offset-4 cursor-pointer"
+              className="min-h-[44px] px-2.5 py-1.5 inline-flex items-center hover:text-[#E01A40] transition-colors underline underline-offset-4 cursor-pointer"
             >
               COOKIE PREFERENCES
             </button>

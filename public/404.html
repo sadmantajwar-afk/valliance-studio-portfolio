@@ -1,22 +1,236 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>404 // Page Not Found — Valliance Studio</title>
+    <meta name="description" content="The requested endpoint does not exist or has been relocated. Return to the Valliance Studio homepage." />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="stylesheet" href="/fonts.css" />
     <style>
-      body { background: #08090B; color: #F5F3ED; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-      h1 { font-size: 3rem; color: #F3264B; margin: 0 0 1rem; }
-      p { color: #8A8172; margin: 0 0 2rem; }
-      a { color: #F5F3ED; text-decoration: none; border: 1px solid #F3264B; padding: 0.75rem 1.5rem; border-radius: 9999px; }
-      a:hover { background: #F3264B; }
+      :root {
+        --bg-page: #08090B;
+        --text-primary: #F5F3ED;
+        --text-muted: #8A8172;
+        --crimson: #E01A40;
+        --crimson-glow: rgba(224, 26, 64, 0.4);
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        height: 100%;
+        background-color: var(--bg-page);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, "Inter Tight", sans-serif;
+        overflow-x: hidden;
+      }
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .radial-glow {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(224, 26, 64, 0.12) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .container {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 2rem 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 2rem;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+      .logo-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo-text {
+        font-family: 'Archivo', sans-serif;
+        font-weight: 900;
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+      .logo-sub {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.35em;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        display: block;
+        margin-top: 2px;
+      }
+      .status-pill {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(224, 26, 64, 0.3);
+        background: rgba(224, 26, 64, 0.1);
+        color: var(--crimson);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      main {
+        text-align: center;
+        padding: 3rem 1rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        color: var(--crimson);
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+      }
+      h1 {
+        font-family: 'Archivo', sans-serif;
+        font-size: clamp(3rem, 10vw, 7.5rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+      h1 span {
+        background: linear-gradient(to right, #E01A40, #FF2A44, #8A8172);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      p.lead {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        color: var(--text-primary);
+        font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      p.sub {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        max-width: 500px;
+        margin: 0 auto 2.5rem;
+      }
+      .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background-color: var(--crimson);
+        color: #FFFFFF;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 1rem 2rem;
+        border-radius: 9999px;
+        text-decoration: none;
+        box-shadow: 0 0 25px var(--crimson-glow);
+        transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s ease;
+      }
+      .btn-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 35px rgba(224, 26, 64, 0.6);
+      }
+      footer {
+        display: flex;
+        flex-direction: column;
+        sm-flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      @media (min-width: 640px) {
+        footer {
+          flex-direction: row;
+        }
+      }
     </style>
   </head>
   <body>
-    <div>
-      <h1>404 // NOT FOUND</h1>
-      <p>The requested endpoint does not exist or has been relocated.</p>
-      <a href="/">Return to Studio Homepage ↗</a>
+    <div class="bg-grid"></div>
+    <div class="radial-glow"></div>
+
+    <div class="container">
+      <header>
+        <a href="/" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+              <path d="M20 4L4 12V28L20 36L36 28V12L20 4Z" stroke="#E01A40" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M20 14L12 18V26L20 30L28 26V18L20 14Z" fill="#E01A40" fill-opacity="0.3" stroke="#E01A40" stroke-width="1.5"/>
+              <circle cx="20" cy="20" r="3" fill="#E01A40"/>
+            </svg>
+          </div>
+          <div>
+            <span class="logo-text">Valliance</span>
+            <span class="logo-sub">Studio</span>
+          </div>
+        </a>
+
+        <div class="status-pill">
+          ANOMALY // ERR_404
+        </div>
+      </header>
+
+      <main>
+        <span class="tag">_INDEX // 404 — PROTOCOL ANOMALY</span>
+        <h1>404 // <br><span>NOT FOUND.</span></h1>
+        <p class="lead">The requested studio route does not exist or has been relocated.</p>
+        <p class="sub">Our neural routing system could not resolve the requested URL path. Return to the main flagship laboratory to explore live demo projects and AI architectures.</p>
+        <a href="/" class="btn-cta">
+          <span>Return to Studio Homepage</span>
+          <span>↗</span>
+        </a>
+      </main>
+
+      <footer>
+        <span>VALIANCE STUDIO — DIGITAL LABORATORY &amp; AI AGENTS</span>
+        <span>LONDON (GBP) &amp; NEW YORK (USD)</span>
+      </footer>
     </div>
   </body>
 </html>

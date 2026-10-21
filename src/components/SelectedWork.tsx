@@ -68,14 +68,9 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                   }}
                   className={`btn-tactile min-h-[40px] px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.97] border ${
                     selectedCategory === cat
-                      ? 'bg-[#F3264B] text-white font-bold shadow-[0_0_15px_rgba(243,38,75,0.3)]'
-                      : 'hover:opacity-90'
+                      ? 'bg-[#E01A40] text-white font-bold shadow-[0_0_20px_rgba(224,26,64,0.4)] border-[#E01A40] hover:scale-[1.02] hover:brightness-110'
+                      : 'hover:border-[#E01A40]/50 hover:bg-[#E01A40]/10 hover:text-white hover:-translate-y-0.5'
                   }`}
-                  style={{
-                    backgroundColor: selectedCategory === cat ? '#F3264B' : 'var(--theme-surface-elevated)',
-                    color: selectedCategory === cat ? '#FFFFFF' : 'var(--theme-text-secondary)',
-                    borderColor: selectedCategory === cat ? '#F3264B' : 'var(--theme-border)',
-                  }}
                   data-cursor="hover"
                 >
                   {cat}
@@ -259,7 +254,7 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => sound.playClick(800)}
-                        className="btn-tactile inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#F3264B] hover:underline"
+                        className="btn-tactile inline-flex items-center gap-1.5 min-h-[44px] px-3.5 py-2 rounded-lg border border-transparent hover:border-[#E01A40]/40 hover:bg-[#E01A40]/10 text-xs font-mono uppercase tracking-wider text-[#E01A40] transition-all"
                         data-cursor="hover"
                       >
                         <span>VISIT PRODUCTION SITE</span>

@@ -112,11 +112,16 @@ export function App() {
         color: 'var(--theme-text-primary)',
       }}
     >
+      {/* Accessibility Skip Link */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       {/* Global Navigation Header with Theme Toggle & Market Switcher */}
       <Navbar onOpenContact={scrollToContact} />
 
       {/* Main Content Flow */}
-      <main>
+      <main id="main-content">
         {/* 01. Hero Section — Rendered immediately on first frame */}
         <Hero
           onOpenContact={scrollToContact}

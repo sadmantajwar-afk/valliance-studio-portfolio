@@ -320,8 +320,25 @@ export async function detectVisitorMarket(): Promise<Market> {
 
   detectPromise = (async () => {
     try {
+      // 1. Instant zero-latency client timezone check (works offline, never triggers CORS errors)
+      if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        if (tz.includes('London') || tz.includes('Belfast') || tz.includes('Jersey') || tz.includes('Guernsey')) {
+          return 'UK';
+        }
+      }
+      if (typeof navigator !== 'undefined' && (navigator.language === 'en-GB' || navigator.languages?.includes('en-GB'))) {
+        return 'UK';
+      }
+
+      // 2. Skip external third-party API calls in local development to avoid CORS console errors
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return 'US';
+      }
+
+      // 3. Optional third-party detection for production
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2500);
+      const timeout = setTimeout(() => controller.abort(), 2000);
 
       const res = await fetch('https://ipapi.co/json/', {
         signal: controller.signal,
@@ -338,7 +355,7 @@ export async function detectVisitorMarket(): Promise<Market> {
         return 'US';
       }
     } catch {
-      // Graceful fallback
+      // Graceful silent fallback
     }
     return 'US';
   })();

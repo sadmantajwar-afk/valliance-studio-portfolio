@@ -330,7 +330,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   onClose();
                   onOpenContact();
                 }}
-                className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#F3264B] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#FF2A44] shadow-[0_0_20px_rgba(243,38,75,0.3)] transition-all active:scale-[0.97] w-full sm:w-auto"
+                className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#E01A40] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#FF2A44] shadow-[0_0_20px_rgba(224,26,64,0.3)] transition-all active:scale-[0.97] w-full sm:w-auto"
               >
                 <span>BUILD SIMILAR EXPERIENCE</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />

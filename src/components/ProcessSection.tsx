@@ -112,7 +112,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 sound.playChime();
                 onOpenContact();
               }}
-              className="btn-tactile inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold transition-all shadow-[0_0_20px_rgba(243,38,75,0.4)] whitespace-nowrap active:scale-[0.97]"
+              className="btn-tactile inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold transition-all shadow-[0_0_20px_rgba(224,26,64,0.4)] whitespace-nowrap active:scale-[0.97]"
             >
               <span>DISCUSS THIS WORKFLOW</span>
               <ArrowUpRight className="w-4 h-4 font-bold" />

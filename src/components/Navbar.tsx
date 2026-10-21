@@ -116,13 +116,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               onClick={scrollToTop}
               className="group flex items-center gap-3 focus:outline-none min-h-[44px]"
               data-cursor="hover"
-              aria-label="Valliance Studio — home"
             >
               <span className="block transition-transform duration-500 group-hover:rotate-[360deg]">
                 <LogoBadge className="w-9 h-9 sm:w-10 sm:h-10 drop-shadow-[0_0_14px_rgba(243,38,75,0.35)]" />
               </span>
               <span className="flex flex-col leading-none">
-                <span className="font-display font-black text-[17px] tracking-[-0.02em] uppercase transition-colors group-hover:text-[#F3264B]" style={{ color: 'var(--theme-text-primary)' }}>
+                <span className="font-display font-black text-[17px] tracking-[-0.02em] uppercase transition-colors group-hover:text-[#E01A40]" style={{ color: 'var(--theme-text-primary)' }}>
                   Valliance
                 </span>
                 <span className="font-mono text-[8.5px] tracking-[0.34em] uppercase mt-[3px]" style={{ color: 'var(--theme-text-muted)' }}>
@@ -145,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   href={link.href}
                   onClick={(e) => navigateTo(e, link.href)}
                   onMouseEnter={() => sound.playHover()}
-                  className="px-3.5 py-1 text-xs font-mono uppercase tracking-wider rounded-full transition-all duration-200 hover:text-[#F3264B]"
+                  className="px-3.5 py-1 text-xs font-mono uppercase tracking-wider rounded-full transition-all duration-200 border border-transparent hover:border-[#E01A40]/40 hover:bg-[#E01A40]/15 hover:text-white"
                   style={{ color: 'var(--theme-text-secondary)' }}
                   data-cursor="hover"
                 >
@@ -181,14 +180,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               <button
                 type="button"
                 onClick={toggleMarket}
-                className="btn-tactile inline-flex items-center gap-1.5 min-h-[38px] px-3 py-1.5 rounded-full border text-xs font-mono transition-all hover:border-[#F3264B]/40"
+                className="btn-tactile inline-flex items-center gap-1.5 min-h-[38px] px-3 py-1.5 rounded-full border text-xs font-mono transition-all hover:border-[#E01A40]/40 hover:bg-[#E01A40]/10"
                 style={{
                   backgroundColor: 'var(--theme-surface-elevated)',
                   borderColor: 'var(--theme-border)',
                   color: 'var(--theme-text-primary)',
                 }}
                 title={`Switch pricing region (currently ${MARKETS[market].countryName})`}
-                aria-label={`Switch region from ${MARKETS[market].countryName}`}
+                aria-label={`${MARKETS[market].currencyCode} (${MARKETS[market].currency}) — Switch region from ${MARKETS[market].countryName}`}
               >
                 <span className="text-sm">{MARKETS[market].flag}</span>
                 <span className="font-bold text-[11px]">{MARKETS[market].currencyCode}</span>
@@ -201,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   sound.playClick(800);
                   onOpenContact();
                 }}
-                className="btn-tactile hidden sm:inline-flex items-center gap-2 min-h-[40px] px-4 py-2 bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(243,38,75,0.4)] active:scale-[0.97]"
+                className="btn-tactile hidden sm:inline-flex items-center gap-2 min-h-[40px] px-4 py-2 bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(224,26,64,0.4)] active:scale-[0.97]"
                 data-cursor="hover"
               >
                 <span>LET’S TALK</span>
@@ -325,7 +324,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
               setMobileMenuOpen(false);
               onOpenContact();
             }}
-            className="btn-tactile w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 bg-[#F3264B] text-white font-mono font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-[#FF2A44] transition-colors active:scale-[0.97]"
+            className="btn-tactile w-full min-h-[48px] flex items-center justify-center gap-2 py-3.5 bg-[#E01A40] text-white font-mono font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-[#FF2A44] transition-colors active:scale-[0.97]"
           >
             <span>START A PROJECT</span>
             <ArrowUpRight className="w-4 h-4" />

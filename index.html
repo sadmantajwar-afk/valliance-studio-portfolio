@@ -36,11 +36,9 @@
       })();
     </script>
 
-    <!-- Google Fonts Delivery -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- Google Fonts WOFF2 Modern Delivery -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://connect.facebook.net" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" />
+    <link rel="stylesheet" href="/fonts.css" />
 
     <!-- Critical Theme Base Styles -->
     <style>
@@ -78,10 +76,57 @@
         min-height: 100vh;
         min-height: 100svh;
       }
+      .skip-link {
+        position: fixed;
+        top: -120px;
+        left: 1.5rem;
+        z-index: 99999;
+        padding: 0.65rem 1.25rem;
+        background-color: #E01A40;
+        color: #FFFFFF;
+        font-family: monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 9999px;
+        box-shadow: 0 0 25px rgba(224, 26, 64, 0.6);
+        text-decoration: none;
+        transition: top 200ms ease;
+      }
+      .skip-link:focus {
+        top: 1.5rem;
+      }
     </style>
   </head>
-  <body class="antialiased selection:bg-[#F3264B] selection:text-[#FFFFFF] min-h-screen">
-    <div id="root"></div>
+  <body class="antialiased selection:bg-[#E01A40] selection:text-[#FFFFFF] min-h-screen">
+    <div id="root">
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <header>
+        <nav aria-label="Main Navigation">
+          <a href="/">Valliance Studio</a>
+          <ul>
+            <li><a href="#work">01 Demo Projects</a></li>
+            <li><a href="#process">02 Process</a></li>
+            <li><a href="#pricing">03 Pricing</a></li>
+            <li><a href="#contact">04 Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main id="main-content">
+        <h1>WE BUILD WHAT’S NEXT.</h1>
+        <p>Exceptional digital experiences. Intelligent AI. Business without the busywork.</p>
+        <p>Valliance Studio is an independent creative and AI engineering studio. We architect category-defining brand websites, high-velocity e-commerce flagships, autonomous AI agents, and enterprise automation pipelines for visionary leaders.</p>
+        <section id="work">
+          <h2>Selected Demo Projects</h2>
+          <p>Discover APEX Fitness, Stealther Atelier, Aura Wellness, and NeuroFlow Systems.</p>
+        </section>
+        <section id="pricing">
+          <h2>Transparent Commercial Architecture</h2>
+          <p>Transparent US ($) &amp; UK (£) tariffs for Websites (Essential, Signature, Digital Experience) and AI Automations (Chatbots, Workflows, Autonomous Support).</p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -267,7 +267,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
                 sound.playChime();
                 onOpenContact();
               }}
-              className="btn-tactile group relative inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(243,38,75,0.5)] active:scale-[0.97] w-full sm:w-auto"
+              className="btn-tactile group relative inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono font-bold text-xs sm:text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(224,26,64,0.5)] active:scale-[0.97] w-full sm:w-auto"
               data-cursor="hover"
             >
               <span>LET’S BUILD SOMETHING</span>
@@ -279,16 +279,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
                 sound.playClick(600);
                 onExploreWork();
               }}
-              className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 rounded-full transition-all duration-300 border font-mono text-xs sm:text-sm uppercase tracking-wider active:scale-[0.97] w-full sm:w-auto hover:text-[#F3264B]"
+              className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-4 rounded-full transition-all duration-300 border font-mono text-xs sm:text-sm uppercase tracking-wider active:scale-[0.97] w-full sm:w-auto hover:border-[#E01A40] hover:bg-[#E01A40]/10 hover:shadow-[0_0_20px_rgba(224,26,64,0.25)] hover:-translate-y-0.5"
               style={{
                 backgroundColor: 'var(--theme-surface-elevated)',
                 borderColor: 'var(--theme-border)',
-                color: 'var(--theme-text-primary)',
               }}
               data-cursor="hover"
             >
-              <span>EXPLORE DEMO PROJECTS</span>
-              <span className="text-lg leading-none">↘</span>
+              <span className="text-[var(--theme-text-primary)] hover:text-[#E01A40] transition-colors">EXPLORE DEMO PROJECTS</span>
+              <span className="text-lg leading-none text-[#E01A40]">↘</span>
             </button>
           </div>
         </div>
@@ -296,7 +295,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         {/* Micro Stats Matrix on Bottom Hero */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 sm:pt-12 mt-8 border-t" style={{ borderColor: 'var(--theme-border)' }}>
           <div className="space-y-1">
-            <span className="font-display text-2xl sm:text-3xl font-bold text-[#F3264B]">04</span>
+            <span className="font-display text-2xl sm:text-3xl font-bold text-[#E01A40]">04</span>
             <p className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>Live Web Flagships</p>
           </div>
           <div className="space-y-1">
@@ -304,7 +303,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
             <p className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>Design &amp; Engineering</p>
           </div>
           <div className="space-y-1">
-            <span className="font-display text-2xl sm:text-3xl font-bold text-[#F3264B]">Custom</span>
+            <span className="font-display text-2xl sm:text-3xl font-bold text-[#E01A40]">Custom</span>
             <p className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>Tailored UI Systems</p>
           </div>
           <div className="space-y-1">
@@ -317,16 +316,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
       {/* Scroll Down Indicator */}
       <div className="relative z-10 max-w-7xl 2xl:max-w-[1536px] mx-auto w-full flex items-center justify-between text-xs font-mono pt-4" style={{ color: 'var(--theme-text-muted)' }}>
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#F3264B]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#E01A40]" />
           <span>SCROLL TO DISCOVER</span>
         </div>
         <a
           href="#work"
           onClick={() => sound.playClick(400)}
-          className="btn-tactile flex items-center gap-2 hover:text-[#F3264B] transition-colors active:scale-[0.97]"
+          className="btn-tactile min-h-[44px] px-3.5 py-2 rounded-full border border-transparent hover:border-[#E01A40]/40 hover:bg-[#E01A40]/10 flex items-center gap-2 hover:text-[#E01A40] transition-all active:scale-[0.97]"
         >
           <span>INDEX 01 / 04</span>
-          <ArrowDown className="w-3.5 h-3.5" />
+          <ArrowDown className="w-3.5 h-3.5 text-[#E01A40]" />
         </a>
       </div>
     </section>

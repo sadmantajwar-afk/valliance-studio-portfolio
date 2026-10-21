@@ -438,7 +438,7 @@ export const ContactSection: React.FC = () => {
                       ? 'var(--theme-border-strong)'
                       : 'var(--theme-border)',
                   }}
-                  aria-label={`Jump to Step ${num}: ${label}`}
+                  aria-label={`${label} — ${desc}`}
                 >
                   <div
                     className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -591,7 +591,7 @@ export const ContactSection: React.FC = () => {
                           }}
                           className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all ${
                             market === m
-                              ? 'bg-[#F3264B] text-white font-bold shadow-[0_0_12px_rgba(243,38,75,0.4)]'
+                              ? 'bg-[#E01A40] text-white font-bold shadow-[0_0_12px_rgba(224,26,64,0.4)]'
                               : 'hover:opacity-80'
                           }`}
                           style={{
@@ -621,13 +621,13 @@ export const ContactSection: React.FC = () => {
                         }}
                         className={`btn-tactile px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all border ${
                           step1Category === tab.id
-                            ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.3)]'
+                            ? 'bg-[#E01A40] text-white border-[#E01A40] font-bold shadow-[0_0_15px_rgba(224,26,64,0.3)]'
                             : 'hover:opacity-80'
                         }`}
                         style={{
-                          backgroundColor: step1Category === tab.id ? '#F3264B' : 'var(--theme-surface-elevated)',
+                          backgroundColor: step1Category === tab.id ? '#E01A40' : 'var(--theme-surface-elevated)',
                           color: step1Category === tab.id ? '#FFFFFF' : 'var(--theme-text-secondary)',
-                          borderColor: step1Category === tab.id ? '#F3264B' : 'var(--theme-border)',
+                          borderColor: step1Category === tab.id ? '#E01A40' : 'var(--theme-border)',
                         }}
                       >
                         {tab.label}
@@ -703,13 +703,13 @@ export const ContactSection: React.FC = () => {
                               }}
                               className={`w-full py-2 px-3 rounded-xl font-mono text-[11px] uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-1.5 ${
                                 isSelected
-                                  ? 'bg-[#F3264B] text-white shadow-[0_0_12px_rgba(243,38,75,0.4)]'
-                                  : 'border hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
+                                  ? 'bg-[#E01A40] text-white shadow-[0_0_12px_rgba(224,26,64,0.4)]'
+                                  : 'border hover:bg-[#E01A40] hover:text-white hover:border-[#E01A40]'
                               }`}
                               style={{
-                                backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface)',
+                                backgroundColor: isSelected ? '#E01A40' : 'var(--theme-surface)',
                                 color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
-                                borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                                borderColor: isSelected ? '#E01A40' : 'var(--theme-border)',
                               }}
                             >
                               <span>{isSelected ? '✓ Selected — Continue →' : 'Select Tier & Continue →'}</span>
@@ -729,11 +729,11 @@ export const ContactSection: React.FC = () => {
                     }}
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#F3264B] animate-pulse shrink-0" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#E01A40] animate-pulse shrink-0" />
                       <div className="text-xs font-mono">
                         <span style={{ color: 'var(--theme-text-muted)' }}>Current Selection: </span>
                         <strong style={{ color: 'var(--theme-text-primary)' }}>{activeService.name}</strong>
-                        <span className="text-[#F3264B] font-bold ml-1.5">({canonicalPrice.startingPrice})</span>
+                        <span className="text-[#E01A40] font-bold ml-1.5">({canonicalPrice.startingPrice})</span>
                       </div>
                     </div>
 
@@ -743,7 +743,7 @@ export const ContactSection: React.FC = () => {
                         sound.playClick(700);
                         setCurrentStep(2);
                       }}
-                      className="btn-tactile px-5 py-2.5 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)] flex items-center justify-center gap-1.5 shrink-0"
+                      className="btn-tactile px-5 py-2.5 rounded-full bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_15px_rgba(224,26,64,0.35)] flex items-center justify-center gap-1.5 shrink-0"
                     >
                       <span>Continue with {activeService.name}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -770,10 +770,12 @@ export const ContactSection: React.FC = () => {
                   >
                     <div className="flex items-start gap-3">
                       <input
+                        id="include-maintenance-checkbox"
                         type="checkbox"
+                        aria-label="Add Optional Studio Care &amp; Maintenance Plan"
                         checked={includeMaintenance}
                         onChange={() => {}} // Controlled via card click
-                        className="mt-1 w-4 h-4 accent-[#F3264B] rounded cursor-pointer"
+                        className="mt-1 w-4 h-4 accent-[#E01A40] rounded cursor-pointer"
                       />
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2">
@@ -923,12 +925,12 @@ export const ContactSection: React.FC = () => {
                             }}
                             className={`tier-switcher-btn btn-tactile p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
                               isSelected
-                                ? 'is-active bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)]'
-                                : 'hover:border-[#F3264B]'
+                                ? 'is-active bg-[#E01A40] text-white border-[#E01A40] font-bold shadow-[0_0_15px_rgba(224,26,64,0.35)]'
+                                : 'hover:border-[#E01A40]'
                             }`}
                             style={{
-                              backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',
-                              borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                              backgroundColor: isSelected ? '#E01A40' : 'var(--theme-surface-elevated)',
+                              borderColor: isSelected ? '#E01A40' : 'var(--theme-border)',
                               color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
                             }}
                           >
@@ -974,13 +976,13 @@ export const ContactSection: React.FC = () => {
                             }}
                             className={`btn-tactile p-3.5 rounded-xl border text-center font-mono text-xs transition-all ${
                               isSelected
-                                ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)]'
+                                ? 'bg-[#E01A40] text-white border-[#E01A40] font-bold shadow-[0_0_15px_rgba(224,26,64,0.35)]'
                                 : 'hover:border-opacity-60'
                             }`}
                             style={{
-                              backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',
+                              backgroundColor: isSelected ? '#E01A40' : 'var(--theme-surface-elevated)',
                               color: isSelected ? '#FFFFFF' : 'var(--theme-text-secondary)',
-                              borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                              borderColor: isSelected ? '#E01A40' : 'var(--theme-border)',
                             }}
                           >
                             {b}
@@ -992,11 +994,13 @@ export const ContactSection: React.FC = () => {
                     {selectedBudget === 'Custom Budget' && (
                       <div className="pt-2 animate-fadeIn">
                         <input
+                          id="custom-budget-input"
                           type="text"
+                          aria-label={`Custom Budget Amount in ${currencyCode}`}
                           value={customBudgetValue}
                           onChange={(e) => setCustomBudgetValue(e.target.value)}
                           placeholder={`e.g. 8,500 or 12,000 ${currencyCode}`}
-                          className="w-full sm:max-w-md p-3.5 rounded-xl border text-sm focus:border-[#F3264B] focus:outline-none"
+                          className="w-full sm:max-w-md p-3.5 rounded-xl border text-sm focus:border-[#E01A40] focus:outline-none"
                           style={{
                             backgroundColor: 'var(--theme-surface-elevated)',
                             borderColor: 'var(--theme-border)',
@@ -1113,16 +1117,17 @@ export const ContactSection: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Name */}
                     <div className="space-y-2">
-                      <label className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
-                        <User className="w-3.5 h-3.5 text-[#F3264B]" />
+                      <label htmlFor="contact-full-name" className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
+                        <User className="w-3.5 h-3.5 text-[#E01A40]" />
                         <span>Your Full Name *</span>
                       </label>
                       <input
+                        id="contact-full-name"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g. Marcus Vance"
-                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#F3264B] focus:outline-none"
+                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#E01A40] focus:outline-none"
                         style={{
                           backgroundColor: 'var(--theme-surface-elevated)',
                           borderColor: 'var(--theme-border)',
@@ -1130,22 +1135,23 @@ export const ContactSection: React.FC = () => {
                         }}
                       />
                       {formErrors.name && (
-                        <p className="text-xs text-[#F3264B] font-mono">{formErrors.name}</p>
+                        <p className="text-xs text-[#E01A40] font-mono">{formErrors.name}</p>
                       )}
                     </div>
 
                     {/* Business Email */}
                     <div className="space-y-2">
-                      <label className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
-                        <Mail className="w-3.5 h-3.5 text-[#F3264B]" />
+                      <label htmlFor="contact-work-email" className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
+                        <Mail className="w-3.5 h-3.5 text-[#E01A40]" />
                         <span>Work Email *</span>
                       </label>
                       <input
+                        id="contact-work-email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="marcus@company.com"
-                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#F3264B] focus:outline-none"
+                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#E01A40] focus:outline-none"
                         style={{
                           backgroundColor: 'var(--theme-surface-elevated)',
                           borderColor: 'var(--theme-border)',
@@ -1153,22 +1159,23 @@ export const ContactSection: React.FC = () => {
                         }}
                       />
                       {formErrors.email && (
-                        <p className="text-xs text-[#F3264B] font-mono">{formErrors.email}</p>
+                        <p className="text-xs text-[#E01A40] font-mono">{formErrors.email}</p>
                       )}
                     </div>
 
                     {/* Company */}
                     <div className="space-y-2">
-                      <label className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
-                        <Building className="w-3.5 h-3.5 text-[#F3264B]" />
+                      <label htmlFor="contact-company-name" className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
+                        <Building className="w-3.5 h-3.5 text-[#E01A40]" />
                         <span>Company / Brand Name *</span>
                       </label>
                       <input
+                        id="contact-company-name"
                         type="text"
                         value={organization}
                         onChange={(e) => setOrganization(e.target.value)}
                         placeholder="e.g. Vance Dynamics or Stealther Inc."
-                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#F3264B] focus:outline-none"
+                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#E01A40] focus:outline-none"
                         style={{
                           backgroundColor: 'var(--theme-surface-elevated)',
                           borderColor: 'var(--theme-border)',
@@ -1176,22 +1183,23 @@ export const ContactSection: React.FC = () => {
                         }}
                       />
                       {formErrors.organization && (
-                        <p className="text-xs text-[#F3264B] font-mono">{formErrors.organization}</p>
+                        <p className="text-xs text-[#E01A40] font-mono">{formErrors.organization}</p>
                       )}
                     </div>
 
                     {/* Website URL */}
                     <div className="space-y-2">
-                      <label className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
+                      <label htmlFor="contact-website-url" className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
                         <Globe className="w-3.5 h-3.5 text-[#8A8172]" />
                         <span>Current Website URL (Optional)</span>
                       </label>
                       <input
+                        id="contact-website-url"
                         type="url"
                         value={websiteUrl}
                         onChange={(e) => setWebsiteUrl(e.target.value)}
                         placeholder="https://example.com"
-                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#F3264B] focus:outline-none"
+                        className="w-full p-3.5 rounded-xl border text-sm focus:border-[#E01A40] focus:outline-none"
                         style={{
                           backgroundColor: 'var(--theme-surface-elevated)',
                           borderColor: 'var(--theme-border)',
@@ -1203,11 +1211,12 @@ export const ContactSection: React.FC = () => {
 
                   {/* Project Brief */}
                   <div className="space-y-2">
-                    <label className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
-                      <MessageSquare className="w-3.5 h-3.5 text-[#F3264B]" />
+                    <label htmlFor="contact-project-brief" className="text-xs font-mono uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--theme-text-primary)' }}>
+                      <MessageSquare className="w-3.5 h-3.5 text-[#E01A40]" />
                       <span>Project Brief &amp; Scope Objectives *</span>
                     </label>
                     <textarea
+                      id="contact-project-brief"
                       rows={4}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
@@ -1296,12 +1305,14 @@ export const ContactSection: React.FC = () => {
                       borderColor: 'var(--theme-border)',
                     }}
                   >
-                    <label className="flex items-start gap-3 cursor-pointer select-none">
+                    <label htmlFor="contact-account-notice" className="flex items-start gap-3 cursor-pointer select-none">
                       <input
+                        id="contact-account-notice"
                         type="checkbox"
+                        aria-label="Acknowledge external account and subscription direct ownership"
                         checked={acknowledgedAccountNotice}
                         onChange={(e) => setAcknowledgedAccountNotice(e.target.checked)}
-                        className="mt-1 w-4 h-4 accent-[#F3264B] rounded cursor-pointer"
+                        className="mt-1 w-4 h-4 accent-[#E01A40] rounded cursor-pointer"
                       />
                       <span className="text-xs leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>
                         I understand that third-party API usage (e.g. OpenAI), cloud hosting, domain registrations, and platform subscriptions are paid separately and directly by our business, ensuring our team owns 100% of our external accounts.
@@ -1339,7 +1350,7 @@ export const ContactSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleNextStep}
-                    className="btn-tactile px-7 py-3 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_20px_rgba(243,38,75,0.4)] flex items-center gap-2 active:scale-[0.97]"
+                    className="btn-tactile px-7 py-3 rounded-full bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_20px_rgba(224,26,64,0.4)] flex items-center gap-2 active:scale-[0.97]"
                   >
                     <span>Continue to Step 0{currentStep + 1}</span>
                     <ChevronRight className="w-4 h-4" />
@@ -1348,7 +1359,7 @@ export const ContactSection: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-tactile px-8 py-3.5 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_30px_rgba(243,38,75,0.45)] flex items-center gap-2 active:scale-[0.97] disabled:opacity-50"
+                    className="btn-tactile px-8 py-3.5 rounded-full bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_30px_rgba(224,26,64,0.45)] flex items-center gap-2 active:scale-[0.97] disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>

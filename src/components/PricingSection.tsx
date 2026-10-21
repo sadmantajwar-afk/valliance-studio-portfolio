@@ -175,7 +175,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                     }}
                     className={`btn-tactile px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center gap-2 ${
                       isActive
-                        ? 'bg-[#F3264B] text-white font-bold shadow-[0_0_15px_rgba(243,38,75,0.4)]'
+                        ? 'bg-[#E01A40] text-white font-bold shadow-[0_0_15px_rgba(224,26,64,0.4)]'
                         : 'hover:opacity-80'
                     }`}
                     style={{
@@ -213,13 +213,13 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
               }}
               className={`btn-tactile px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 border ${
                 activeTab === tab.id
-                  ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_20px_rgba(243,38,75,0.35)]'
+                  ? 'bg-[#E01A40] text-white border-[#E01A40] font-bold shadow-[0_0_20px_rgba(224,26,64,0.35)]'
                   : 'hover:opacity-90'
               }`}
               style={{
-                backgroundColor: activeTab === tab.id ? '#F3264B' : 'var(--theme-surface)',
+                backgroundColor: activeTab === tab.id ? '#E01A40' : 'var(--theme-surface)',
                 color: activeTab === tab.id ? '#FFFFFF' : 'var(--theme-text-secondary)',
-                borderColor: activeTab === tab.id ? '#F3264B' : 'var(--theme-border)',
+                borderColor: activeTab === tab.id ? '#E01A40' : 'var(--theme-border)',
               }}
             >
               {tab.label}
@@ -278,17 +278,17 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                     }}
                   >
                     {isSelected ? (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#F3264B] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#E01A40] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
                         <CheckCircle2 className="w-3 h-3" />
                         <span>ACTIVE SELECTION</span>
                       </div>
                     ) : isRecommended ? (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#F3264B] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#E01A40] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1.5 whitespace-nowrap">
                         <Sparkles className="w-3 h-3" />
                         <span>RECOMMENDED CHOICE</span>
                       </div>
                     ) : (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#F3264B]/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#E01A40] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
                         <ArrowUpRight className="w-3 h-3" />
                         <span>CLICK TO SELECT</span>
                       </div>
@@ -367,13 +367,13 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                         }}
                         className={`btn-tactile w-full min-h-[46px] py-3 px-5 rounded-full font-mono text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.97] ${
                           isSelected || isRecommended
-                            ? 'bg-[#F3264B] hover:bg-[#FF2A44] text-white shadow-[0_0_20px_rgba(243,38,75,0.35)]'
-                            : 'border hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
+                            ? 'bg-[#E01A40] hover:bg-[#FF2A44] text-white shadow-[0_0_20px_rgba(224,26,64,0.35)]'
+                            : 'border hover:bg-[#E01A40] hover:text-white hover:border-[#E01A40]'
                         }`}
                         style={{
-                          backgroundColor: (isSelected || isRecommended) ? '#F3264B' : 'var(--theme-surface-elevated)',
+                          backgroundColor: (isSelected || isRecommended) ? '#E01A40' : 'var(--theme-surface-elevated)',
                           color: (isSelected || isRecommended) ? '#FFFFFF' : 'var(--theme-text-primary)',
-                          borderColor: (isSelected || isRecommended) ? '#F3264B' : 'var(--theme-border)',
+                          borderColor: (isSelected || isRecommended) ? '#E01A40' : 'var(--theme-border)',
                         }}
                       >
                         <span>{isSelected ? 'Selected — Proceed to Scope' : pkg.ctaText}</span>
@@ -466,12 +466,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                     }}
                   >
                     {isSelected ? (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#F3264B] text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1 whitespace-nowrap">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#E01A40] text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1 whitespace-nowrap">
                         <CheckCircle2 className="w-2.5 h-2.5" />
                         <span>ACTIVE SELECTION</span>
                       </div>
                     ) : (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#F3264B]/90 text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-[#E01A40] text-white font-mono text-[9px] font-bold uppercase tracking-wider shadow-md flex items-center gap-1 whitespace-nowrap">
                         <ArrowUpRight className="w-2.5 h-2.5" />
                         <span>SELECT TIER</span>
                       </div>
@@ -518,13 +518,13 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
                       }}
                       className={`btn-tactile w-full py-3 px-4 rounded-full border font-mono text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.97] ${
                         isSelected
-                          ? 'bg-[#F3264B] text-white border-[#F3264B] shadow-[0_0_15px_rgba(243,38,75,0.3)]'
-                          : 'hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
+                          ? 'bg-[#E01A40] text-white border-[#E01A40] shadow-[0_0_15px_rgba(224,26,64,0.3)]'
+                          : 'hover:bg-[#E01A40] hover:text-white hover:border-[#E01A40]'
                       }`}
                       style={{
-                        backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',
+                        backgroundColor: isSelected ? '#E01A40' : 'var(--theme-surface-elevated)',
                         color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
-                        borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                        borderColor: isSelected ? '#E01A40' : 'var(--theme-border)',
                       }}
                     >
                       <span>{isSelected ? 'Selected — Configure Scope' : service.ctaText}</span>
@@ -837,7 +837,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenContact })
 
           <button
             onClick={() => handleSelectPackage('custom', 'Custom Architecture Proposal', 'Custom quote')}
-            className="btn-tactile min-h-[50px] px-8 py-4 rounded-full bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_30px_rgba(243,38,75,0.4)] flex items-center justify-center gap-2 whitespace-nowrap active:scale-[0.97]"
+            className="btn-tactile min-h-[50px] px-8 py-4 rounded-full bg-[#E01A40] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_30px_rgba(224,26,64,0.4)] flex items-center justify-center gap-2 whitespace-nowrap active:scale-[0.97]"
           >
             <span>Request a Custom Quote</span>
             <ArrowUpRight className="w-4 h-4 font-bold" />
