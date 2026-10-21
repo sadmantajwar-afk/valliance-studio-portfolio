@@ -1,12 +1,9 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import { ArrowUpRight, Sparkles, Terminal, Eye } from 'lucide-react';
 import { Project, PROJECTS } from '../data/projects';
+import { CaseStudyModal } from './CaseStudyModal';
 import { sound } from '../utils/audio';
 import { useTheme } from '../utils/theme';
-
-const CaseStudyModal = lazy(() =>
-  import('./CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
-);
 
 interface SelectedWorkProps {
   onOpenContact: () => void;
@@ -276,16 +273,14 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
 
       {/* Case Study Modal */}
       {activeProject && (
-        <Suspense fallback={null}>
-          <CaseStudyModal
-            project={activeProject}
-            onClose={() => setActiveProject(null)}
-            onOpenContact={() => {
-              setActiveProject(null);
-              onOpenContact();
-            }}
-          />
-        </Suspense>
+        <CaseStudyModal
+          project={activeProject}
+          onClose={() => setActiveProject(null)}
+          onOpenContact={() => {
+            setActiveProject(null);
+            onOpenContact();
+          }}
+        />
       )}
     </section>
   );

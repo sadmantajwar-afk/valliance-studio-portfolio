@@ -8,10 +8,9 @@ import { useTheme } from '../utils/theme';
 interface NavbarProps {
   onOpenContact: () => void;
   activeSection?: string;
-  onOpenAdmin?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { market, setMarket } = useMarket();
@@ -51,9 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) =>
     if (href.startsWith('#')) {
       e.preventDefault();
       document.body.style.overflow = 'unset';
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
       if (lenis) {
-        lenis.scrollTo(href, { offset: -60 });
+        lenis.scrollTo(href, { offset: -60, duration: 0.5 });
       } else {
         const target = document.querySelector(href);
         if (target) {
@@ -66,9 +65,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenAdmin }) =>
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
     sound.playClick(900);
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { duration?: number }) => void } }).__lenis;
     if (lenis) {
-      lenis.scrollTo(0);
+      lenis.scrollTo(0, { duration: 0.5 });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

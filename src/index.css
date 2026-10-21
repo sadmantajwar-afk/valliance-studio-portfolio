@@ -127,12 +127,14 @@
   .font-mono {
     font-family: var(--font-mono);
   }
+  html, body, button, a, [role="button"], input, select, textarea {
+    touch-action: manipulation;
+  }
 }
 
 /* Emil Kowalski button tactile interaction: instant response, 0.97 scale on active */
 .btn-tactile {
-  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-  will-change: transform;
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), background-color 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
 .btn-tactile:active {
   transform: scale(0.97);

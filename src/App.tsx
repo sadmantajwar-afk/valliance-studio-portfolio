@@ -37,9 +37,9 @@ export function App() {
     ]).then(([{ default: Lenis }]) => {
       const lenis = new Lenis({
         autoRaf: true,
-        lerp: 0.09, // Silky smooth physics damping for continuous fluid glide on PC mice and trackpads
+        lerp: 0.14, // Responsive, high-performance glide without lag
         wheelMultiplier: 1.0,
-        touchMultiplier: 1.2,
+        touchMultiplier: 1.0,
         smoothWheel: true,
         syncTouch: false,
         autoResize: true,
@@ -60,8 +60,6 @@ export function App() {
     });
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-      window.removeEventListener('keydown', handleKeyDown);
       if (lenisInstance) lenisInstance.destroy();
       (window as unknown as { __lenis: unknown }).__lenis = null;
     };
@@ -70,39 +68,23 @@ export function App() {
   const scrollToContact = () => {
     trackMetaEvent('Contact', { content_name: 'Initiate Contact CTA' });
     document.body.style.overflow = 'unset';
-    const performScroll = () => {
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
-      if (lenis) {
-        lenis.scrollTo('#contact', { offset: -40 });
-      } else {
-        const el = document.getElementById('contact');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
-    };
-
-    if (document.getElementById('contact')) {
-      performScroll();
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
+    if (lenis) {
+      lenis.scrollTo('#contact', { offset: -40, duration: 0.5 });
     } else {
-      setTimeout(performScroll, 100);
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const scrollToWork = () => {
     document.body.style.overflow = 'unset';
-    const performScroll = () => {
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
-      if (lenis) {
-        lenis.scrollTo('#work', { offset: -40 });
-      } else {
-        const el = document.getElementById('work');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
-    };
-
-    if (document.getElementById('work')) {
-      performScroll();
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
+    if (lenis) {
+      lenis.scrollTo('#work', { offset: -40, duration: 0.5 });
     } else {
-      setTimeout(performScroll, 100);
+      const el = document.getElementById('work');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -115,10 +97,7 @@ export function App() {
       }}
     >
       {/* Global Navigation Header with Theme Toggle & Market Switcher */}
-      <Navbar
-        onOpenContact={scrollToContact}
-        onOpenAdmin={() => setIsAdminOpen(true)}
-      />
+      <Navbar onOpenContact={scrollToContact} />
 
       {/* Main Content Flow */}
       <main>
