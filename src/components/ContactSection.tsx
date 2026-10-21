@@ -649,7 +649,7 @@ export const ContactSection: React.FC = () => {
                             sound.playClick(600);
                             handleSelectService(service.id);
                           }}
-                          className={`btn-tactile p-5 rounded-2xl cursor-pointer border text-left transition-all flex flex-col justify-between space-y-4 ${
+                          className={`btn-tactile p-5 rounded-2xl cursor-pointer border text-left transition-all flex flex-col justify-between space-y-4 group ${
                             isSelected
                               ? 'border-2 border-[#F3264B] shadow-[0_0_25px_rgba(243,38,75,0.25)] ring-2 ring-[#F3264B]/30'
                               : 'hover:border-[#F3264B]/50'
@@ -685,11 +685,35 @@ export const ContactSection: React.FC = () => {
                             </p>
                           </div>
 
-                          <div className="pt-3 border-t flex items-baseline justify-between" style={{ borderColor: 'var(--theme-border)' }}>
-                            <span className="text-[11px] font-mono" style={{ color: 'var(--theme-text-muted)' }}>Baseline:</span>
-                            <span className="font-display font-extrabold text-sm" style={{ color: 'var(--theme-text-primary)' }}>
-                              {formattedPrice}
-                            </span>
+                          <div className="space-y-3 pt-3 border-t" style={{ borderColor: 'var(--theme-border)' }}>
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-[11px] font-mono" style={{ color: 'var(--theme-text-muted)' }}>Baseline:</span>
+                              <span className="font-display font-extrabold text-sm" style={{ color: 'var(--theme-text-primary)' }}>
+                                {formattedPrice}
+                              </span>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelectService(service.id);
+                                sound.playClick(700);
+                                setCurrentStep(2);
+                              }}
+                              className={`w-full py-2 px-3 rounded-xl font-mono text-[11px] uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-1.5 ${
+                                isSelected
+                                  ? 'bg-[#F3264B] text-white shadow-[0_0_12px_rgba(243,38,75,0.4)]'
+                                  : 'border hover:bg-[#F3264B] hover:text-white hover:border-[#F3264B]'
+                              }`}
+                              style={{
+                                backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface)',
+                                color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
+                                borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                              }}
+                            >
+                              <span>{isSelected ? '✓ Selected — Continue →' : 'Select Tier & Continue →'}</span>
+                            </button>
                           </div>
                         </div>
                       );
@@ -869,6 +893,57 @@ export const ContactSection: React.FC = () => {
                         <RotateCcw className="w-3.5 h-3.5 text-[#F3264B]" />
                         <span>Change Tier</span>
                       </button>
+                    </div>
+                  </div>
+
+                  {/* 1-Click Interactive Tier Switcher Grid */}
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="uppercase tracking-wider font-semibold" style={{ color: 'var(--theme-text-primary)' }}>
+                        Select Package / Tier (1-Click Switch):
+                      </span>
+                      <span style={{ color: 'var(--theme-text-muted)' }}>
+                        {MARKETS[market].countryName} Tariffs ({currencyCode})
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                      {allServices.map((service) => {
+                        const isSelected = selectedServiceId === service.id;
+                        const formattedPrice = service.price
+                          ? `${currencySymbol}${service.price.toLocaleString()}`
+                          : 'Quote';
+                        return (
+                          <button
+                            key={service.id}
+                            type="button"
+                            onClick={() => {
+                              sound.playClick(600);
+                              handleSelectService(service.id);
+                            }}
+                            className={`btn-tactile p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-[#F3264B] text-white border-[#F3264B] font-bold shadow-[0_0_15px_rgba(243,38,75,0.35)]'
+                                : 'hover:border-[#F3264B]/60'
+                            }`}
+                            style={{
+                              backgroundColor: isSelected ? '#F3264B' : 'var(--theme-surface-elevated)',
+                              borderColor: isSelected ? '#F3264B' : 'var(--theme-border)',
+                              color: isSelected ? '#FFFFFF' : 'var(--theme-text-primary)',
+                            }}
+                          >
+                            <span className="text-[9px] font-mono uppercase tracking-wider block opacity-80">
+                              {service.category === 'Website' ? 'WEB' : 'AI'}
+                            </span>
+                            <span className="font-display font-bold text-xs leading-tight line-clamp-1 my-1">
+                              {service.name.replace(' Website', '').replace(' System', '')}
+                            </span>
+                            <span className="font-mono text-[11px] font-extrabold">
+                              {formattedPrice}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
