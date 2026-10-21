@@ -330,30 +330,6 @@ export async function detectVisitorMarket(): Promise<Market> {
       if (typeof navigator !== 'undefined' && (navigator.language === 'en-GB' || navigator.languages?.includes('en-GB'))) {
         return 'UK';
       }
-
-      // 2. Skip external third-party API calls in local development to avoid CORS console errors
-      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return 'US';
-      }
-
-      // 3. Optional third-party detection for production
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2000);
-
-      const res = await fetch('https://ipapi.co/json/', {
-        signal: controller.signal,
-        headers: { Accept: 'application/json' },
-      });
-      clearTimeout(timeout);
-
-      if (res.ok) {
-        const data = await res.json();
-        const country = (data.country_code || data.country || '').toUpperCase();
-        if (country === 'GB' || country === 'UK') {
-          return 'UK';
-        }
-        return 'US';
-      }
     } catch {
       // Graceful silent fallback
     }

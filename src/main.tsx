@@ -4,26 +4,12 @@ import "./index.css";
 import App from "./App";
 
 // Safely unregister any legacy service workers once without blocking initial hydration
-if (typeof window !== "undefined") {
-  try {
-    if (!sessionStorage.getItem('sw_purged')) {
-      sessionStorage.setItem('sw_purged', 'true');
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          for (const registration of registrations) {
-            registration.unregister();
-          }
-        });
-      }
-      if ('caches' in window) {
-        caches.keys().then((keys) => {
-          keys.forEach((key) => caches.delete(key));
-        });
-      }
+if (typeof window !== "undefined" && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
     }
-  } catch {
-    // Ignore storage restrictions
-  }
+  }).catch(() => {});
 }
 
 createRoot(document.getElementById("root")!).render(
