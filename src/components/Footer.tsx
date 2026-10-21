@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowUp, Terminal } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LogoLockup } from './Logo';
+import { openCookiePreferences } from './CookieConsent';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -73,6 +74,17 @@ export const Footer: React.FC = () => {
             <span>© 2026 VALLIANCE STUDIO LTD. ALL RIGHTS RESERVED.</span>
             <span className="hidden sm:inline">·</span>
             <span className="hidden sm:inline">BUILT WITH INTENT &amp; CODE</span>
+            <span className="hidden sm:inline">·</span>
+            <button
+              type="button"
+              onClick={() => {
+                sound.playClick(600);
+                openCookiePreferences();
+              }}
+              className="hover:text-[#F3264B] transition-colors underline underline-offset-4 cursor-pointer"
+            >
+              COOKIE PREFERENCES
+            </button>
           </div>
 
           <button

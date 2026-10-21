@@ -3,11 +3,18 @@ import { ShieldCheck } from 'lucide-react';
 import { getStoredConsent, grantMetaConsent, revokeMetaConsent } from '../utils/metaPixel';
 import { sound } from '../utils/audio';
 
+export function openCookiePreferences() {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('openCookiePreferences'));
+  }
+}
+
 export const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentConsent, setCurrentConsent] = useState<'granted' | 'denied' | null>(getStoredConsent());
 
   useEffect(() => {
-    // Show only if no explicit choice has been recorded
+    // Show on initial visit if no choice was previously recorded
     const existing = getStoredConsent();
     if (!existing) {
       const timer = setTimeout(() => setIsVisible(true), 1200);
@@ -15,17 +22,32 @@ export const CookieConsent: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Provide a persistent entry point to withdraw or change consent anytime
+    const handleOpen = () => {
+      setCurrentConsent(getStoredConsent());
+      setIsVisible(true);
+    };
+
+    window.addEventListener('openCookiePreferences', handleOpen);
+    return () => {
+      window.removeEventListener('openCookiePreferences', handleOpen);
+    };
+  }, []);
+
   if (!isVisible) return null;
 
   const handleAccept = () => {
     sound.playClick(800);
     grantMetaConsent();
+    setCurrentConsent('granted');
     setIsVisible(false);
   };
 
   const handleDecline = () => {
     sound.playClick(400);
     revokeMetaConsent();
+    setCurrentConsent('denied');
     setIsVisible(false);
   };
 
@@ -40,13 +62,20 @@ export const CookieConsent: React.FC = () => {
       }}
     >
       <div className="space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F3264B] uppercase tracking-wider">
-          <ShieldCheck className="w-4 h-4" />
-          <span>PRIVACY &amp; ANALYTICS</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F3264B] uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4" />
+            <span>PRIVACY &amp; META PIXEL</span>
+          </div>
+          {currentConsent && (
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded border" style={{ borderColor: 'var(--theme-border)', color: 'var(--theme-text-muted)' }}>
+              STATUS: {currentConsent.toUpperCase()}
+            </span>
+          )}
         </div>
 
         <p className="text-xs font-sans leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>
-          We respect your privacy. We use anonymous analytics cookies to refine performance and understand visitor journeys in accordance with UK GDPR and PECR.
+          We respect your privacy. We use Meta Pixel cookies and telemetry to measure campaign performance, attribution, and visitor journeys in accordance with UK GDPR and PECR. You can withdraw consent at any time.
         </p>
 
         <div className="flex items-center gap-2.5 pt-1">
@@ -67,7 +96,7 @@ export const CookieConsent: React.FC = () => {
               backgroundColor: 'var(--theme-surface-elevated)',
             }}
           >
-            DECLINE
+            DECLINE / REVOKE
           </button>
         </div>
       </div>

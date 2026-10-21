@@ -20,24 +20,8 @@ export function getStoredConsent(): 'granted' | 'denied' | null {
   }
 }
 
-/**
- * Initialize Meta (Facebook) Pixel
- */
-export function initMetaPixel(pixelId: string = DEFAULT_PIXEL_ID) {
+function loadFbqScript(effectiveId: string) {
   if (typeof window === 'undefined') return;
-
-  // Check if pixel ID is configured
-  const effectiveId = pixelId.trim();
-  if (!effectiveId || effectiveId.includes('YOUR_')) {
-    if (import.meta.env.DEV) {
-      console.info(
-        '[Meta Pixel] Pixel ID not configured yet. Set VITE_META_PIXEL_ID in your .env.local to activate live Meta Ads tracking.'
-      );
-    }
-    return;
-  }
-
-  // Prevent duplicate initialization
   if (window.__metaPixelInitialized) return;
 
   /* eslint-disable */
@@ -60,17 +44,38 @@ export function initMetaPixel(pixelId: string = DEFAULT_PIXEL_ID) {
   /* eslint-enable */
 
   if (window.fbq) {
-    const consent = getStoredConsent();
-    if (consent === 'granted') {
-      window.fbq('consent', 'grant');
-      window.fbq('init', effectiveId);
-      window.fbq('track', 'PageView');
-    } else {
-      // UK GDPR & PECR Privacy Compliance: Revoke consent by default until visitor opt-in
-      window.fbq('consent', 'revoke');
-      window.fbq('init', effectiveId);
-    }
+    window.fbq('consent', 'grant');
+    window.fbq('init', effectiveId);
+    window.fbq('track', 'PageView');
     window.__metaPixelInitialized = true;
+  }
+}
+
+/**
+ * Initialize Meta (Facebook) Pixel only if prior consent was granted
+ */
+export function initMetaPixel(pixelId: string = DEFAULT_PIXEL_ID) {
+  if (typeof window === 'undefined') return;
+
+  // Check if pixel ID is configured
+  const effectiveId = pixelId.trim();
+  if (!effectiveId || effectiveId.includes('YOUR_')) {
+    if (import.meta.env.DEV) {
+      console.info(
+        '[Meta Pixel] Pixel ID not configured yet. Set VITE_META_PIXEL_ID in your .env.local to activate live Meta Ads tracking.'
+      );
+    }
+    return;
+  }
+
+  // Prevent duplicate initialization
+  if (window.__metaPixelInitialized) return;
+
+  // UK GDPR & PECR Privacy Compliance:
+  // Do NOT load fbevents.js before explicit consent is granted.
+  const consent = getStoredConsent();
+  if (consent === 'granted') {
+    loadFbqScript(effectiveId);
   }
 }
 
@@ -84,7 +89,11 @@ export function grantMetaConsent() {
     } catch {
       // Ignore storage errors
     }
-    if (window.fbq) {
+
+    const effectiveId = (DEFAULT_PIXEL_ID || '').trim();
+    if (effectiveId && !effectiveId.includes('YOUR_')) {
+      loadFbqScript(effectiveId);
+    } else if (window.fbq) {
       window.fbq('consent', 'grant');
       window.fbq('track', 'PageView');
     }
@@ -92,7 +101,7 @@ export function grantMetaConsent() {
 }
 
 /**
- * Revoke Meta Pixel tracking consent (e.g., when visitor declines via cookie consent banner)
+ * Revoke Meta Pixel tracking consent (e.g., when visitor declines or withdraws consent)
  */
 export function revokeMetaConsent() {
   if (typeof window !== 'undefined') {
