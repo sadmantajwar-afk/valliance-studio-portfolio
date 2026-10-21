@@ -9,7 +9,7 @@ interface ProcessSectionProps {
 
 export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact }) => {
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
-  const activeStep = PROCESS_STEPS[activeStepIndex];
+  const activeStep = PROCESS_STEPS[activeStepIndex] || PROCESS_STEPS[0];
 
   return (
     <section
@@ -74,10 +74,10 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
 
                 <div className="space-y-2">
                   <span className="font-mono text-xs text-[#F3264B] font-bold block">
-                    {step.step}
+                    PHASE {step.step}
                   </span>
                   <div className="font-display font-bold text-lg uppercase tracking-tight" style={{ color: 'var(--theme-text-primary)' }}>
-                    {step.title}
+                    {step.name}
                   </div>
                   <div className="font-mono text-xs" style={{ color: 'var(--theme-text-muted)' }}>
                     {step.duration}
@@ -103,7 +103,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 <span>TIMELINE: {activeStep.duration}</span>
               </div>
               <h3 className="font-display font-extrabold text-2xl sm:text-4xl uppercase tracking-tight" style={{ color: 'var(--theme-text-primary)' }}>
-                {activeStep.title} — {activeStep.deliverable}
+                {activeStep.name} — {activeStep.phase}
               </h3>
             </div>
 
@@ -134,7 +134,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 }}
               >
                 <Layers className="w-4 h-4 text-[#F3264B] shrink-0" />
-                <span>PRIMARY OUTCOME: <strong style={{ color: 'var(--theme-text-primary)' }}>{activeStep.deliverable}</strong></span>
+                <span>PRIMARY OUTCOME: <strong style={{ color: 'var(--theme-text-primary)' }}>{activeStep.metrics}</strong></span>
               </div>
             </div>
 
@@ -143,7 +143,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOpenContact })
                 KEY MILESTONE DELIVERABLES:
               </span>
               <div className="space-y-2.5">
-                {activeStep.details.map((detail, idx) => (
+                {(activeStep.deliverables || []).map((detail, idx) => (
                   <div
                     key={idx}
                     className="flex items-start gap-3 p-3 rounded-xl border text-xs"
