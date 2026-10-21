@@ -37,12 +37,7 @@
   }
   
   html {
-    scroll-behavior: auto; /* Managed by Lenis for ultra-smooth momentum scrolling */
-  }
-  
-  /* Fallback native smooth scroll when Lenis is bypassed */
-  html:not(.lenis) {
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Native momentum scrolling on touch devices; Lenis handles PC/trackpads */
   }
   
   body {
@@ -246,14 +241,4 @@
   }
 }
 
-/* Mobile performance: optimize offscreen lower sections below the first screen */
-@media (max-width: 1024px) {
-  #services,
-  #philosophy,
-  #process,
-  #contact {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 750px;
-  }
-}
 

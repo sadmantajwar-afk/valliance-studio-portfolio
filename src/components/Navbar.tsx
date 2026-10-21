@@ -45,11 +45,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
     sound.playClick(600);
     if (href.startsWith('#')) {
       e.preventDefault();
+      document.body.style.overflow = 'unset';
       const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
         lenis.scrollTo(href, { offset: -60 });
       } else {
-        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }
   };
@@ -174,6 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
+                  document.body.style.overflow = 'unset';
                   setMobileMenuOpen(false);
                   navigateTo(e, link.href);
                 }}
@@ -200,6 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
           <button
             onClick={() => {
               sound.playClick(800);
+              document.body.style.overflow = 'unset';
               setMobileMenuOpen(false);
               onOpenContact();
             }}

@@ -63,6 +63,7 @@ export function App() {
   }, []);
 
   const scrollToContact = () => {
+    document.body.style.overflow = 'unset';
     const performScroll = () => {
       const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
@@ -81,6 +82,7 @@ export function App() {
   };
 
   const scrollToWork = () => {
+    document.body.style.overflow = 'unset';
     const performScroll = () => {
       const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
