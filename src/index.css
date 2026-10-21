@@ -1,29 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand typography — matched to the geometric V mark:
-     Archivo Black / Archivo 900 for display, Space Grotesk editorial,
-     Inter Tight body, JetBrains Mono technical microcopy. */
+  /* Brand typography */
   --font-display: 'Archivo', 'Archivo Black', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
   --font-editorial: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
   --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --color-ink: #0b0908;
-  --color-ink-deep: #060505;
-  --color-ink-card: #120d0c;
-  --color-ink-surface: #1a1210;
-  --color-ink-border: rgba(255, 255, 255, 0.08);
-  /* Logo cream disc + warm ivory system */
-  --color-cream: #f3ebdd;
-  --color-ivory: #f7f3eb;
-  --color-ivory-muted: #cfc8ba;
-  --color-ivory-dim: #8a8172;
-  /* Official brand crimson (logo blades) */
-  --color-crimson: #e8002d;
-  --color-crimson-bright: #ff2a44;
-  --color-crimson-deep: #b80024;
-  --color-silver: #e8e2d6;
+  /* Official Brand Crimson / Red */
+  --color-crimson: #F3264B;
+  --color-crimson-bright: #FF2A44;
+  --color-crimson-deep: #B80024;
 
   /* Emil Kowalski custom easing curves */
   --ease-out-emil: cubic-bezier(0.23, 1, 0.32, 1);
@@ -31,27 +18,104 @@
   --ease-drawer-emil: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* ========================================================================= */
+/* CSS CUSTOM PROPERTIES: SYSTEMATIC DUAL-THEME ARCHITECTURE                */
+/* ========================================================================= */
+
+:root, :root[data-theme="dark"], html.dark {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --theme-bg: #08090B;
+  --theme-bg-deep: #050607;
+  --theme-surface: #121316;
+  --theme-surface-elevated: #18191E;
+  --theme-surface-card: #141518;
+  --theme-surface-card-hover: #1A1C22;
+  --theme-surface-accent: #24262B;
+
+  /* Typography */
+  --theme-text-primary: #F5F3ED;
+  --theme-text-secondary: #CFC8BA;
+  --theme-text-muted: #8A8172;
+  --theme-text-faint: #5C5850;
+
+  /* Borders & Dividers */
+  --theme-border: rgba(255, 255, 255, 0.08);
+  --theme-border-strong: rgba(255, 255, 255, 0.16);
+  --theme-border-card: rgba(255, 255, 255, 0.10);
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(14, 15, 18, 0.82);
+  --theme-glass-border: rgba(255, 255, 255, 0.10);
+
+  /* Shadows */
+  --theme-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --theme-shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.7);
+
+  /* Hero Canvas & Radial Glow */
+  --theme-glow-red: rgba(243, 38, 75, 0.08);
+  --theme-glow-neutral: rgba(255, 255, 255, 0.02);
+  --theme-grid-lines: rgba(255, 255, 255, 0.02);
+}
+
+:root[data-theme="light"], html.light {
+  color-scheme: light;
+
+  /* Surfaces */
+  --theme-bg: #F5F3ED;
+  --theme-bg-deep: #ECE9DF;
+  --theme-surface: #FFFFFF;
+  --theme-surface-elevated: #F9F8F5;
+  --theme-surface-card: #FFFFFF;
+  --theme-surface-card-hover: #F7F5EE;
+  --theme-surface-accent: #ECE7DA;
+
+  /* Typography */
+  --theme-text-primary: #08090B;
+  --theme-text-secondary: #3D404A;
+  --theme-text-muted: #646876;
+  --theme-text-faint: #9EA2AE;
+
+  /* Borders & Dividers */
+  --theme-border: rgba(8, 9, 11, 0.10);
+  --theme-border-strong: rgba(8, 9, 11, 0.20);
+  --theme-border-card: rgba(8, 9, 11, 0.12);
+
+  /* Glassmorphism */
+  --theme-glass-bg: rgba(255, 255, 255, 0.88);
+  --theme-glass-border: rgba(8, 9, 11, 0.10);
+
+  /* Shadows */
+  --theme-shadow-sm: 0 2px 10px rgba(8, 9, 11, 0.06);
+  --theme-shadow-lg: 0 16px 40px rgba(8, 9, 11, 0.10);
+
+  /* Hero Canvas & Radial Glow */
+  --theme-glow-red: rgba(243, 38, 75, 0.06);
+  --theme-glow-neutral: rgba(8, 9, 11, 0.03);
+  --theme-grid-lines: rgba(8, 9, 11, 0.04);
+}
+
 @layer base {
   * {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--theme-border);
   }
   
   html {
-    scroll-behavior: auto; /* Native momentum scrolling on touch devices; Lenis handles PC/trackpads */
+    scroll-behavior: auto;
   }
   
   body {
     font-family: var(--font-sans);
-    background-color: #0b0908;
-    color: #f7f3eb;
+    background-color: var(--theme-bg);
+    color: var(--theme-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
-  /* Display type mirrors the logo: heavy geometric sans, flat, tight.
-     .font-display is kept as a legacy alias used across components. */
-  h1, h2, h3, .font-display, .font-display {
+  h1, h2, h3, .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.03em;
   }
@@ -96,44 +160,32 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0908;
+  background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #23232c;
+  background: var(--theme-surface-accent);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #e8002d;
+  background: #F3264B;
 }
 
-/* Grain overlay effect */
-.bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-/* Glassmorphism */
+/* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(18, 13, 12, 0.72);
+  background: var(--theme-glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--theme-glass-border);
 }
 
-.glass-panel-lime {
-  background: rgba(232, 0, 45, 0.03);
+.glass-panel-crimson {
+  background: rgba(243, 38, 75, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(232, 0, 45, 0.2);
+  border: 1px solid rgba(243, 38, 75, 0.25);
 }
 
-.glass-panel-ivory {
-  background: rgba(247, 243, 235, 0.96);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-/* Marquee animation */
+/* Marquee animations */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
@@ -144,34 +196,12 @@
   100% { transform: translateX(0%); }
 }
 
-.will-change-transform {
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
-.modal-scroll-container {
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  overscroll-behavior-y: contain;
-}
-
 .animate-marquee {
   display: flex;
   width: max-content;
   animation: marquee 28s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-}
-
-.animate-marquee-slow {
-  display: flex;
-  width: max-content;
-  animation: marquee 45s linear infinite;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
 .animate-marquee-reverse {
@@ -180,65 +210,27 @@
   animation: marquee-reverse 32s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
 .animate-marquee:hover,
-.animate-marquee-slow:hover,
 .animate-marquee-reverse:hover {
   animation-play-state: paused;
 }
 
-/* Pulse lime glow */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(232, 0, 45, 0.2), inset 0 0 15px rgba(232, 0, 45, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(232, 0, 45, 0.4), inset 0 0 25px rgba(232, 0, 45, 0.2);
-  }
-}
-
-.glow-lime {
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-
-
 /* Text stroke utility */
 .text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  -webkit-text-stroke: 1px var(--theme-border-strong);
   color: transparent;
 }
-.text-stroke-lime {
-  -webkit-text-stroke: 1px #e8002d;
-  color: transparent;
-}
-.text-stroke-dark {
-  -webkit-text-stroke: 1.5px rgba(20, 16, 12, 0.45);
-  color: transparent;
-}
-
-
-/* Brand aliases (crimson naming) */
-.glass-panel-crimson {
-  background: rgba(232, 0, 45, 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(232, 0, 45, 0.22);
-}
-.glow-crimson { animation: pulse-glow 4s ease-in-out infinite; }
 .text-stroke-crimson {
-  -webkit-text-stroke: 1px #e8002d;
+  -webkit-text-stroke: 1px #F3264B;
   color: transparent;
 }
 
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-marquee-slow,
   .animate-marquee-reverse {
     animation: none !important;
   }
 }
-
-

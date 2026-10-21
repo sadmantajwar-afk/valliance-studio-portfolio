@@ -23,6 +23,7 @@ import {
   verifyAdminPasscode,
   LeadSubmission
 } from '../utils/contactApi';
+import { useTheme } from '../utils/theme';
 
 interface AdminLeadsModalProps {
   isOpen: boolean;
@@ -37,8 +38,8 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
   const [filterMarket, setFilterMarket] = useState<'ALL' | 'US' | 'UK'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeLead, setActiveLead] = useState<LeadSubmission | null>(null);
+  const { isDark } = useTheme();
 
-  // Load leads when authenticated
   const loadLeads = () => {
     const list = getStoredLeads();
     setLeads(list);
@@ -49,7 +50,6 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
 
   useEffect(() => {
     if (isOpen) {
-      // Check existing session
       const savedAuth = sessionStorage.getItem('valliance_admin_auth');
       if (savedAuth === 'true') {
         setIsAuthenticated(true);
@@ -119,20 +119,36 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
   return (
     <div
       data-lenis-prevent
-      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn"
+      className="fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn transition-colors"
+      style={{
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.85)' : 'rgba(8, 9, 11, 0.65)',
+      }}
     >
-      <div className="w-full max-w-5xl h-[88vh] rounded-3xl bg-[#0e0f12] border border-white/20 shadow-2xl flex flex-col overflow-hidden text-[#f7f3eb]">
+      <div
+        className="w-full max-w-5xl h-[88vh] rounded-3xl border shadow-2xl flex flex-col overflow-hidden"
+        style={{
+          backgroundColor: 'var(--theme-surface-card)',
+          color: 'var(--theme-text-primary)',
+          borderColor: 'var(--theme-border-strong)',
+        }}
+      >
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 bg-[#131418] border-b border-white/10 flex items-center justify-between">
+        <div
+          className="p-4 sm:p-5 border-b flex items-center justify-between"
+          style={{
+            backgroundColor: 'var(--theme-surface-elevated)',
+            borderColor: 'var(--theme-border)',
+          }}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#e8002d]/15 border border-[#e8002d]/30 flex items-center justify-center text-[#e8002d]">
+            <div className="w-9 h-9 rounded-xl bg-[#F3264B]/15 border border-[#F3264B]/30 flex items-center justify-center text-[#F3264B]">
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-display font-bold text-base sm:text-lg uppercase tracking-tight text-[#f7f3eb]">
+              <h3 className="font-display font-bold text-base sm:text-lg uppercase tracking-tight" style={{ color: 'var(--theme-text-primary)' }}>
                 Valliance Studio // Lead Operations Terminal
               </h3>
-              <p className="text-[11px] font-mono text-[#8a8172]">
+              <p className="text-[11px] font-mono" style={{ color: 'var(--theme-text-muted)' }}>
                 US &amp; UK Client Inquiries • Server-Validated Catalog
               </p>
             </div>
@@ -143,7 +159,8 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
               sound.playClick(500);
               onClose();
             }}
-            className="btn-tactile p-2 rounded-full text-[#8a8172] hover:text-[#f7f3eb] hover:bg-white/10"
+            className="btn-tactile p-2 rounded-full hover:opacity-80"
+            style={{ color: 'var(--theme-text-muted)' }}
           >
             <X className="w-5 h-5" />
           </button>
@@ -154,14 +171,14 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
           /* Authentication Screen */
           <div className="flex-1 flex items-center justify-center p-6">
             <form onSubmit={handleLogin} className="w-full max-w-sm space-y-6 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-[#e8002d]/10 border border-[#e8002d]/30 flex items-center justify-center mx-auto text-[#e8002d]">
+              <div className="w-14 h-14 rounded-2xl bg-[#F3264B]/10 border border-[#F3264B]/30 flex items-center justify-center mx-auto text-[#F3264B]">
                 <Lock className="w-7 h-7" />
               </div>
               <div className="space-y-1">
-                <h4 className="font-display font-bold text-xl uppercase tracking-tight text-[#f7f3eb]">
+                <h4 className="font-display font-bold text-xl uppercase tracking-tight" style={{ color: 'var(--theme-text-primary)' }}>
                   Security Access Required
                 </h4>
-                <p className="text-xs text-[#a79e8f]">
+                <p className="text-xs" style={{ color: 'var(--theme-text-muted)' }}>
                   Enter studio security passphrase to inspect captured leads.
                 </p>
               </div>
@@ -172,15 +189,20 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
                   placeholder="Enter studio key..."
-                  className="w-full p-3.5 rounded-xl bg-white/5 border border-white/15 text-center text-sm font-mono text-[#f7f3eb] focus:border-[#e8002d] focus:outline-none"
+                  className="w-full p-3.5 rounded-xl border text-center text-sm font-mono focus:border-[#F3264B] focus:outline-none"
+                  style={{
+                    backgroundColor: 'var(--theme-surface-elevated)',
+                    borderColor: 'var(--theme-border)',
+                    color: 'var(--theme-text-primary)',
+                  }}
                   autoFocus
                 />
-                {authError && <p className="text-xs text-[#e8002d] font-mono">{authError}</p>}
+                {authError && <p className="text-xs text-[#F3264B] font-mono">{authError}</p>}
               </div>
 
               <button
                 type="submit"
-                className="btn-tactile w-full py-3.5 px-6 rounded-xl bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_20px_rgba(232,0,45,0.4)]"
+                className="btn-tactile w-full py-3.5 px-6 rounded-xl bg-[#F3264B] hover:bg-[#FF2A44] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-[0_0_20px_rgba(243,38,75,0.4)]"
               >
                 Authenticate Terminal
               </button>
@@ -190,17 +212,28 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
           /* Dashboard Split View */
           <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
             {/* Left Column: Leads List */}
-            <div className="w-full md:w-5/12 border-r border-white/10 flex flex-col bg-[#111216]">
+            <div
+              className="w-full md:w-5/12 border-r flex flex-col"
+              style={{
+                backgroundColor: 'var(--theme-surface-elevated)',
+                borderColor: 'var(--theme-border)',
+              }}
+            >
               {/* Filter Bar */}
-              <div className="p-3 border-b border-white/10 space-y-2.5">
+              <div className="p-3 border-b space-y-2.5" style={{ borderColor: 'var(--theme-border)' }}>
                 <div className="relative">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#8a8172]" />
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--theme-text-muted)' }} />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search name, company, email..."
-                    className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-[#f7f3eb] placeholder-[#6d665b] focus:outline-none focus:border-[#e8002d]"
+                    className="w-full pl-9 pr-3 py-2 rounded-lg border text-xs focus:outline-none focus:border-[#F3264B]"
+                    style={{
+                      backgroundColor: 'var(--theme-surface-card)',
+                      borderColor: 'var(--theme-border)',
+                      color: 'var(--theme-text-primary)',
+                    }}
                   />
                 </div>
 
@@ -215,9 +248,13 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
                         }}
                         className={`px-2.5 py-1 rounded text-[10.5px] uppercase ${
                           filterMarket === m
-                            ? 'bg-[#e8002d] text-white font-bold'
-                            : 'bg-white/5 text-[#8a8172] hover:text-[#f7f3eb]'
+                            ? 'bg-[#F3264B] text-white font-bold'
+                            : 'hover:opacity-80'
                         }`}
+                        style={{
+                          backgroundColor: filterMarket === m ? '#F3264B' : 'var(--theme-surface-card)',
+                          color: filterMarket === m ? '#FFFFFF' : 'var(--theme-text-secondary)',
+                        }}
                       >
                         {m}
                       </button>
@@ -228,14 +265,16 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
                     <button
                       onClick={loadLeads}
                       title="Refresh"
-                      className="p-1 rounded text-[#8a8172] hover:text-[#f7f3eb]"
+                      className="p-1 rounded hover:opacity-80"
+                      style={{ color: 'var(--theme-text-muted)' }}
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={handleExportJson}
                       title="Export JSON"
-                      className="p-1 rounded text-[#8a8172] hover:text-[#f7f3eb]"
+                      className="p-1 rounded hover:opacity-80"
+                      style={{ color: 'var(--theme-text-muted)' }}
                     >
                       <Download className="w-3.5 h-3.5" />
                     </button>
@@ -244,9 +283,9 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
               </div>
 
               {/* Leads Scroll Area */}
-              <div className="flex-1 overflow-y-auto divide-y divide-white/5 scrollbar-thin">
+              <div className="flex-1 overflow-y-auto divide-y scrollbar-thin" style={{ borderColor: 'var(--theme-border)' }}>
                 {filteredLeads.length === 0 ? (
-                  <div className="p-8 text-center text-xs font-mono text-[#8a8172] space-y-2">
+                  <div className="p-8 text-center text-xs font-mono space-y-2" style={{ color: 'var(--theme-text-muted)' }}>
                     <p>No client inquiries found matching filter.</p>
                   </div>
                 ) : (
@@ -259,35 +298,46 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
                           sound.playClick(600);
                           setActiveLead(item);
                         }}
-                        className={`p-3.5 cursor-pointer transition-colors text-left space-y-1.5 ${
-                          isSelected ? 'bg-white/10 border-l-2 border-[#e8002d]' : 'hover:bg-white/5'
-                        }`}
+                        className="p-3.5 cursor-pointer transition-colors text-left space-y-1.5"
+                        style={{
+                          backgroundColor: isSelected
+                            ? (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(8,9,11,0.06)')
+                            : 'transparent',
+                          borderLeft: isSelected ? '2px solid #F3264B' : 'none',
+                        }}
                       >
                         <div className="flex items-center justify-between text-[11px] font-mono">
-                          <span className="font-bold text-[#f7f3eb] truncate max-w-[140px]">
+                          <span className="font-bold truncate max-w-[140px]" style={{ color: 'var(--theme-text-primary)' }}>
                             {item.name}
                           </span>
                           <span
                             className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold ${
                               item.status === 'New'
-                                ? 'bg-[#e8002d]/20 text-[#e8002d]'
+                                ? 'bg-[#F3264B]/20 text-[#F3264B]'
                                 : item.status === 'Contacted'
-                                ? 'bg-emerald-500/20 text-emerald-300'
-                                : 'bg-white/10 text-[#8a8172]'
+                                ? 'bg-emerald-500/20 text-emerald-400'
+                                : 'bg-white/10'
                             }`}
+                            style={{
+                              color: item.status === 'New'
+                                ? '#F3264B'
+                                : item.status === 'Contacted'
+                                ? '#10B981'
+                                : 'var(--theme-text-muted)',
+                            }}
                           >
                             {item.status}
                           </span>
                         </div>
 
-                        <div className="text-[11px] text-[#a79e8f] flex items-center justify-between">
+                        <div className="text-[11px] flex items-center justify-between" style={{ color: 'var(--theme-text-secondary)' }}>
                           <span className="truncate max-w-[160px]">{item.organization}</span>
-                          <span className="font-mono text-[#e8002d] font-bold">
+                          <span className="font-mono font-bold text-[#F3264B]">
                             {item.market === 'UK' ? '🇬🇧 £' : '🇺🇸 $'}
                           </span>
                         </div>
 
-                        <div className="text-[10px] font-mono text-[#8a8172] flex items-center justify-between">
+                        <div className="text-[10px] font-mono flex items-center justify-between" style={{ color: 'var(--theme-text-muted)' }}>
                           <span className="truncate">{item.serviceName}</span>
                           <span>{new Date(item.timestamp).toLocaleDateString()}</span>
                         </div>
@@ -299,32 +349,37 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
             </div>
 
             {/* Right Column: Lead Detail Inspector */}
-            <div className="w-full md:w-7/12 flex-1 p-6 overflow-y-auto bg-[#0e0f12] scrollbar-thin">
+            <div
+              className="w-full md:w-7/12 flex-1 p-6 overflow-y-auto scrollbar-thin"
+              style={{
+                backgroundColor: 'var(--theme-surface-card)',
+              }}
+            >
               {activeLead ? (
                 <div className="space-y-6">
                   {/* Lead Header */}
-                  <div className="flex items-start justify-between pb-4 border-b border-white/10">
+                  <div className="flex items-start justify-between pb-4 border-b" style={{ borderColor: 'var(--theme-border)' }}>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] text-[#e8002d] uppercase tracking-wider font-bold">
+                        <span className="font-mono text-[10px] text-[#F3264B] uppercase tracking-wider font-bold">
                           {activeLead.id}
                         </span>
-                        <span className="text-[10px] font-mono text-[#8a8172]">
+                        <span className="text-[10px] font-mono" style={{ color: 'var(--theme-text-muted)' }}>
                           • {new Date(activeLead.timestamp).toLocaleString()}
                         </span>
                       </div>
-                      <h4 className="font-display font-black text-2xl text-[#f7f3eb] uppercase mt-1">
+                      <h4 className="font-display font-black text-2xl uppercase mt-1" style={{ color: 'var(--theme-text-primary)' }}>
                         {activeLead.name}
                       </h4>
-                      <p className="text-xs text-[#a79e8f] flex items-center gap-2 mt-0.5">
-                        <Building className="w-3.5 h-3.5 text-[#e8002d]" />
+                      <p className="text-xs flex items-center gap-2 mt-0.5" style={{ color: 'var(--theme-text-secondary)' }}>
+                        <Building className="w-3.5 h-3.5 text-[#F3264B]" />
                         <span>{activeLead.organization}</span>
                         {activeLead.websiteUrl && activeLead.websiteUrl !== 'None provided' && (
                           <a
                             href={activeLead.websiteUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[#e8002d] hover:underline"
+                            className="inline-flex items-center gap-1 text-[#F3264B] hover:underline"
                           >
                             <Globe className="w-3 h-3" />
                             <span>Visit Site</span>
@@ -339,17 +394,23 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
                         onChange={(e) =>
                           handleStatusChange(activeLead.id, e.target.value as LeadSubmission['status'])
                         }
-                        className="p-1.5 px-3 rounded-lg bg-white/10 border border-white/15 text-xs font-mono text-[#f7f3eb] focus:outline-none"
+                        className="p-1.5 px-3 rounded-lg border text-xs font-mono focus:outline-none"
+                        style={{
+                          backgroundColor: 'var(--theme-surface-elevated)',
+                          borderColor: 'var(--theme-border)',
+                          color: 'var(--theme-text-primary)',
+                        }}
                       >
-                        <option value="New" className="bg-[#121316]">New</option>
-                        <option value="Contacted" className="bg-[#121316]">Contacted</option>
-                        <option value="In Review" className="bg-[#121316]">In Review</option>
-                        <option value="Archived" className="bg-[#121316]">Archived</option>
+                        <option value="New">New</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="In Review">In Review</option>
+                        <option value="Archived">Archived</option>
                       </select>
 
                       <button
                         onClick={() => handleDelete(activeLead.id)}
-                        className="btn-tactile p-2 rounded-lg bg-white/5 hover:bg-red-500/20 text-[#8a8172] hover:text-red-400"
+                        className="btn-tactile p-2 rounded-lg border hover:bg-red-500/10 text-red-400"
+                        style={{ borderColor: 'var(--theme-border)' }}
                         title="Delete Lead"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -359,68 +420,70 @@ export const AdminLeadsModal: React.FC<AdminLeadsModalProps> = ({ isOpen, onClos
 
                   {/* Commercial Specifications */}
                   <div className="grid grid-cols-2 gap-4 text-xs font-mono">
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Market Region:</span>
-                      <span className="font-bold text-[#f7f3eb]">
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Market Region:</span>
+                      <span className="font-bold" style={{ color: 'var(--theme-text-primary)' }}>
                         {activeLead.market === 'UK' ? '🇬🇧 United Kingdom (GBP)' : '🇺🇸 United States (USD)'}
                       </span>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Selected Package:</span>
-                      <span className="font-bold text-[#f7f3eb]">{activeLead.serviceName}</span>
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Selected Package:</span>
+                      <span className="font-bold" style={{ color: 'var(--theme-text-primary)' }}>{activeLead.serviceName}</span>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Validated Baseline:</span>
-                      <span className="font-bold text-[#f7f3eb]">{activeLead.canonicalStartingPrice}</span>
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Validated Baseline:</span>
+                      <span className="font-bold" style={{ color: 'var(--theme-text-primary)' }}>{activeLead.canonicalStartingPrice}</span>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Mandatory Care Retainer:</span>
-                      <span className="font-bold text-[#e8002d]">{activeLead.mandatoryMaintenance}</span>
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Optional Care Plan:</span>
+                      <span className="font-bold" style={{ color: activeLead.includeMaintenance ? '#F3264B' : 'var(--theme-text-primary)' }}>
+                        {activeLead.maintenancePlanFee}
+                      </span>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Client Stated Budget:</span>
-                      <span className="font-bold text-[#f7f3eb]">{activeLead.budget}</span>
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Client Stated Budget:</span>
+                      <span className="font-bold" style={{ color: 'var(--theme-text-primary)' }}>{activeLead.budget}</span>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1">
-                      <span className="text-[#8a8172] block">Delivery Window:</span>
-                      <span className="font-bold text-[#f7f3eb]">{activeLead.timeline}</span>
+                    <div className="p-3.5 rounded-xl border space-y-1" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                      <span className="block" style={{ color: 'var(--theme-text-muted)' }}>Delivery Window:</span>
+                      <span className="font-bold" style={{ color: 'var(--theme-text-primary)' }}>{activeLead.timeline}</span>
                     </div>
                   </div>
 
                   {/* Contact Info */}
-                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 text-xs">
-                    <div className="font-mono text-[#8a8172] uppercase font-bold">Client Contact</div>
+                  <div className="p-4 rounded-xl border space-y-2 text-xs" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                    <div className="font-mono uppercase font-bold" style={{ color: 'var(--theme-text-muted)' }}>Client Contact</div>
                     <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
                       <a
                         href={`mailto:${activeLead.email}`}
-                        className="inline-flex items-center gap-1.5 text-[#e8002d] hover:underline"
+                        className="inline-flex items-center gap-1.5 text-[#F3264B] hover:underline"
                       >
                         <Mail className="w-3.5 h-3.5" />
                         <span>{activeLead.email}</span>
                       </a>
-                      <span className="text-[#8a8172]">
-                        Mode: <strong className="text-[#f7f3eb]">{activeLead.preferredContact.toUpperCase()}</strong>
+                      <span style={{ color: 'var(--theme-text-muted)' }}>
+                        Mode: <strong style={{ color: 'var(--theme-text-primary)' }}>{activeLead.preferredContact.toUpperCase()}</strong>
                       </span>
                     </div>
                   </div>
 
                   {/* Project Scope Brief */}
-                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2">
-                    <div className="font-mono text-xs text-[#8a8172] uppercase font-bold">
+                  <div className="p-4 rounded-xl border space-y-2" style={{ backgroundColor: 'var(--theme-surface-elevated)', borderColor: 'var(--theme-border)' }}>
+                    <div className="font-mono text-xs uppercase font-bold" style={{ color: 'var(--theme-text-muted)' }}>
                       Project Scope Brief
                     </div>
-                    <p className="text-xs text-[#cfc8ba] whitespace-pre-wrap leading-relaxed font-sans">
+                    <p className="text-xs whitespace-pre-wrap leading-relaxed font-sans" style={{ color: 'var(--theme-text-secondary)' }}>
                       {activeLead.message}
                     </p>
                   </div>
                 </div>
               ) : (
-                <div className="h-full flex items-center justify-center text-xs font-mono text-[#8a8172]">
+                <div className="h-full flex items-center justify-center text-xs font-mono" style={{ color: 'var(--theme-text-muted)' }}>
                   Select a client inquiry from the sidebar to inspect full brief.
                 </div>
               )}

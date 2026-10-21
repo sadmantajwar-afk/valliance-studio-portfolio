@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import { ArrowUpRight, Sparkles, Terminal, Eye } from 'lucide-react';
 import { Project, PROJECTS } from '../data/projects';
 import { sound } from '../utils/audio';
+import { useTheme } from '../utils/theme';
 
 const CaseStudyModal = lazy(() =>
   import('./CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
@@ -14,6 +15,7 @@ interface SelectedWorkProps {
 export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const { isDark } = useTheme();
 
   const categories = ['All', 'Digital Experiences', 'Commerce & Systems'];
 
@@ -22,28 +24,36 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
     : PROJECTS.filter(p => p.category === selectedCategory);
 
   return (
-    <section id="work" className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#0b0908] border-b border-white/10">
+    <section
+      id="work"
+      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b transition-colors duration-200"
+      style={{
+        backgroundColor: 'var(--theme-bg)',
+        color: 'var(--theme-text-primary)',
+        borderColor: 'var(--theme-border)',
+      }}
+    >
       {/* Background radial glow */}
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#e8002d]/4 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#F3264B]/4 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto space-y-16">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-white/10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b" style={{ borderColor: 'var(--theme-border)' }}>
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#F3264B] uppercase tracking-wider">
               <Terminal className="w-4 h-4" />
               <span>INDEX // 01 — DEMO PROJECTS</span>
             </div>
-            <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight text-[#f7f3eb] uppercase leading-[0.95]">
+            <h2 className="font-display font-extrabold text-[clamp(2.2rem,7vw,5rem)] tracking-tight uppercase leading-[0.95]" style={{ color: 'var(--theme-text-primary)' }}>
               GOOD WORK. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8002d] to-[#f7f3eb]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F3264B] via-[#FF2A44] to-[#8A8172]">
                 NO ORDINARY.
               </span>
             </h2>
           </div>
 
           <div className="space-y-6 lg:max-w-md">
-            <p className="text-sm sm:text-base text-[#cfc8ba] font-sans font-light leading-relaxed">
+            <p className="text-sm sm:text-base font-sans font-light leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>
               Every project is an editorial canvas. We don’t repeat templates; we sculpt bespoke digital identities and autonomous AI architectures tailored to world-class brands.
             </p>
 
@@ -56,11 +66,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                     sound.playClick(700);
                     setSelectedCategory(cat);
                   }}
-                  className={`btn-tactile min-h-[40px] px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.97] ${
+                  className={`btn-tactile min-h-[40px] px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 flex items-center justify-center active:scale-[0.97] border ${
                     selectedCategory === cat
-                      ? 'bg-[#e8002d] text-[#fff6ec] font-bold shadow-[0_0_15px_rgba(232,0,45,0.3)]'
-                      : 'bg-white/5 text-[#cfc8ba] hover:text-[#f7f3eb] hover:bg-white/10 border border-white/10'
+                      ? 'bg-[#F3264B] text-white font-bold shadow-[0_0_15px_rgba(243,38,75,0.3)]'
+                      : 'hover:opacity-90'
                   }`}
+                  style={{
+                    backgroundColor: selectedCategory === cat ? '#F3264B' : 'var(--theme-surface-elevated)',
+                    color: selectedCategory === cat ? '#FFFFFF' : 'var(--theme-text-secondary)',
+                    borderColor: selectedCategory === cat ? '#F3264B' : 'var(--theme-border)',
+                  }}
                   data-cursor="hover"
                 >
                   {cat}
@@ -84,7 +99,10 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                 <div
                   className={`absolute -top-12 sm:-top-20 ${
                     isEven ? 'right-0' : 'left-0'
-                  } font-display font-extrabold text-[7rem] sm:text-[12rem] lg:text-[15rem] leading-none text-white/[0.02] select-none pointer-events-none z-0`}
+                  } font-display font-extrabold text-[7rem] sm:text-[12rem] lg:text-[15rem] leading-none select-none pointer-events-none z-0`}
+                  style={{
+                    color: isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(8, 9, 11, 0.03)',
+                  }}
                 >
                   {project.number}
                 </div>
@@ -100,7 +118,11 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                       sound.playChime();
                       setActiveProject(project);
                     }}
-                    className="relative aspect-[16/11] sm:aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden glass-panel border border-white/15 cursor-pointer group shadow-2xl transition-all duration-500 hover:border-[#e8002d]/50"
+                    className="relative aspect-[16/11] sm:aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden border cursor-pointer group shadow-2xl transition-all duration-500 hover:border-[#F3264B]/50"
+                    style={{
+                      backgroundColor: 'var(--theme-surface-card)',
+                      borderColor: 'var(--theme-border)',
+                    }}
                     data-cursor="project"
                     data-cursor-text="EXPLORE"
                   >
@@ -124,16 +146,16 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                     />
 
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b0908]/90 via-[#0b0908]/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-75 group-hover:opacity-50 transition-opacity duration-500" />
 
                     {/* Top Floating Badge */}
-                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-xs font-mono uppercase tracking-wider text-[#f7f3eb]">
+                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-xs font-mono uppercase tracking-wider text-white">
                       <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#e8002d]" />
+                        <Sparkles className="w-3.5 h-3.5 text-[#F3264B]" />
                         {project.category}
                       </span>
-                      <span className="px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-[#e8002d]/40 text-[#e8002d] font-bold flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#e8002d]" />
+                      <span className="px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-[#F3264B]/40 text-[#F3264B] font-bold flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#F3264B]" />
                         {project.isStudioConcept ? 'STUDIO CONCEPT' : 'DEMO PROJECT'}
                       </span>
                     </div>
@@ -141,18 +163,18 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                     {/* Bottom Preview Telemetry */}
                     <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
                       <div className="space-y-1">
-                        <span className="font-mono text-xs text-[#e8002d]">
+                        <span className="font-mono text-xs text-[#F3264B]">
                           CORE ARCHITECTURE SPEC
                         </span>
-                        <div className="font-display text-xl sm:text-2xl font-bold text-[#f7f3eb]">
+                        <div className="font-display text-xl sm:text-2xl font-bold text-white">
                           {project.metrics[0].value}{' '}
-                          <span className="font-mono text-xs font-normal text-[#cfc8ba]">
+                          <span className="font-mono text-xs font-normal text-white/80">
                             ({project.metrics[0].label})
                           </span>
                         </div>
                       </div>
 
-                      <div className="w-10 h-10 rounded-full bg-[#e8002d] text-[#fff6ec] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-45 transition-all duration-300 shadow-[0_0_20px_rgba(232,0,45,0.5)]">
+                      <div className="w-10 h-10 rounded-full bg-[#F3264B] text-white flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-45 transition-all duration-300 shadow-[0_0_20px_rgba(243,38,75,0.5)]">
                         <ArrowUpRight className="w-5 h-5 font-bold" />
                       </div>
                     </div>
@@ -166,68 +188,82 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="font-display text-2xl font-bold text-[#e8002d]">
+                    <span className="font-display text-2xl font-bold text-[#F3264B]">
                       {project.number}
                     </span>
-                    <span className="w-12 h-[1px] bg-white/20" />
-                    <span className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">
+                    <span className="w-12 h-[1px]" style={{ backgroundColor: 'var(--theme-border-strong)' }} />
+                    <span className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>
                       {project.client}
                     </span>
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-[#f7f3eb] tracking-tight uppercase group-hover:text-[#e8002d] transition-colors">
+                    <h3
+                      className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight uppercase group-hover:text-[#F3264B] transition-colors"
+                      style={{ color: 'var(--theme-text-primary)' }}
+                    >
                       {project.title}
                     </h3>
-                    <p className="font-space text-lg text-[#cfc8ba] font-medium leading-relaxed">
-                      {project.tagline}
+                    <p className="font-space text-base sm:text-lg italic font-medium leading-relaxed" style={{ color: 'var(--theme-text-primary)' }}>
+                      “{project.tagline}”
+                    </p>
+                    <p className="text-sm font-sans font-light leading-relaxed pt-1" style={{ color: 'var(--theme-text-secondary)' }}>
+                      {project.description}
                     </p>
                   </div>
 
-                  <p className="text-sm text-[#8e8b82] leading-relaxed font-light">
-                    {project.overview}
-                  </p>
-
-                  {/* Deliverables Tags */}
-                  <div className="space-y-2 pt-2">
-                    <div className="text-[11px] font-mono text-[#8a8172] uppercase tracking-wider">
-                      DELIVERABLES &amp; CAPABILITIES:
+                  {/* Deliverables / Tech Stack Badges */}
+                  <div className="space-y-3 pt-2">
+                    <div className="font-mono text-xs uppercase tracking-wider font-semibold" style={{ color: 'var(--theme-text-muted)' }}>
+                      ENGINEERED DELIVERABLES:
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {project.deliverables.map((deliv, i) => (
+                      {project.deliverables.map((item, dIdx) => (
                         <span
-                          key={i}
-                          className="px-2.5 py-1 rounded bg-white/5 border border-white/10 font-mono text-xs text-[#f7f3eb]"
+                          key={dIdx}
+                          className="px-3 py-1.5 rounded-lg border text-xs font-mono"
+                          style={{
+                            backgroundColor: 'var(--theme-surface-elevated)',
+                            borderColor: 'var(--theme-border)',
+                            color: 'var(--theme-text-secondary)',
+                          }}
                         >
-                          {deliv}
+                          {item}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Interactive Action Buttons */}
-                  <div className="pt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                  {/* Actions Bar */}
+                  <div className="flex flex-wrap items-center gap-4 pt-4 border-t" style={{ borderColor: 'var(--theme-border)' }}>
                     <button
                       onClick={() => {
                         sound.playChime();
                         setActiveProject(project);
                       }}
-                      className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 bg-[#e8002d] hover:bg-[#ff2a44] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(232,0,45,0.3)] active:scale-[0.97] w-full sm:w-auto"
+                      className="btn-tactile inline-flex items-center gap-2 px-6 py-3 rounded-full border text-xs font-mono uppercase tracking-wider font-bold transition-all hover:border-[#F3264B]"
+                      style={{
+                        backgroundColor: 'var(--theme-surface-elevated)',
+                        borderColor: 'var(--theme-border)',
+                        color: 'var(--theme-text-primary)',
+                      }}
+                      data-cursor="hover"
                     >
-                      <Eye className="w-4 h-4" />
-                      <span>INSPECT CASE STUDY</span>
+                      <Eye className="w-4 h-4 text-[#F3264B]" />
+                      <span>INSPECT ARCHITECTURE</span>
                     </button>
 
-                    {project.livePreviewUrl && (
+                    {project.liveUrl && (
                       <a
-                        href={project.livePreviewUrl}
+                        href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => sound.playClick(600)}
-                        className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-3 bg-white/5 hover:bg-white/10 text-[#f7f3eb] hover:text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full border border-white/15 hover:border-white/30 transition-all duration-300 group/link active:scale-[0.97] w-full sm:w-auto"
+                        onClick={() => sound.playClick(800)}
+                        className="btn-tactile inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#F3264B] hover:underline"
+                        data-cursor="hover"
                       >
-                        <span>VISIT LIVE SITE</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                        <span>VISIT PRODUCTION SITE</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
                       </a>
                     )}
                   </div>
@@ -236,36 +272,18 @@ export const SelectedWork: React.FC<SelectedWorkProps> = ({ onOpenContact }) => 
             );
           })}
         </div>
-
-        {/* Bottom Banner to Contact */}
-        <div className="p-6 sm:p-12 rounded-3xl bg-gradient-to-r from-white/5 via-white/[0.02] to-transparent border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-          <div className="space-y-2">
-            <h4 className="font-display text-2xl sm:text-3xl font-bold text-[#f7f3eb] uppercase">
-              Ready to elevate your flagship?
-            </h4>
-            <p className="text-sm text-[#cfc8ba]">
-              We take on a limited number of high-impact engagements each quarter.
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              sound.playChime();
-              onOpenContact();
-            }}
-            className="btn-tactile w-full sm:w-auto min-h-[48px] px-8 py-3.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shrink-0 flex items-center justify-center active:scale-[0.97]"
-          >
-            DISCUSS YOUR PROJECT
-          </button>
-        </div>
       </div>
 
-      {/* Case Study Full Deep Dive Modal — Code split & lazy loaded on demand */}
+      {/* Case Study Modal */}
       {activeProject && (
         <Suspense fallback={null}>
           <CaseStudyModal
             project={activeProject}
             onClose={() => setActiveProject(null)}
-            onOpenContact={onOpenContact}
+            onOpenContact={() => {
+              setActiveProject(null);
+              onOpenContact();
+            }}
           />
         </Suspense>
       )}

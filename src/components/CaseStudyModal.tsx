@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X, ArrowUpRight, CheckCircle2, Cpu, Sparkles, ShieldCheck } from 'lucide-react';
 import { Project } from '../data/projects';
 import { sound } from '../utils/audio';
+import { useTheme } from '../utils/theme';
 
 interface CaseStudyModalProps {
   project: Project | null;
@@ -11,6 +12,7 @@ interface CaseStudyModalProps {
 
 export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose, onOpenContact }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -26,7 +28,6 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
     };
   }, [project, onClose]);
 
-  // Isolate wheel and touch events within the modal so Lenis or window listeners cannot cancel them
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container || !project) return;
@@ -48,8 +49,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
   return (
     <div
       ref={scrollContainerRef}
-      className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden bg-black/90 backdrop-blur-2xl modal-scroll-container overscroll-contain"
-      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
+      className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden backdrop-blur-2xl modal-scroll-container overscroll-contain transition-colors"
+      style={{
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.88)' : 'rgba(8, 9, 11, 0.65)',
+        WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
+      }}
       data-lenis-prevent
       data-lenis-prevent-wheel
       data-lenis-prevent-touch
@@ -65,16 +70,21 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
         }}
       >
         <div
-          className="relative w-full max-w-5xl bg-[#0c0c10] border border-white/15 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 lg:p-10 text-[#f7f3eb] h-fit cursor-default animate-modal-enter"
+          className="relative w-full max-w-5xl rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 lg:p-10 h-fit cursor-default animate-modal-enter border"
+          style={{
+            backgroundColor: 'var(--theme-surface-card)',
+            color: 'var(--theme-text-primary)',
+            borderColor: 'var(--theme-border-card)',
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Top Bar */}
-          <div className="flex items-center justify-between pb-6 border-b border-white/10">
+          <div className="flex items-center justify-between pb-6 border-b" style={{ borderColor: 'var(--theme-border)' }}>
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs px-2.5 py-1 rounded bg-[#e8002d] text-[#fff6ec] font-bold">
+              <span className="font-mono text-xs px-2.5 py-1 rounded bg-[#F3264B] text-white font-bold">
                 {project.isStudioConcept ? 'CONCEPT' : 'PROJECT'} {project.number}
               </span>
-              <span className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">
+              <span className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>
                 {project.category} · {project.year}
               </span>
             </div>
@@ -86,10 +96,15 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="btn-tactile hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 transition-all group/toplink active:scale-[0.97]"
+                  className="btn-tactile hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider border transition-all group/toplink active:scale-[0.97]"
+                  style={{
+                    backgroundColor: 'var(--theme-surface-elevated)',
+                    borderColor: 'var(--theme-border)',
+                    color: 'var(--theme-text-primary)',
+                  }}
                 >
                   <span>LAUNCH LIVE SITE</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/toplink:translate-x-0.5 group-hover/toplink:-translate-y-0.5" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#F3264B] transition-transform group-hover/toplink:translate-x-0.5 group-hover/toplink:-translate-y-0.5" />
                 </a>
               )}
               <button
@@ -97,7 +112,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="btn-tactile min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/15 text-[#f7f3eb] transition-colors border border-white/10 active:scale-[0.97]"
+                className="btn-tactile min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full border transition-colors active:scale-[0.97]"
+                style={{
+                  backgroundColor: 'var(--theme-surface-elevated)',
+                  borderColor: 'var(--theme-border)',
+                  color: 'var(--theme-text-primary)',
+                }}
                 aria-label="Close Case Study"
               >
                 <X className="w-5 h-5" />
@@ -108,7 +128,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           {/* Hero Banner inside modal */}
           <div className="py-6 sm:py-8 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#f7f3eb] uppercase break-words">
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase break-words" style={{ color: 'var(--theme-text-primary)' }}>
                 {project.title}
               </h2>
               {project.livePreviewUrl && (
@@ -117,24 +137,29 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="sm:hidden inline-flex items-center gap-2 px-4 py-2 w-fit rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20"
+                  className="sm:hidden inline-flex items-center gap-2 px-4 py-2 w-fit rounded-full border text-xs font-mono font-bold uppercase tracking-wider"
+                  style={{
+                    backgroundColor: 'var(--theme-surface-elevated)',
+                    borderColor: 'var(--theme-border)',
+                    color: 'var(--theme-text-primary)',
+                  }}
                 >
                   <span>LAUNCH LIVE SITE</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d]" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#F3264B]" />
                 </a>
               )}
             </div>
-            <p className="font-space text-lg sm:text-2xl text-[#e8002d] font-medium leading-relaxed">
+            <p className="font-space text-lg sm:text-2xl text-[#F3264B] font-medium leading-relaxed">
               {project.tagline}
             </p>
-            <p className="text-sm sm:text-base text-[#cfc8ba] leading-relaxed max-w-3xl font-light">
+            <p className="text-sm sm:text-base leading-relaxed max-w-3xl font-light" style={{ color: 'var(--theme-text-secondary)' }}>
               {project.overview}
             </p>
           </div>
 
           {/* Featured Imagery Split */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 my-6">
-            <div className="md:col-span-8 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] bg-[#14141a]">
+            <div className="md:col-span-8 rounded-2xl overflow-hidden border aspect-[16/10]" style={{ borderColor: 'var(--theme-border)' }}>
               <img
                 src={project.image}
                 srcSet={
@@ -154,7 +179,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                 style={{ objectPosition: project.imagePosition || 'center' }}
               />
             </div>
-            <div className="md:col-span-4 rounded-2xl overflow-hidden border border-white/10 aspect-[16/10] md:aspect-auto bg-[#14141a]">
+            <div className="md:col-span-4 rounded-2xl overflow-hidden border aspect-[16/10] md:aspect-auto" style={{ borderColor: 'var(--theme-border)' }}>
               <img
                 src={project.secondaryImage}
                 srcSet={
@@ -177,13 +202,19 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           </div>
 
           {/* Key Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 my-8">
+          <div
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 rounded-2xl border my-8"
+            style={{
+              backgroundColor: 'var(--theme-surface-elevated)',
+              borderColor: 'var(--theme-border)',
+            }}
+          >
             {project.metrics.map((metric, i) => (
               <div key={i} className="space-y-1">
-                <span className="font-display text-2xl sm:text-3xl font-bold text-[#e8002d]">
+                <span className="font-display text-2xl sm:text-3xl font-bold text-[#F3264B]">
                   {metric.value}
                 </span>
-                <p className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">
+                <p className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>
                   {metric.label}
                 </p>
               </div>
@@ -191,37 +222,37 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           </div>
 
           {/* Challenge & Solution Architecture */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6 border-t border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6 border-t" style={{ borderColor: 'var(--theme-border)' }}>
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#F3264B] uppercase tracking-wider">
                 <Cpu className="w-4 h-4" />
                 <span>THE ARCHITECTURAL CHALLENGE</span>
               </div>
-              <p className="text-sm text-[#cfc8ba] leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>
                 {project.challenge}
               </p>
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#e8002d] uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#F3264B] uppercase tracking-wider">
                 <Sparkles className="w-4 h-4" />
                 <span>THE VALLIANCE SOLUTION</span>
               </div>
-              <p className="text-sm text-[#cfc8ba] leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--theme-text-secondary)' }}>
                 {project.solution}
               </p>
             </div>
           </div>
 
           {/* Key Engineering Features */}
-          <div className="py-6 border-t border-white/10 space-y-4">
-            <h3 className="font-display text-lg font-bold text-[#f7f3eb] uppercase tracking-wider">
+          <div className="py-6 border-t space-y-4" style={{ borderColor: 'var(--theme-border)' }}>
+            <h3 className="font-display text-lg font-bold uppercase tracking-wider" style={{ color: 'var(--theme-text-primary)' }}>
               Core Capabilities &amp; Interactivity
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {project.features.map((feat, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 text-xs text-[#cfc8ba]">
-                  <CheckCircle2 className="w-4 h-4 text-[#e8002d] shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-2.5 text-xs" style={{ color: 'var(--theme-text-secondary)' }}>
+                  <CheckCircle2 className="w-4 h-4 text-[#F3264B] shrink-0 mt-0.5" />
                   <span>{feat}</span>
                 </div>
               ))}
@@ -229,15 +260,20 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           </div>
 
           {/* Tech Stack Tags */}
-          <div className="py-6 border-t border-white/10 space-y-3">
-            <h4 className="font-mono text-xs text-[#8a8172] uppercase tracking-wider">
+          <div className="py-6 border-t space-y-3" style={{ borderColor: 'var(--theme-border)' }}>
+            <h4 className="font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--theme-text-muted)' }}>
               ENGINEERED WITH
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-[#f7f3eb]"
+                  className="px-3 py-1 rounded-full border font-mono text-xs"
+                  style={{
+                    backgroundColor: 'var(--theme-surface-elevated)',
+                    borderColor: 'var(--theme-border)',
+                    color: 'var(--theme-text-primary)',
+                  }}
                 >
                   {tech}
                 </span>
@@ -245,11 +281,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
             </div>
           </div>
 
-
           {/* Bottom Action Footer */}
-          <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#8a8172]">
-              <ShieldCheck className="w-4 h-4 text-[#e8002d]" />
+          <div className="pt-6 border-t flex flex-wrap items-center justify-between gap-4" style={{ borderColor: 'var(--theme-border)' }}>
+            <div className="flex items-center gap-2 text-xs font-mono" style={{ color: 'var(--theme-text-muted)' }}>
+              <ShieldCheck className="w-4 h-4 text-[#F3264B]" />
               <span>
                 {project.isStudioConcept
                   ? 'STUDIO CONCEPT ARCHIVE // VALLIANCE LABS'
@@ -264,10 +299,15 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick(600)}
-                  className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-[#f7f3eb] uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all group/livebtn active:scale-[0.97] w-full sm:w-auto"
+                  className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider border transition-all group/livebtn active:scale-[0.97] w-full sm:w-auto"
+                  style={{
+                    backgroundColor: 'var(--theme-surface-elevated)',
+                    borderColor: 'var(--theme-border)',
+                    color: 'var(--theme-text-primary)',
+                  }}
                 >
                   <span>LAUNCH LIVE SITE</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-[#e8002d] transition-transform group-hover/livebtn:translate-x-0.5 group-hover/livebtn:-translate-y-0.5" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#F3264B] transition-transform group-hover/livebtn:translate-x-0.5 group-hover/livebtn:-translate-y-0.5" />
                 </a>
               )}
               <button
@@ -275,7 +315,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   sound.playClick(400);
                   onClose();
                 }}
-                className="btn-tactile min-h-[44px] px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-[#f7f3eb] uppercase tracking-wider flex items-center justify-center active:scale-[0.97] w-full sm:w-auto"
+                className="btn-tactile min-h-[44px] px-5 py-2.5 rounded-full border text-xs font-mono uppercase tracking-wider flex items-center justify-center active:scale-[0.97] w-full sm:w-auto"
+                style={{
+                  backgroundColor: 'var(--theme-surface-elevated)',
+                  borderColor: 'var(--theme-border)',
+                  color: 'var(--theme-text-primary)',
+                }}
               >
                 CLOSE
               </button>
@@ -285,7 +330,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   onClose();
                   onOpenContact();
                 }}
-                className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#e8002d] text-[#fff6ec] font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#ff2a44] shadow-[0_0_20px_rgba(232,0,45,0.3)] transition-all active:scale-[0.97] w-full sm:w-auto"
+                className="btn-tactile inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 bg-[#F3264B] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full hover:bg-[#FF2A44] shadow-[0_0_20px_rgba(243,38,75,0.3)] transition-all active:scale-[0.97] w-full sm:w-auto"
               >
                 <span>BUILD SIMILAR EXPERIENCE</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />

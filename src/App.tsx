@@ -7,7 +7,6 @@ import { ProcessSection } from './components/ProcessSection';
 import { PricingSection } from './components/PricingSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { AiChatbot } from './components/AiChatbot';
 import { AdminLeadsModal } from './components/AdminLeadsModal';
 import { initMetaPixel, trackMetaEvent } from './utils/metaPixel';
 
@@ -134,8 +133,14 @@ export function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0b0908] text-[#f7f3eb] overflow-x-hidden selection:bg-[#e8002d] selection:text-[#fff6ec]">
-      {/* Global Navigation Header with Market Currency Switcher */}
+    <div
+      className="relative min-h-screen overflow-x-hidden selection:bg-[#F3264B] selection:text-[#FFFFFF] transition-colors duration-200"
+      style={{
+        backgroundColor: 'var(--theme-bg)',
+        color: 'var(--theme-text-primary)',
+      }}
+    >
+      {/* Global Navigation Header with Theme Toggle & Market Switcher */}
       <Navbar
         onOpenContact={scrollToContact}
         onOpenAdmin={() => setIsAdminOpen(true)}
@@ -167,9 +172,6 @@ export function App() {
         {/* Global Footer */}
         <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
       </main>
-
-      {/* Interactive AI Lead Qualification Advisor */}
-      <AiChatbot />
 
       {/* Studio Lead Operations Terminal (Passcode Protected) */}
       <AdminLeadsModal

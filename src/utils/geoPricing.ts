@@ -71,6 +71,7 @@ export interface MaintenancePlan {
   scopeSummary: string;
   inclusions: string[];
   exclusions: string[];
+  accountOwnershipNotice: string;
 }
 
 export const WEBSITE_PACKAGES: WebsitePackage[] = [
@@ -184,8 +185,8 @@ export const AI_SERVICES: AiServicePackage[] = [
     name: 'AI Website Chatbot',
     tagline: '24/7 intelligent visitor assistance, qualification, and automated meeting booking.',
     price: {
-      US: 500,
-      UK: 400,
+      US: 350,
+      UK: 300,
     },
     feeType: 'setup',
     features: [
@@ -202,8 +203,8 @@ export const AI_SERVICES: AiServicePackage[] = [
     name: 'Business Workflow Automation',
     tagline: 'Eliminate repetitive manual busywork by connecting your forms, CRM, email, and bookings.',
     price: {
-      US: 750,
-      UK: 600,
+      US: 500,
+      UK: 400,
     },
     feeType: 'setup',
     features: [
@@ -220,8 +221,8 @@ export const AI_SERVICES: AiServicePackage[] = [
     name: 'AI Customer Support System',
     tagline: 'Autonomous first-line customer inquiry resolution with deep business knowledge vectors.',
     price: {
-      US: 1500,
-      UK: 1200,
+      US: 1000,
+      UK: 800,
     },
     feeType: 'setup',
     features: [
@@ -236,7 +237,7 @@ export const AI_SERVICES: AiServicePackage[] = [
   },
   {
     id: 'custom_ai',
-    name: 'Custom AI Solutions',
+    name: 'Custom Automation Solutions',
     tagline: 'Custom autonomous agent swarms, internal business tooling, and proprietary LLM workflows.',
     price: {
       US: null,
@@ -254,20 +255,20 @@ export const AI_SERVICES: AiServicePackage[] = [
   },
 ];
 
-export const MANDATORY_MAINTENANCE: MaintenancePlan = {
-  name: 'Mandatory Studio Maintenance & Observability',
-  tagline: 'Mandatory for every production project. Ensures peak performance, sub-second loading, and continuous security.',
+export const OPTIONAL_MAINTENANCE: MaintenancePlan = {
+  name: 'Optional Studio Care & Maintenance',
+  tagline: 'Optional monthly care plan. Guarantees peak performance, sub-second loading, routine dependency updates, and continuous security.',
   price: {
     US: 50,
     UK: 40,
   },
   billingPeriod: 'month',
   scopeSummary:
-    'Mandatory for every project and billed monthly after the agreed launch and acceptance date. Keeps your website secure, fast, and maintained by the engineers who built it.',
+    'Completely optional care plan billed monthly after project launch and acceptance. Defaults to unselected. Can be activated or canceled anytime without long-term lock-in.',
   inclusions: [
     '24/7 uptime monitoring & sub-second latency health checks',
-    'Routine maintenance, security patches & framework dependencies',
-    'Automated daily cloud backups & rapid disaster rollback',
+    'Routine maintenance, security patches & framework dependency updates',
+    'Automated cloud backups & rapid disaster rollback support',
     'Monthly Core Web Vitals audit & performance tuning',
     'Minor content tweaks and text/image updates (up to 1 hour/month)',
     'Priority direct email support (< 24hr response target)'
@@ -277,15 +278,17 @@ export const MANDATORY_MAINTENANCE: MaintenancePlan = {
     'Domain name registration and annual renewal fees',
     'Third-party paid API tokens and LLM model costs (e.g. OpenAI/Anthropic)',
     'Transactional email/SMS provider costs (e.g. Resend, Twilio)',
+    'Third-party automation subscriptions (e.g. Make, Zapier, Retool)',
     'Complete page redesigns, major new feature builds, or structural revisions'
   ],
+  accountOwnershipNotice:
+    'Third-party API usage, AI provider charges, automation platform subscriptions, hosting, and other applicable external costs are paid separately by the client. Whenever practical, clients should own and pay for their own service accounts so they retain 100% control and ownership.',
 };
+
+export const MANDATORY_MAINTENANCE = OPTIONAL_MAINTENANCE; // Backward compatibility alias
 
 const STORAGE_KEY = 'valliance_market';
 
-/**
- * Reads persisted market or returns default
- */
 export function getSavedMarket(): Market | null {
   if (typeof window === 'undefined') return null;
   try {
@@ -297,9 +300,6 @@ export function getSavedMarket(): Market | null {
   return null;
 }
 
-/**
- * Saves manual market choice
- */
 export function setSavedMarket(market: Market): void {
   if (typeof window === 'undefined') return;
   try {
@@ -310,20 +310,14 @@ export function setSavedMarket(market: Market): void {
   }
 }
 
-/**
- * Detects visitor country via IP geolocation with graceful fallback.
- * Unsupported countries default to US ($). Never displays Bangladeshi pricing.
- */
 export async function detectVisitorMarket(): Promise<Market> {
   const saved = getSavedMarket();
   if (saved) return saved;
 
   try {
-    // Timeout of 2500ms so we never block page rendering
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 2500);
 
-    // Fast, privacy-friendly country detection
     const res = await fetch('https://ipapi.co/json/', {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
@@ -336,25 +330,20 @@ export async function detectVisitorMarket(): Promise<Market> {
       if (country === 'GB' || country === 'UK') {
         return 'UK';
       }
-      // Any other country (including unsupported countries) defaults to US
       return 'US';
     }
   } catch {
-    // Graceful fallback on network block or timeout
+    // Graceful fallback
   }
 
   return 'US';
 }
 
-/**
- * Custom React Hook to subscribe to location-aware pricing & market state
- */
 export function useMarket() {
   const [market, setMarketState] = useState<Market>(() => getSavedMarket() || 'US');
   const [isDetected, setIsDetected] = useState(false);
 
   useEffect(() => {
-    // Listen to manual changes from any component
     const handleMarketChange = (e: Event) => {
       const customEvent = e as CustomEvent<{ market: Market }>;
       if (customEvent.detail?.market) {
@@ -364,7 +353,6 @@ export function useMarket() {
 
     window.addEventListener('marketChanged', handleMarketChange);
 
-    // Only run IP detection if visitor hasn't manually set a preference
     if (!getSavedMarket()) {
       detectVisitorMarket().then((detected) => {
         setMarketState(detected);
@@ -401,18 +389,20 @@ export function useMarket() {
     currencyCode,
     websitePackages: WEBSITE_PACKAGES,
     aiServices: AI_SERVICES,
-    maintenancePlan: MANDATORY_MAINTENANCE,
+    maintenancePlan: OPTIONAL_MAINTENANCE,
     formatPrice,
     isDetected,
   };
 }
 
-/**
- * Server-side / backend validation utility
- * Validates that submitted service and maintenance prices match the canonical catalog
- */
-export function getCanonicalPriceRecord(serviceId: string, market: Market) {
+export function getCanonicalPriceRecord(
+  serviceId: string,
+  market: Market,
+  includeMaintenance: boolean = false
+) {
   const webPkg = WEBSITE_PACKAGES.find((p) => p.id === serviceId);
+  const careFee = `${MARKETS[market].currency}${OPTIONAL_MAINTENANCE.price[market]}/mo`;
+
   if (webPkg) {
     const rawPrice = webPkg.price[market];
     return {
@@ -421,8 +411,10 @@ export function getCanonicalPriceRecord(serviceId: string, market: Market) {
       currencyCode: MARKETS[market].currencyCode,
       startingPrice: rawPrice ? `${MARKETS[market].currency}${rawPrice.toLocaleString()}` : 'Custom quote',
       numericStartingPrice: rawPrice,
-      mandatoryMaintenance: `${MARKETS[market].currency}${MANDATORY_MAINTENANCE.price[market]}/mo`,
-      numericMaintenance: MANDATORY_MAINTENANCE.price[market],
+      optionalMaintenance: careFee,
+      maintenanceIncluded: includeMaintenance,
+      maintenanceStatus: includeMaintenance ? `Selected (${careFee})` : `Not selected ($0)`,
+      numericMaintenance: includeMaintenance ? OPTIONAL_MAINTENANCE.price[market] : 0,
     };
   }
 
@@ -435,8 +427,10 @@ export function getCanonicalPriceRecord(serviceId: string, market: Market) {
       currencyCode: MARKETS[market].currencyCode,
       startingPrice: rawPrice ? `${MARKETS[market].currency}${rawPrice.toLocaleString()}` : 'Custom quote',
       numericStartingPrice: rawPrice,
-      mandatoryMaintenance: `${MARKETS[market].currency}${MANDATORY_MAINTENANCE.price[market]}/mo`,
-      numericMaintenance: MANDATORY_MAINTENANCE.price[market],
+      optionalMaintenance: careFee,
+      maintenanceIncluded: includeMaintenance,
+      maintenanceStatus: includeMaintenance ? `Selected (${careFee})` : `Not selected ($0)`,
+      numericMaintenance: includeMaintenance ? OPTIONAL_MAINTENANCE.price[market] : 0,
     };
   }
 
@@ -446,7 +440,9 @@ export function getCanonicalPriceRecord(serviceId: string, market: Market) {
     currencyCode: MARKETS[market].currencyCode,
     startingPrice: 'Custom quote',
     numericStartingPrice: null,
-    mandatoryMaintenance: `${MARKETS[market].currency}${MANDATORY_MAINTENANCE.price[market]}/mo`,
-    numericMaintenance: MANDATORY_MAINTENANCE.price[market],
+    optionalMaintenance: careFee,
+    maintenanceIncluded: includeMaintenance,
+    maintenanceStatus: includeMaintenance ? `Selected (${careFee})` : `Not selected ($0)`,
+    numericMaintenance: includeMaintenance ? OPTIONAL_MAINTENANCE.price[market] : 0,
   };
 }
