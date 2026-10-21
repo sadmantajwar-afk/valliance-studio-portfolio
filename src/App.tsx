@@ -7,6 +7,7 @@ import { ProcessSection } from './components/ProcessSection';
 import { PricingSection } from './components/PricingSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { CookieConsent } from './components/CookieConsent';
 import { initMetaPixel, trackMetaEvent } from './utils/metaPixel';
 
 export function App() {
@@ -24,10 +25,7 @@ export function App() {
 
     if (isMobilePhone) {
       (window as unknown as { __lenis: unknown }).__lenis = null;
-      return () => {
-        window.removeEventListener('hashchange', handleHashChange);
-        window.removeEventListener('keydown', handleKeyDown);
-      };
+      return;
     }
 
     let lenisInstance: { destroy: () => void } | null = null;
@@ -148,6 +146,9 @@ export function App() {
         {/* Global Footer */}
         <Footer />
       </main>
+
+      {/* UK GDPR / PECR Cookie & Analytics Consent Notice */}
+      <CookieConsent />
     </div>
   );
 }

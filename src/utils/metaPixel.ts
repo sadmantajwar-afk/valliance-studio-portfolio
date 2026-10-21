@@ -8,6 +8,18 @@ declare global {
 
 const DEFAULT_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID || '';
 
+const CONSENT_STORAGE_KEY = 'valliance_cookie_consent';
+
+export function getStoredConsent(): 'granted' | 'denied' | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const val = localStorage.getItem(CONSENT_STORAGE_KEY);
+    return val === 'granted' || val === 'denied' ? val : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Initialize Meta (Facebook) Pixel
  */
@@ -48,29 +60,50 @@ export function initMetaPixel(pixelId: string = DEFAULT_PIXEL_ID) {
   /* eslint-enable */
 
   if (window.fbq) {
-    // UK GDPR & PECR Privacy Compliance: Revoke consent by default until user interaction/consent
-    window.fbq('consent', 'revoke');
-    window.fbq('init', effectiveId);
+    const consent = getStoredConsent();
+    if (consent === 'granted') {
+      window.fbq('consent', 'grant');
+      window.fbq('init', effectiveId);
+      window.fbq('track', 'PageView');
+    } else {
+      // UK GDPR & PECR Privacy Compliance: Revoke consent by default until visitor opt-in
+      window.fbq('consent', 'revoke');
+      window.fbq('init', effectiveId);
+    }
     window.__metaPixelInitialized = true;
   }
 }
 
 /**
- * Grant Meta Pixel tracking consent (e.g., when visitor opts in or engages with lead inquiry)
+ * Grant Meta Pixel tracking consent (e.g., when visitor opts in via cookie consent banner)
  */
 export function grantMetaConsent() {
-  if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('consent', 'grant');
-    window.fbq('track', 'PageView');
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(CONSENT_STORAGE_KEY, 'granted');
+    } catch {
+      // Ignore storage errors
+    }
+    if (window.fbq) {
+      window.fbq('consent', 'grant');
+      window.fbq('track', 'PageView');
+    }
   }
 }
 
 /**
- * Revoke Meta Pixel tracking consent
+ * Revoke Meta Pixel tracking consent (e.g., when visitor declines via cookie consent banner)
  */
 export function revokeMetaConsent() {
-  if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('consent', 'revoke');
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(CONSENT_STORAGE_KEY, 'denied');
+    } catch {
+      // Ignore storage errors
+    }
+    if (window.fbq) {
+      window.fbq('consent', 'revoke');
+    }
   }
 }
 
@@ -113,7 +146,6 @@ export function trackMetaLead(details: {
     }
   }
 
-  grantMetaConsent();
   trackMetaEvent('Lead', {
     content_name: 'Valliance Studio Client Inquiry',
     content_category: details.services?.join(', ') || 'General Studio Inquiry',
