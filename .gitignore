@@ -9,7 +9,9 @@ yarn-debug.log*
 yarn-error.log*
 
 
-# wrangler files
+# jury artifacts
+.jury/
+
 .wrangler
 .dev.vars*
 !.dev.vars.example
