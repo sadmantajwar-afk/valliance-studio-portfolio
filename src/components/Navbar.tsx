@@ -50,9 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
     if (href.startsWith('#')) {
       e.preventDefault();
       document.body.style.overflow = 'unset';
-      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
       if (lenis) {
-        lenis.scrollTo(href, { offset: -60, duration: 0.5 });
+        lenis.scrollTo(href, { offset: -60 });
       } else {
         const target = document.querySelector(href);
         if (target) {
@@ -65,9 +65,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
     sound.playClick(900);
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { duration?: number }) => void } }).__lenis;
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
     if (lenis) {
-      lenis.scrollTo(0, { duration: 0.5 });
+      lenis.scrollTo(0);
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

@@ -37,9 +37,9 @@ export function App() {
     ]).then(([{ default: Lenis }]) => {
       const lenis = new Lenis({
         autoRaf: true,
-        lerp: 0.14, // Responsive, high-performance glide without lag
+        lerp: 0.09, // Silky smooth physics damping for continuous fluid glide on PC mice and trackpads
         wheelMultiplier: 1.0,
-        touchMultiplier: 1.0,
+        touchMultiplier: 1.2,
         smoothWheel: true,
         syncTouch: false,
         autoResize: true,
@@ -68,23 +68,39 @@ export function App() {
   const scrollToContact = () => {
     trackMetaEvent('Contact', { content_name: 'Initiate Contact CTA' });
     document.body.style.overflow = 'unset';
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
-    if (lenis) {
-      lenis.scrollTo('#contact', { offset: -40, duration: 0.5 });
+    const performScroll = () => {
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
+      if (lenis) {
+        lenis.scrollTo('#contact', { offset: -40 });
+      } else {
+        const el = document.getElementById('contact');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    if (document.getElementById('contact')) {
+      performScroll();
     } else {
-      const el = document.getElementById('contact');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(performScroll, 100);
     }
   };
 
   const scrollToWork = () => {
     document.body.style.overflow = 'unset';
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number; duration?: number }) => void } }).__lenis;
-    if (lenis) {
-      lenis.scrollTo('#work', { offset: -40, duration: 0.5 });
+    const performScroll = () => {
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: string, opts?: { offset: number }) => void } }).__lenis;
+      if (lenis) {
+        lenis.scrollTo('#work', { offset: -40 });
+      } else {
+        const el = document.getElementById('work');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    if (document.getElementById('work')) {
+      performScroll();
     } else {
-      const el = document.getElementById('work');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(performScroll, 100);
     }
   };
 
