@@ -28,19 +28,24 @@ export function App() {
       return;
     }
 
+    // Check for macOS to preserve native hardware trackpad momentum (60Hz / 120Hz ProMotion)
+    const isMac = typeof navigator !== 'undefined' && /Mac|Macintosh/i.test(navigator.userAgent);
+
     let lenisInstance: { destroy: () => void } | null = null;
 
-    // Dynamically load Lenis for desktop and laptop PC users
+    // Dynamically load Lenis for desktop and laptop users
     Promise.all([
       import('lenis'),
       import('lenis/dist/lenis.css'),
     ]).then(([{ default: Lenis }]) => {
       const lenis = new Lenis({
         autoRaf: true,
-        lerp: 0.09, // Silky smooth physics damping for continuous fluid glide on PC mice and trackpads
+        // On macOS, bypass wheel interception so Apple Silicon GPU compositor runs at native 60/120 FPS.
+        // On Windows/Linux PCs, apply smooth wheel lerping for mechanical notched mice.
+        lerp: isMac ? 0.14 : 0.09,
         wheelMultiplier: 1.0,
         touchMultiplier: 1.2,
-        smoothWheel: true,
+        smoothWheel: !isMac,
         syncTouch: false,
         autoResize: true,
         anchors: {

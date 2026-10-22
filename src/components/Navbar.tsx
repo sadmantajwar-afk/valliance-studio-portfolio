@@ -17,8 +17,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const { theme, isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
+    let lastScrolled = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      const scrolled = window.scrollY > 40;
+      if (scrolled !== lastScrolled) {
+        lastScrolled = scrolled;
+        setIsScrolled(scrolled);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -94,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform-gpu ${
           isScrolled
             ? 'py-3 backdrop-blur-xl border-b shadow-lg'
             : 'py-6 bg-transparent'

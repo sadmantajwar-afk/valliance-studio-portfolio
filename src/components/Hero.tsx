@@ -23,19 +23,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
     if (!heroContent) return;
 
     let ticking = false;
+    let lastY = -1;
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const y = window.scrollY;
-          if (heroContent) {
-            if (y < 450) {
-              const op = Math.max(0.2, 1 - y / 400);
-              const sc = Math.max(0.95, 1 - (y / 400) * 0.05);
-              heroContent.style.opacity = String(op);
-              heroContent.style.transform = `scale(${sc})`;
-            } else {
-              heroContent.style.opacity = '0.2';
-              heroContent.style.transform = 'scale(0.95)';
+          if (y !== lastY) {
+            lastY = y;
+            if (heroContent) {
+              if (y < 480) {
+                const op = Math.max(0.18, 1 - y / 420);
+                // Hardware-accelerated translate3d preserves font glyph atlas caches without CPU re-rasterization
+                heroContent.style.opacity = op.toFixed(2);
+                heroContent.style.transform = `translate3d(0, ${(y * 0.16).toFixed(1)}px, 0)`;
+              } else if (heroContent.style.opacity !== '0.18') {
+                heroContent.style.opacity = '0.18';
+                heroContent.style.transform = 'translate3d(0, 76.8px, 0)';
+              }
             }
           }
           ticking = false;
@@ -48,7 +52,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Interactive Particle Canvas in Hero — desktop only
+  // Interactive Particle Canvas in Hero — optimized for 60/120 FPS
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(hover: none) and (pointer: coarse)').matches);
     if (isMobile) return;
@@ -60,6 +64,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
     let animationFrameId: number;
     let isVisible = true;
+    let isScrolling = false;
+    let scrollStopTimer: ReturnType<typeof setTimeout> | undefined;
+
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
@@ -71,12 +78,24 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
     window.addEventListener('resize', handleResize);
 
-    const particleCount = Math.min(48, Math.floor(width / 32));
+    // Pause particle draw calls during active trackpad/mouse scroll to yield 100% frame time to compositor
+    const handleScroll = () => {
+      isScrolling = true;
+      if (scrollStopTimer) clearTimeout(scrollStopTimer);
+      scrollStopTimer = setTimeout(() => {
+        isScrolling = false;
+      }, 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Balanced 26 particles gives an elegant constellation with 70% fewer pairwise operations
+    const particleCount = Math.min(26, Math.floor(width / 52));
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
       radius: Math.random() * 1.5 + 1.2,
       baseAlpha: Math.random() * 0.25 + 0.15,
     }));
@@ -119,8 +138,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         return;
       }
 
+      // Skip heavy drawing during active scroll motions
+      if (isScrolling) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
+      // 1. Draw and update particle nodes
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         p1.x += p1.vx;
@@ -131,8 +157,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
         const dx = mouseX - p1.x;
         const dy = mouseY - p1.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 180) {
+        const distSq = dx * dx + dy * dy;
+        if (distSq < 32400) { // 180px distance squared
+          const dist = Math.sqrt(distSq);
           p1.x -= (dx / dist) * 0.4;
           p1.y -= (dy / dist) * 0.4;
         }
@@ -141,20 +168,26 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
         ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(243, 38, 75, ${p1.baseAlpha})`;
         ctx.fill();
+      }
 
+      // 2. Batch all constellation connecting lines into 1 single draw call
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(243, 38, 75, 0.12)';
+      ctx.lineWidth = 0.6;
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
-          const distNodes = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-          if (distNodes < 140) {
-            ctx.beginPath();
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 19600) { // 140px distance squared
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(243, 38, 75, ${0.14 * (1 - distNodes / 140)})`;
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
           }
         }
       }
+      ctx.stroke();
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -163,8 +196,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact, onExploreWork }) => {
 
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (scrollStopTimer) clearTimeout(scrollStopTimer);
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
